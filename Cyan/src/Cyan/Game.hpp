@@ -1,5 +1,5 @@
 #pragma once
-#include "core.hpp"
+#include "Core.hpp"
 
 namespace Cyan {
 
