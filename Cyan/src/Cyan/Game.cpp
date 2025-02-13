@@ -1,4 +1,5 @@
 #include "Game.hpp"
+#include "Events/AppEvent.hpp"
 
 namespace Cyan {
 

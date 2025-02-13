@@ -24,6 +24,7 @@ project "Cyan"
     }
 
     includedirs{
+        "%{prj.name}/src",
         "%{prj.location}/thirdparty/spdlog/include"
     }
 
