@@ -1,9 +1,7 @@
 #pragma once
 #include "Cyan/core.hpp"
 
-#include <string>
-#include <functional>
-#include <iostream>
+
 
 
 namespace Cyan {

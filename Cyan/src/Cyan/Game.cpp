@@ -1,3 +1,4 @@
+#include "PreCompHeaders.hpp"
 #include "Game.hpp"
 #include "Events/AppEvent.hpp"
 

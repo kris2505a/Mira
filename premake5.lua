@@ -16,6 +16,8 @@ project "Cyan"
 
     targetdir ("bin/" .. outputdir .. "/")
     objdir ("obj/" .. outputdir .. "/%{prj.name}")
+    pchheader "PreCompHeaders.hpp"
+    pchsource "Cyan/src/PreCompHeaders.cpp"
 
     files{
         

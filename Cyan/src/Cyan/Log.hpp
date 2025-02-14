@@ -1,7 +1,6 @@
 #pragma once
 #include "Core.hpp"
 #include "spdlog/spdlog.h"
-#include <memory>
 
 namespace Cyan {
 
