@@ -9,6 +9,12 @@ workspace "Cyan"
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
+
+includeDirs = {}
+
+includeDirs["GLFW"] = "Cyan/thirdparty/GLFW/include"
+include "Cyan/thirdparty/GLFW"
+
 project "Cyan"
     location "Cyan"
     kind "SharedLib"
@@ -27,7 +33,13 @@ project "Cyan"
 
     includedirs{
         "%{prj.name}/src",
-        "%{prj.location}/thirdparty/spdlog/include"
+        "%{prj.location}/thirdparty/spdlog/include",
+        "%{includeDirs.GLFW}"
+    }
+
+    links{
+        "GLFW",
+        "opengl32.lib"
     }
 
     filter "system:windows"

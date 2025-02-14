@@ -5,7 +5,8 @@
 namespace Cyan {
 
 	Game::Game() {
-
+		m_window = std::unique_ptr<GWindow>(GWindow::createWindow());
+		m_isRunning = true;
 	}
 
 	Game::~Game() {
@@ -14,6 +15,8 @@ namespace Cyan {
 
 	void Game::run() {
 
-		while (true);
+		while (m_isRunning) {
+			m_window->onUpdate();
+		}
 	}
 }
