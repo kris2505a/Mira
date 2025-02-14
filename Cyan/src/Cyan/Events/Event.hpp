@@ -1,5 +1,6 @@
 #pragma once
 #include "Cyan/core.hpp"
+#include <spdlog/fmt/ostr.h>
 
 
 namespace Cyan {
@@ -59,6 +60,9 @@ namespace Cyan {
 			}
 			return false;
 		}
+		inline std::string format_as(const Event& e) {
+			return e.toString();
+		}
 
 	};
 
@@ -71,4 +75,7 @@ namespace Cyan {
 								virtual const char* getName() const override { return #tyPE; }
 
 #define EVENT_CLASS_CATEGORY(category) virtual int getCategoryFlags() const override { return category; }
+
+
 }
+

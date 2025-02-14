@@ -1,6 +1,0 @@
-[submodule "Cyan/thirdparty/spdlog"]
-	path = Cyan/thirdparty/spdlog
-	url = https://github.com/gabime/spdlog.git
-[submodule "Cyan/thirdparty/GLFW"]
-	path = Cyan/thirdparty/GLFW
-	url = https://github.com/kris2505a/glfw.git

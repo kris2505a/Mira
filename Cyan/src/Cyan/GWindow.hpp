@@ -19,6 +19,7 @@ namespace Cyan {
 	
 	public:
 		using EventCallBackFn = std::function<void(Event&)>;
+		//using is the same shit which was called with the name 'typedef' before
 		virtual ~GWindow();
 		virtual void onUpdate();
 

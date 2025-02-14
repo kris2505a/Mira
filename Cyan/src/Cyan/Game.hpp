@@ -14,6 +14,7 @@ namespace Cyan {
 		Game();
 		virtual ~Game();
 		void run();
+		void onEvent(Event& event);
 	};
 
 	Game* CreateGame();

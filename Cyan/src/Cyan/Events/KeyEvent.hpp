@@ -51,7 +51,7 @@ namespace Cyan {
 			ss << "KeyReleasedEvent: " << m_keyCode << "(" << m_repeatCount << ")";
 			return ss.str();
 		}
-		EVENT_CLASS_TYPE(keyRelesed)
+		EVENT_CLASS_TYPE(keyReleased)
 	};
 
 
