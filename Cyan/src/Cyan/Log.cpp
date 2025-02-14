@@ -2,11 +2,12 @@
 #include "Log.hpp"
 #include "spdlog/sinks/stdout_color_sinks.h"
 
+std::shared_ptr<spdlog::logger> Cyan::Log::coreLogger;
+std::shared_ptr<spdlog::logger> Cyan::Log::gameLogger;
+
 namespace Cyan {
 
-	std::shared_ptr <spdlog::logger> Log::coreLogger;
-	std::shared_ptr <spdlog::logger> Log::gameLogger;
-
+		
 	void Log::init() {
 		spdlog::set_pattern("%^[%T] %n: %v%$");
 		coreLogger = spdlog::stdout_color_mt("CYAN");
