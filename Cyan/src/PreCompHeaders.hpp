@@ -10,6 +10,10 @@
 #include <vector>
 #include <unordered_map>
 #include <unordered_set>
+#include <cmath>
+
+#include <spdlog/spdlog.h>
+
 
 #ifdef PLATFORM_WINDOWS
 	#include <Windows.h>

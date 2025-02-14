@@ -2,8 +2,5 @@
 bin/
 obj/
 
-Cyan.sln
-Cyan/Cyan.vcxproj
-Cyan/Cyan.vcxproj.filters
-Game/Game.vcxproj
+
 *.user

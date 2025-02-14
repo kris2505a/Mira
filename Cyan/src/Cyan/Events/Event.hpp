@@ -2,8 +2,6 @@
 #include "Cyan/core.hpp"
 
 
-
-
 namespace Cyan {
 	
 	enum class eventType {

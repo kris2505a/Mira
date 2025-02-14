@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Cyan">
+      <UniqueIdentifier>{90DC837C-7C13-850D-2500-6B101116010F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Cyan\Events">
+      <UniqueIdentifier>{74C6912E-E07B-0A24-6970-04FBD5240128}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Cyan\Platform">
+      <UniqueIdentifier>{E43A3B36-50FB-B66C-1936-00EA85B5FB48}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Cyan.hpp" />
+    <ClInclude Include="src\Cyan\Entry.hpp">
+      <Filter>Cyan</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Cyan\Events\AppEvent.hpp">
+      <Filter>Cyan\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Cyan\Events\Event.hpp">
+      <Filter>Cyan\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Cyan\Events\KeyEvent.hpp">
+      <Filter>Cyan\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Cyan\Events\MouseEvent.hpp">
+      <Filter>Cyan\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Cyan\GWindow.hpp">
+      <Filter>Cyan</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Cyan\Game.hpp">
+      <Filter>Cyan</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Cyan\Log.hpp">
+      <Filter>Cyan</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Cyan\Platform\WinWindow.hpp">
+      <Filter>Cyan\Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Cyan\core.hpp">
+      <Filter>Cyan</Filter>
+    </ClInclude>
+    <ClInclude Include="src\PreCompHeaders.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\Cyan\GWindow.cpp">
+      <Filter>Cyan</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Cyan\Game.cpp">
+      <Filter>Cyan</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Cyan\Log.cpp">
+      <Filter>Cyan</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Cyan\Platform\WinWindow.cpp">
+      <Filter>Cyan\Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="src\PreCompHeaders.cpp" />
+  </ItemGroup>
+</Project>
