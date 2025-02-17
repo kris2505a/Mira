@@ -1,6 +1,5 @@
 #include "PreCompHeaders.hpp"
 #include "Game.hpp"
-#include "Events/AppEvent.hpp"
 #include "GLFW/glfw3.h"
 #include "Log.hpp"
 
@@ -29,6 +28,15 @@ namespace Cyan {
 	}
 
 	void Game::onEvent(Event& event) {
-		CYAN_LOG(CY_INFO, "{0}", (event));
+		EventDispatcher dispatcher(event);
+
+		dispatcher.dispatch<windowCloseEvent>(BIND_EVENT_CALLBACK(onClose));
+		CYAN_LOG(CY_INFO, event.toString());
 	}
+
+	bool Game::onClose(windowCloseEvent& event) {
+		m_isRunning = false;
+		return true;
+	}
+
 }

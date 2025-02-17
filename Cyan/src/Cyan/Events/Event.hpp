@@ -1,7 +1,6 @@
 #pragma once
 #include "Cyan/core.hpp"
-#include <spdlog/fmt/ostr.h>
-
+#include <functional>
 
 namespace Cyan {
 	
@@ -40,6 +39,12 @@ namespace Cyan {
 		inline bool isInCategory(eventCategory category) { return getCategoryFlags() & category; }
 	};
 
+#define EVENT_CLASS_TYPE(tyPE) static eventType getStaticType() { return eventType::##tyPE; }\
+								virtual eventType getEventType() const override { return getStaticType(); } \
+								virtual const char* getName() const override { return #tyPE; }
+
+#define EVENT_CLASS_CATEGORY(category) virtual int getCategoryFlags() const override { return category; }
+
 
 	class EventDispatcher {
 
@@ -70,11 +75,7 @@ namespace Cyan {
 		return ostr << event.toString();
 	}
 
-#define EVENT_CLASS_TYPE(tyPE) static eventType getStaticType() { return eventType::##tyPE; }\
-								virtual eventType getEventType() const override { return getStaticType(); } \
-								virtual const char* getName() const override { return #tyPE; }
 
-#define EVENT_CLASS_CATEGORY(category) virtual int getCategoryFlags() const override { return category; }
 
 
 }

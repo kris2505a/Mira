@@ -2,6 +2,8 @@
 #include "Core.hpp"
 #include "Events/Event.hpp"
 #include "GWindow.hpp"
+#include "Events/AppEvent.hpp"
+
 
 namespace Cyan {
 
@@ -15,6 +17,7 @@ namespace Cyan {
 		virtual ~Game();
 		void run();
 		void onEvent(Event& event);
+		bool onClose(windowCloseEvent& event);
 	};
 
 	Game* CreateGame();
