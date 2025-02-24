@@ -10,7 +10,7 @@ namespace Cyan {
 	Game::Game() {
 		m_window = std::unique_ptr<GWindow>(GWindow::createWindow());
 		m_isRunning = true;
-		m_window->setEventCallBack(BIND_EVENT_CALLBACK(onEvent));
+		m_window->setEventCallBack([this](Event& event) { this->onEvent(event); });
 	}
 
 	Game::~Game() {
@@ -23,6 +23,10 @@ namespace Cyan {
 
 			glClearColor(0.f, 1.f, 1.f, 1.f);
 			glClear(GL_COLOR_BUFFER_BIT);
+
+			for (Layer* layer : m_layerStack.getLayers())
+				layer->onUpdate();
+
 			m_window->onUpdate();
 		}
 	}
@@ -31,12 +35,28 @@ namespace Cyan {
 		EventDispatcher dispatcher(event);
 
 		dispatcher.dispatch<windowCloseEvent>(BIND_EVENT_CALLBACK(onClose));
-		CYAN_LOG(CY_INFO, event.toString());
+
+		for (int iter = m_layerStack.end(); iter >= 0; iter--) {
+			m_layerStack.getLayers().at(iter)->onEvent(event);
+			if (event.isHandled())
+				break;
+		}
+
 	}
 
 	bool Game::onClose(windowCloseEvent& event) {
 		m_isRunning = false;
 		return true;
 	}
+
+	void Game::pushLayer(Layer* layer) {
+		m_layerStack.pushLayer(layer);
+	}
+
+	void Game::pushOverlay(Layer* overlay) {
+		m_layerStack.pushOverlay(overlay);
+	}
+
+
 
 }

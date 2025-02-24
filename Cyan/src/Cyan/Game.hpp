@@ -3,6 +3,7 @@
 #include "Events/Event.hpp"
 #include "GWindow.hpp"
 #include "Events/AppEvent.hpp"
+#include "LayerStack.hpp"
 
 
 namespace Cyan {
@@ -11,6 +12,7 @@ namespace Cyan {
 	private:
 		std::unique_ptr <GWindow> m_window;
 		bool m_isRunning;
+		LayerStack m_layerStack;
 	
 	public:
 		Game();
@@ -18,6 +20,9 @@ namespace Cyan {
 		void run();
 		void onEvent(Event& event);
 		bool onClose(windowCloseEvent& event);
+
+		void pushLayer(Layer* layer);
+		void pushOverlay(Layer* overlay);
 	};
 
 	Game* CreateGame();

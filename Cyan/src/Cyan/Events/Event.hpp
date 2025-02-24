@@ -37,6 +37,8 @@ namespace Cyan {
 		virtual std::string toString() const { return getName(); }
 
 		inline bool isInCategory(eventCategory category) { return getCategoryFlags() & category; }
+
+		inline bool isHandled() { return m_handled; }
 	};
 
 #define EVENT_CLASS_TYPE(tyPE) static eventType getStaticType() { return eventType::##tyPE; }\
