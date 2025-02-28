@@ -11,9 +11,5 @@ namespace Cyan{
 
 	}
 
-	void Layer::onEvent(Event& event) {
-		LOG(CY_TRACE, event.toString());
-	}
-
 
 }

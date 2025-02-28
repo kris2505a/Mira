@@ -54,10 +54,12 @@ project "Cyan"
 
     filter "configurations:Debug"
         defines "CY_DEBUG"
+        buildoptions "/MDd"
         symbols "On"
 
     filter "configurations:Release"
         defines "CY_RELEASE"
+        buildoptions "/MD"
         optimize "On"
         
 
@@ -95,8 +97,10 @@ project "Game"
 
     filter "configurations:Debug"
         defines "CY_DEBUG"
+        buildoptions "/MDd"
         symbols "On"
 
     filter "configurations:Release"
         defines "CY_RELEASE"
+        buildoptions "/MD"
         optimize "On"

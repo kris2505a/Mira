@@ -11,6 +11,12 @@ public:
 
 	}
 
+
+	virtual void onEvent(Cyan::Event& event) override {
+		LOG(CY_TRACE, event.toString());
+	}
+
+
 };
 
 
