@@ -13,7 +13,9 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 includeDirs = {}
 
 includeDirs["GLFW"] = "Cyan/thirdparty/GLFW/include"
+includeDirs["GLAD"] = "Cyan/thirdparty/GLAD/include"
 include "Cyan/thirdparty/GLFW"
+include "Cyan/thirdparty/GLAD"
 
 project "Cyan"
     location "Cyan"
@@ -34,11 +36,13 @@ project "Cyan"
     includedirs{
         "%{prj.name}/src",
         "%{prj.location}/thirdparty/spdlog/include",
-        "%{includeDirs.GLFW}"
+        "%{includeDirs.GLFW}",
+        "%{includeDirs.GLAD}"
     }
 
     links{
         "GLFW",
+        "GLAD",
         "opengl32.lib"
     }
 
@@ -49,7 +53,8 @@ project "Cyan"
 
         defines{
             "PLATFORM_WINDOWS",
-            "PROJECT_ENGINE"
+            "PROJECT_ENGINE",
+            "GLFW_INCLUDE_NONE"
         }
 
     filter "configurations:Debug"

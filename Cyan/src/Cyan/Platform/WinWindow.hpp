@@ -1,11 +1,11 @@
 #pragma once
 #include "Cyan/GWindow.hpp"
-#include "GLFW/glfw3.h"
 #include "Cyan/Events/Event.hpp"
 #include "Cyan/Events/AppEvent.hpp"
 #include "Cyan/Events/KeyEvent.hpp"
 #include "Cyan/Events/MouseEvent.hpp"
 
+struct GLFWwindow;
 namespace Cyan {
 
 	

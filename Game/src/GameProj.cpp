@@ -23,10 +23,9 @@ public:
 class GameProj : public Cyan::Game {
 public:
 	
-	Cyan::Layer* exLayer = new ExampleLayer();
 
 	GameProj() {
-		pushLayer(exLayer);
+		pushLayer(new ExampleLayer);
 	}
 
 	~GameProj() {

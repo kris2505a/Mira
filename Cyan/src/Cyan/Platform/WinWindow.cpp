@@ -1,6 +1,9 @@
 #include "PreCompHeaders.hpp"
 #include "WinWindow.hpp"
 #include "Cyan/Log.hpp"
+#include "glad/glad.h"
+#include "GLFW/glfw3.h"
+
 
 namespace Cyan {
 	static bool s_GLFWInitialized = false;
@@ -37,6 +40,8 @@ namespace Cyan {
 
 		m_window = glfwCreateWindow((int)m_data.width, (int)m_data.height, m_data.title.c_str(), nullptr, nullptr);
 		glfwMakeContextCurrent(m_window);
+		int gladStatus = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+		CYAN_ASSERTS(gladStatus, "Unable to initialize glad");
 		glfwSetWindowUserPointer(m_window, &m_data);
 		setVSync(true);
 
