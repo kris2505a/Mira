@@ -1,48 +1,38 @@
-workspace "Cyan"
+workspace "SDL_Platformer"
     architecture "x64"
 
-    configurations{
-        "Debug",
-        "Relelase"
+    configurations {
+        "Debug", "Release"
     }
     startproject "Game"
 
-outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
+outputDir = "%{cfg.buildcfg}-%{cfg.architecture}" 
 
 
-includeDirs = {}
-
-includeDirs["GLFW"] = "Cyan/thirdparty/GLFW/include"
-includeDirs["GLAD"] = "Cyan/thirdparty/GLAD/include"
-include "Cyan/thirdparty/GLFW"
-include "Cyan/thirdparty/GLAD"
-
-project "Cyan"
-    location "Cyan"
-    kind "SharedLib"
+project "Engine"
+    location "Engine"
+    kind "sharedLib"
     language "C++"
 
-    targetdir ("bin/" .. outputdir .. "/")
-    objdir ("obj/" .. outputdir .. "/%{prj.name}")
-    pchheader "PreCompHeaders.hpp"
-    pchsource "Cyan/src/PreCompHeaders.cpp"
+    targetdir("bin/" .. outputDir .. "/%{prj.name}")
+    objdir("obj/" .. outputDir .. "/%{prj.name}")
 
-    files{
-        
-        "%{prj.name}/src/**.hpp",
+    files {
+        "%{prj.name}/src/**.h",
         "%{prj.name}/src/**.cpp"
     }
 
-    includedirs{
+    includedirs {
         "%{prj.name}/src",
-        "%{prj.location}/thirdparty/spdlog/include",
-        "%{includeDirs.GLFW}",
-        "%{includeDirs.GLAD}"
+        "%{prj.name}/thirdparty/SDL2/include"
     }
 
-    links{
-        "GLFW",
-        "GLAD",
+    libdirs {
+        "%{prj.name}/thirdparty/SDL2/lib"
+    }
+    
+    links {
+        "SDL2.lib",
         "opengl32.lib"
     }
 
@@ -51,44 +41,56 @@ project "Cyan"
         staticruntime "Off"
         systemversion "latest"
 
-        defines{
-            "PLATFORM_WINDOWS",
-            "PROJECT_ENGINE",
-            "GLFW_INCLUDE_NONE"
-        }
+    defines {
+        "SDL_MAIN_HANDLED",
+        "API_ENGINE"
+    }
 
     filter "configurations:Debug"
-        defines "CY_DEBUG"
         buildoptions "/MDd"
         symbols "On"
 
     filter "configurations:Release"
-        defines "CY_RELEASE"
         buildoptions "/MD"
         optimize "On"
-        
 
 project "Game"
     location "Game"
     kind "ConsoleApp"
     language "C++"
 
-    targetdir ("bin/" .. outputdir .. "/")
-    objdir ("obj/" .. outputdir .. "/%{prj.name}")
+    targetdir("bin/" .. outputDir .. "/%{prj.name}")
+    objdir("obj/" .. outputDir .. "/%{prj.name}")
 
-    files{
-        
-        "%{prj.name}/src/**.hpp",
+    files {       
+        "%{prj.name}/src/**.h",
         "%{prj.name}/src/**.cpp"
     }
 
-    includedirs{
-        "Cyan/thirdparty/spdlog/include",
-        "Cyan/src"
+    includedirs {
+        "Engine/thirdparty/SDL2/include",
+        "Engine/src"
+    }
+    libdirs {
+        "Engine/thirdparty/SDL2/lib"
+    }
+    
+    links {
+        "Engine",
+        "SDL2.lib"
     }
 
-    links{
-        "Cyan"
+    defines {
+        "SDL_MAIN_HANDLED",
+        "API_ENGINE"
+    }
+
+    postbuildcommands {
+        -- Copy SDL2.dll to Game output dir
+        "{COPY} %{wks.location}Engine/thirdparty/SDL2/bin/SDL2.dll %{cfg.targetdir}",
+
+        -- Copy Engine.dll to Game output dir
+        "{COPY} %{wks.location}bin/" .. outputDir .. "/Engine/Engine.dll %{cfg.targetdir}"
     }
 
     filter "system:windows"
@@ -96,16 +98,12 @@ project "Game"
         staticruntime "On"
         systemversion "latest"
 
-        defines{
-            "PLATFORM_WINDOWS"
-        }
-
     filter "configurations:Debug"
-        defines "CY_DEBUG"
         buildoptions "/MDd"
         symbols "On"
 
     filter "configurations:Release"
-        defines "CY_RELEASE"
         buildoptions "/MD"
         optimize "On"
+    
+   
