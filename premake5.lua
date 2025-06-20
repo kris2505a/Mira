@@ -1,4 +1,4 @@
-workspace "SDL_Platformer"
+workspace "SDL_Engine"
     architecture "x64"
 
     configurations {
