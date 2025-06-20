@@ -87,7 +87,7 @@ project "Game"
 
     postbuildcommands {
         -- Copy SDL2.dll to Game output dir
-        "{COPY} %{wks.location}Engine/thirdparty/SDL2/bin/SDL2.dll %{cfg.targetdir}",
+        "{COPY} %{wks.location}Engine/thirdparty/SDL2/lib/SDL2.dll %{cfg.targetdir}",
 
         -- Copy Engine.dll to Game output dir
         "{COPY} %{wks.location}bin/" .. outputDir .. "/Engine/Engine.dll %{cfg.targetdir}"
