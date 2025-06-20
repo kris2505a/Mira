@@ -34,6 +34,7 @@ public:
 		m_position.x = _x;
 		m_position.y = _y;
 	}
-		
+
+			
 
 };
