@@ -1,4 +1,4 @@
-workspace "SDL_Engine"
+workspace "CyanEngine"
     architecture "x64"
 
     configurations {
@@ -24,6 +24,10 @@ project "Engine"
 
     includedirs {
         "%{prj.name}/src",
+        "%{prj.name}/src/Core",
+        "%{prj.name}/src/stb_image",
+        "%{prj.name}/src/ECS",
+        "%{prj.name}/src/Components",
         "%{prj.name}/thirdparty/SDL2/include"
     }
 

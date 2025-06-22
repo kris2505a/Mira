@@ -32,3 +32,7 @@ struct API Vector2D {
 	}
 
 };
+
+using Vector2df = Vector2D<float>;
+using Vector2du = Vector2D<unsigned int>;
+

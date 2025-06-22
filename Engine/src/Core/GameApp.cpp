@@ -20,3 +20,11 @@ void GameApp::run() {
 
 	delete m_window;
 }
+
+void GameApp::render() {
+
+}
+
+void GameApp::update(const float& deltaTime) {
+
+}

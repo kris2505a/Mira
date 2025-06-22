@@ -13,6 +13,8 @@ public:
 	virtual ~GameApp();
 
 	void run();
+	void render();
+	virtual void update(const float& deltaTime);
 };
 
 GameApp* createGameApp();
