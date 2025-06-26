@@ -1,2 +1,2 @@
-# Cyan
-Cyan Game Engine
+# Mira
+Mira - A Game Engine
