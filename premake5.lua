@@ -4,7 +4,9 @@ workspace "Mira"
     configurations {
         "Debug", "Release"
     }
-
+	
+	startproject "Sandbox"
+	
 outputDir = "%{cfg.buildcfg}-%{cfg.architecture}" 
 
 

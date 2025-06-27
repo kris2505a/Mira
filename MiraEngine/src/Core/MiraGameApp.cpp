@@ -1,6 +1,5 @@
 #include "MiraGameApp.h"
-#include <iostream>
-
+#include <Logging/Log.h>
 
 namespace Mira {
 GameApp::GameApp() {
@@ -12,8 +11,9 @@ GameApp::~GameApp() {
 }
 
 void GameApp::run() {
+	MIRA_ELOG(Type::INFO, "Mira Init Successful. code:{}", (int)1);
 	while (true) {
-		std::cout << "Mira Engine\n";
+	
 	}
 }
 }
