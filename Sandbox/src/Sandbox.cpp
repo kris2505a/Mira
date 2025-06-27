@@ -2,7 +2,9 @@
 
 class SandBox : public Mira::GameApp {
 public:
-	SandBox() {}
+	SandBox() {
+		MIRA_LOG(INFO, "Sandbox created Successfully code:{}", 69);
+	}
 	~SandBox() {}
 };
 

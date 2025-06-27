@@ -18,13 +18,13 @@ void Log::logTime() {
 	std::cout << "[" << std::put_time(&m_localTime, "%H:%M:%S") << "]: ";
 }
 
-void Log::logMessage(Type type, const std::string& message) {
+void Log::logMessage(int type, const std::string& message) {
 	std::cout << m_logColors[type];
 	logTime();
 	std::cout << "Game ->> " << message << m_logColors[4] << std::endl;
 }
 
-void Log::logEngineMessage(Type type, const std::string& message) {
+void Log::logEngineMessage(int type, const std::string& message) {
 	std::cout << m_logColors[type];
 	logTime();
 	std::cout << "Engine ->> " << message << m_logColors[4] << std::endl;

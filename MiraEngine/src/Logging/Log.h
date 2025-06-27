@@ -6,13 +6,11 @@
 #define MIRA_ELOG(TYPE, ... ) Log::logEngineMessage(TYPE, std::format(__VA_ARGS__))
 #define MIRA_LOG(TYPE, ... ) Log::logMessage(TYPE, std::format(__VA_ARGS__))
 
+#define INFO 0
+#define DEBUG 1
+#define WARN 2
+#define ERROR 3
 
-enum Type {
-	INFO,
-	DEBUG,
-	WARN,
-	ERROR
-};
 
 class Log {
 private:
@@ -29,6 +27,6 @@ public:
 
 
 	static MIRA_API void logTime();
-	static MIRA_API void logMessage(Type type, const std::string& message);
-	static MIRA_API void logEngineMessage(Type type, const std::string& message);
+	static MIRA_API void logMessage(int type, const std::string& message);
+	static MIRA_API void logEngineMessage(int type, const std::string& message);
 };
