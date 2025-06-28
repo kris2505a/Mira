@@ -45,6 +45,11 @@ project "MiraEngine"
     defines {
         "API_ENGINE"
     }
+	
+	postbuildcommands {
+		"{COPY} %{cfg.buildtarget.abspath} ../bin/" .. outputDir .. "/Sandbox"
+	}
+
 
     filter "configurations:Debug"
         buildoptions "/MDd"
@@ -91,7 +96,8 @@ project "Sandbox"
     defines {
 	
     }
-
+	
+	
     filter "configurations:Debug"
         buildoptions "/MDd"
         symbols "On"
@@ -100,4 +106,4 @@ project "Sandbox"
         buildoptions "/MD"
         optimize "On"
 
-   
+	
