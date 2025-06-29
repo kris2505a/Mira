@@ -5,6 +5,9 @@
 
 #define MIRA_ELOG(TYPE, ... ) Log::logEngineMessage(TYPE, std::format(__VA_ARGS__))
 #define MIRA_LOG(TYPE, ... ) Log::logMessage(TYPE, std::format(__VA_ARGS__))
+#define MIRA_LOG_RAW(TYPE, MSG) Log::logMessage(TYPE, MSG)
+#define MIRA_ELOG_RAW(TYPE, MSG) Log::logEngineMessage(TYPE, MSG)
+
 
 #define INFO 0
 #define DEBUG 1
@@ -29,4 +32,5 @@ public:
 	static MIRA_API void logTime();
 	static MIRA_API void logMessage(int type, const std::string& message);
 	static MIRA_API void logEngineMessage(int type, const std::string& message);
+
 };
