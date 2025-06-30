@@ -14,7 +14,7 @@ GameApp::~GameApp() {
 void GameApp::run() {
 
 	WindowResizeEvent event(1920, 1080);
-	MIRA_LOG_RAW(INFO, event.toString());
+	MIRA_LOG(INFO, "{}",event.toString());
 	while (true) {
 	
 	}
