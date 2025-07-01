@@ -1,0 +1,3 @@
+[submodule "MiraEngine/thirdparty/GLFW"]
+	path = MiraEngine/thirdparty/GLFW
+	url = https://github.com/kris2505a/glfw
