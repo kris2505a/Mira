@@ -1,9 +1,9 @@
 #pragma once
 
 #include <Core/MiraCore.h>
-
-#include <string>
 #include <functional>
+#include <string>
+
 
 namespace Mira {
 
@@ -48,6 +48,8 @@ public:
 	}
 
 	inline bool isHandled() const { return m_handled; }
+
+	
 };
 
 class EventDispatcher {

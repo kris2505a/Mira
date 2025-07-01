@@ -17,6 +17,9 @@ project "MiraEngine"
 
     targetdir("bin/" .. outputDir .. "/%{prj.name}")
     objdir("obj/" .. outputDir .. "/%{prj.name}")
+	
+	pchheader "MiraPreCompHeader.h"
+	pchsource "MiraEngine/src/MiraPreCompHeader.cpp"
 
     files {
         "%{prj.name}/src/**.h",
