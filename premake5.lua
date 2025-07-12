@@ -9,6 +9,10 @@ workspace "Mira"
 	
 outputDir = "%{cfg.buildcfg}-%{cfg.architecture}" 
 
+IncludeDirectories = {}
+
+IncludeDirectories["SDL2"] = "MiraEngine/thirdparty/SDL2"
+
 
 project "MiraEngine"
     location "MiraEngine"
@@ -27,15 +31,16 @@ project "MiraEngine"
     }
 
     includedirs {
-        "%{prj.name}/src"
+        "%{prj.name}/src",
+		"%{IncludeDirectories.SDL2}/include"
     }
 
     libdirs {
-		
+		"%{IncludeDirectories.SDL2}/lib"
     }
     
     links {
-        "opengl32.lib",
+        "SDL2.lib",
 		"winmm.lib",
 		"gdi32.lib"
     }
@@ -85,7 +90,6 @@ project "Sandbox"
     }
     
     links {
-        "opengl32.lib",
 		"winmm.lib",
 		"gdi32.lib",
 		"MiraEngine"
