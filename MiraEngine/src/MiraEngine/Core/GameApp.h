@@ -1,5 +1,6 @@
 #pragma once
 #include "MiraCore.h"
+#include <MiraEngine/Window/Window.h>
 
 
 namespace Mira {
@@ -10,5 +11,7 @@ public:
 	virtual ~GameApp();
 	void run();
 };
+
+GameApp* createGame();
 
 } //Namespace Ends

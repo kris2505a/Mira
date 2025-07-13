@@ -1,5 +1,5 @@
 #pragma once
-#include <Core/MiraCore.h>
+#include <MiraEngine/Core/MiraCore.h>
 #include <chrono>
 #include <string>
 
@@ -14,13 +14,8 @@
 
 
 class Log {
-private:
-	static std::time_t m_now;
-	static std::tm m_localTime;
-	static std::vector<std::string> m_logColors;
 
 public:
-
 	Log() = delete;               
 	~Log() = delete;              
 	Log(const Log&) = delete;     
@@ -30,5 +25,10 @@ public:
 	static MIRA_API void logTime();
 	static MIRA_API void logMessage(int type, const std::string& message);
 	static MIRA_API void logEngineMessage(int type, const std::string& message);
+
+private:
+	static std::time_t m_now;
+	static std::tm m_localTime;
+	static std::vector<std::string> m_logColors;
 
 };

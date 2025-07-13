@@ -1,6 +1,6 @@
+#include <MiraPreCompHeader.h>
 #include "Log.h"
-#include <iostream>
-#include <iomanip>
+
 
 std::time_t Log::m_now = std::time(nullptr);
 std::tm Log::m_localTime = {};
