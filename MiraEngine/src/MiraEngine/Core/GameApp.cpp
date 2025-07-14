@@ -12,9 +12,18 @@ GameApp::~GameApp() {
 
 }
 
+void GameApp::render() {
+
+}
+
+void GameApp::update() {
+
+}
+
 void GameApp::run() {
 	while (true) {
-		MIRA_ELOG(INFO, "Sixty Nine: {}", 69);
+		update();
+		render();
 	}
 }
 

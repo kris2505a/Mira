@@ -23,10 +23,14 @@ public:
 	unsigned int getWidth() const;
 	unsigned int getHeight() const;
 	SDL_Renderer* getRenderer() const;
+	void pollEvents();
 
 private:
 	WinProcs m_procs;
 	SDL_Window* m_window;
 	SDL_Renderer* m_renderer;
+	SDL_Event m_event;
+	bool m_isOpen;
+	bool isOpen() const;
 	
 };

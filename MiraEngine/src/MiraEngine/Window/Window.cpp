@@ -4,7 +4,7 @@
 #include <MiraEngine/Logging/Log.h>
 
 Window::Window(const WinProcs& _procs) 
-	: m_procs(_procs), m_window(nullptr), m_renderer(nullptr) {
+	: m_procs(_procs), m_window(nullptr), m_renderer(nullptr), m_event(SDL_Event()), m_isOpen(true) {
 	
 	int initResult = SDL_Init(SDL_INIT_EVERYTHING);
 	if (!initResult) {
@@ -29,4 +29,15 @@ unsigned int Window::getHeight() const {
 
 SDL_Renderer* Window::getRenderer() const {
 	return m_renderer;
+}
+
+void Window::pollEvents() {
+	while (SDL_PollEvent(&m_event)) {
+		if (m_event.type == SDL_QUIT)
+			m_isOpen = false;
+	}
+}
+
+bool Window::isOpen() const {
+	return m_isOpen;
 }
