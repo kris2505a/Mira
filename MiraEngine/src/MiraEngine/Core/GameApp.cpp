@@ -15,6 +15,14 @@ GameApp::~GameApp() {
 	delete m_window;
 }
 
+void GameApp::onEvent(Event& e) {
+	for (auto layer = m_layers.end(); layer != m_layers.begin(); layer--) {
+		(*layer)->onEvent(e);
+		if (e.isHandled())
+			break;
+	}
+}
+
 void GameApp::render() {
 	SDL_SetRenderDrawColor(m_window->getRenderer(), 0u, 255u, 255u, 255u);
 	SDL_RenderClear(m_window->getRenderer());
