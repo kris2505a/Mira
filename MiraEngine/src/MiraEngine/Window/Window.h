@@ -3,8 +3,9 @@
 #include <MiraPreCompHeader.h>
 #include <SDL_video.h>
 #include <SDL_render.h>
+#include <SDL_events.h>
 
-struct WinProcs {
+struct MIRA_API WinProcs {
 	unsigned int width;
 	unsigned int height;
 	std::string title;
@@ -24,6 +25,7 @@ public:
 	unsigned int getHeight() const;
 	SDL_Renderer* getRenderer() const;
 	void pollEvents();
+	bool isOpen() const;
 
 private:
 	WinProcs m_procs;
@@ -31,6 +33,5 @@ private:
 	SDL_Renderer* m_renderer;
 	SDL_Event m_event;
 	bool m_isOpen;
-	bool isOpen() const;
 	
 };

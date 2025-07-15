@@ -81,6 +81,7 @@ project "Sandbox"
     }
 
     includedirs {
+        "%{IncludeDirectories.SDL2}/include",
         "%{prj.name}/src",
 		"MiraEngine/src/"
     }

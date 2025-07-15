@@ -13,6 +13,9 @@ public:
 	void render();
 	virtual void update();
 
+private:
+	Window* m_window;
+
 };
 
 GameApp* createGame();

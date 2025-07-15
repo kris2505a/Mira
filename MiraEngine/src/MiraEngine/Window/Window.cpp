@@ -4,10 +4,10 @@
 #include <MiraEngine/Logging/Log.h>
 
 Window::Window(const WinProcs& _procs) 
-	: m_procs(_procs), m_window(nullptr), m_renderer(nullptr), m_event(SDL_Event()), m_isOpen(true) {
+	: m_procs(_procs), m_window(nullptr), m_renderer(nullptr), m_isOpen(true), m_event(SDL_Event()) {
 	
-	int initResult = SDL_Init(SDL_INIT_EVERYTHING);
-	if (!initResult) {
+	int initResult = SDL_Init(SDL_INIT_VIDEO);
+	if (initResult != 0) {
 		MIRA_ELOG(ERROR, "Unable to init SDL");
 	}
 	m_window = SDL_CreateWindow(m_procs.title.c_str(), 200, 200, m_procs.width, m_procs.height, SDL_WINDOW_SHOWN);
