@@ -3,9 +3,15 @@
 #include <SDL.h>
 #include <MiraEngine/Logging/Log.h>
 
-Window::Window(const WinProcs& _procs) 
+//Events
+#include <MiraEngine/Event/KeyboardEvent.h>
+#include <MiraEngine/Event/MouseEvent.h>
+
+namespace Mira {
+
+Window::Window(const WinProcs& _procs)
 	: m_procs(_procs), m_window(nullptr), m_renderer(nullptr), m_isOpen(true), m_event(SDL_Event()) {
-	
+
 	int initResult = SDL_Init(SDL_INIT_VIDEO);
 	if (initResult != 0) {
 		MIRA_ELOG(ERROR, "Unable to init SDL");
@@ -33,11 +39,61 @@ SDL_Renderer* Window::getRenderer() const {
 
 void Window::pollEvents() {
 	while (SDL_PollEvent(&m_event)) {
-		if (m_event.type == SDL_QUIT)
+		switch (m_event.type) {
+		
+		case SDL_QUIT:
+		{
 			m_isOpen = false;
+			//EVENT TO BE CREATED FOR CLOSE
+		}	break;
+
+		case SDL_KEYDOWN:
+		{
+			KeyPressedEvent e(m_event.key.keysym.sym, m_event.key.repeat);
+			m_callback(e);
+		}	break;
+
+		case SDL_KEYUP:
+		{
+			KeyReleasedEvent e(m_event.key.keysym.sym);
+			m_callback(e);
+		}	break;
+
+		case SDL_MOUSEMOTION:
+		{
+			MouseMovedEvent e(m_event.motion.x, m_event.motion.y);
+			m_callback(e);
+		}	break;
+
+		case SDL_MOUSEBUTTONDOWN:
+		{
+			MouseButtonPressedEvent e(m_event.button.button);
+			m_callback(e);
+		}	break;
+
+		case SDL_MOUSEBUTTONUP:
+		{
+			MouseButtonReleasedEvent e(m_event.button.button);
+			m_callback(e);
+		}	break;
+
+		case SDL_MOUSEWHEEL:
+		{
+			MouseScrolledEvent e(m_event.wheel.x, m_event.wheel.y);
+			m_callback(e);
+		}	break;
+		}
 	}
 }
 
 bool Window::isOpen() const {
 	return m_isOpen;
+}
+
+void Window::setCallbackFn(const eventCallbackFn& fn) {
+	m_callback = fn;
+}
+
+
+
 }

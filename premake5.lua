@@ -18,6 +18,8 @@ project "MiraEngine"
     location "MiraEngine"
     kind "sharedLib"
     language "C++"
+    staticruntime "Off"
+
 
     targetdir("bin/" .. outputDir .. "/%{prj.name}")
     objdir("obj/" .. outputDir .. "/%{prj.name}")
@@ -60,17 +62,19 @@ project "MiraEngine"
 
 
     filter "configurations:Debug"
-        buildoptions "/MDd"
+        runtime "Debug"
         symbols "On"
 
     filter "configurations:Release"
-        buildoptions "/MD"
+        runtime "Release"
         optimize "On"
 
 project "Sandbox"
     location "Sandbox"
     kind "consoleApp"
     language "C++"
+    staticruntime "Off"
+
 
     targetdir("bin/" .. outputDir .. "/%{prj.name}")
     objdir("obj/" .. outputDir .. "/%{prj.name}")
@@ -104,14 +108,13 @@ project "Sandbox"
     defines {
 	
     }
-	
-	
+
     filter "configurations:Debug"
-        buildoptions "/MDd"
+        runtime "Debug"
         symbols "On"
 
     filter "configurations:Release"
-        buildoptions "/MD"
+        runtime "Release"
         optimize "On"
 
 	

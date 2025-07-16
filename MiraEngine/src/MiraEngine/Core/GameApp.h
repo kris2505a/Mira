@@ -3,6 +3,7 @@
 #include <MiraEngine/Window/Window.h>
 #include <SDL_events.h>
 #include <MiraEngine/Layer/LayerStack.h>
+#include <memory>
 
 namespace Mira {
 class MIRA_API GameApp {
@@ -13,11 +14,13 @@ public:
 	void run();
 	void render();
 	virtual void update();
-	void onEvent(Event& e);
+	void onEvent(Event& _e);
+	void pushLayer(Layer* _layer);
+	void pushOverlay(Layer* _overlay);
 	
 
 private:
-	Window* m_window;
+	std::unique_ptr<Window> m_window;
 	LayerStack m_layers;
 };
 

@@ -46,9 +46,9 @@ private:
 	int m_key;
 };
 
-class MIRA_API MouseButtonPressed : public MouseButtonEvent {
+class MIRA_API MouseButtonPressedEvent : public MouseButtonEvent {
 public:
-	MouseButtonPressed(int _key) 
+	MouseButtonPressedEvent(int _key) 
 		:MouseButtonEvent(_key) {}
 	virtual EventType getType() const override {
 		return EventType::mouseButtonPressed;
@@ -67,9 +67,9 @@ public:
 	}
 };
 
-class MIRA_API MouseButtonReleased : public MouseButtonEvent {
+class MIRA_API MouseButtonReleasedEvent : public MouseButtonEvent {
 public:
-	MouseButtonReleased(int _key)
+	MouseButtonReleasedEvent(int _key)
 		:MouseButtonEvent(_key) {}
 	virtual EventType getType() const override {
 		return EventType::mouseButtonReleased;

@@ -6,15 +6,18 @@ namespace Mira {
 void LayerStack::pushLayer(Layer* _layer) {
 	m_layers.emplace(m_layers.begin() + m_layerIndex, _layer);
 	m_layerIndex++;
+	_layer->onAttach();
 }
 
 void LayerStack::pushOverlay(Layer* _overlay) {
 	m_layers.emplace_back(_overlay);
+	_overlay->onAttach();
 }
 
 void LayerStack::popLayer(Layer* _layer) {
 	auto layer = std::find(m_layers.begin(), m_layers.end(), _layer);
 	if (layer != m_layers.end()) {
+		_layer->onDetach();
 		m_layers.erase(layer);
 		m_layerIndex--;
 	}
@@ -22,8 +25,10 @@ void LayerStack::popLayer(Layer* _layer) {
 
 void LayerStack::popOverlay(Layer* _overlay) {
 	auto layer = std::find(m_layers.begin(), m_layers.end(), _overlay);
-	if (layer != m_layers.end())
+	if (layer != m_layers.end()) {
+		_overlay->onDetach();
 		m_layers.erase(layer);
+	}
 }
 
 LayerStack::~LayerStack() {

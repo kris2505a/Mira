@@ -16,9 +16,9 @@ private:
 };
 
 
-class MIRA_API KeyPressed : public KeyboardEvent {
+class MIRA_API KeyPressedEvent : public KeyboardEvent {
 public:
-	KeyPressed(int _key, bool _repeat)
+	KeyPressedEvent(int _key, bool _repeat)
 		:KeyboardEvent(_key), m_repeat(_repeat) {
 	}
 
@@ -45,9 +45,9 @@ private:
 };
 
 
-class MIRA_API KeyReleased : public KeyboardEvent {
+class MIRA_API KeyReleasedEvent : public KeyboardEvent {
 public:
-	KeyReleased(int _key)
+	KeyReleasedEvent(int _key)
 		:KeyboardEvent(_key) {
 	}
 
