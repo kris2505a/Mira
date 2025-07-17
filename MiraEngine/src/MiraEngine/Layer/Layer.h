@@ -1,6 +1,10 @@
 #pragma once
 #include <MiraEngine/Core/MiraCore.h>
 #include <MiraEngine/Event/Event.h>
+#include <MiraEngine/Event/EventDispatcher.h>
+#include <MiraEngine/Event/KeyboardEvent.h>
+#include <MiraEngine/Event/MouseEvent.h>
+#include <MiraEngine/Logging/Log.h>
 
 namespace Mira {
 
@@ -12,7 +16,9 @@ public:
 	virtual void onUpdate(float deltaTime) {}
 	virtual void onRender() {}
 
-	virtual void onEvent(Event& e) {}
+	void onEvent(Event& _e) {
+		
+	}
 	Layer() = default;
 	virtual ~Layer() = default;
 

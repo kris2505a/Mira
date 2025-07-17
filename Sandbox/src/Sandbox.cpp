@@ -14,13 +14,7 @@ public:
 		//MIRA_LOG(INFO, "Game Layer Updating. Deltatime: {}", _deltaTime);
 	}
 
-	virtual void onEvent(Mira::Event& _e) override {
-		Mira::EventDispatcher dispatcher(_e);
-		dispatcher.dispatch<Mira::KeyPressedEvent>([](Mira::KeyPressedEvent& e) {
-			MIRA_LOG(INFO, "{}", e.toString());
-			return false;
-		});
-	}
+
 
 };
 
