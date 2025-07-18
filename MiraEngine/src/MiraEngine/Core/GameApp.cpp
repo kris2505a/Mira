@@ -15,12 +15,12 @@ GameApp::~GameApp() {
 }
 
 void GameApp::onEvent(Event& _e) {
-	/*for (auto layer = m_layers.end(); layer != m_layers.begin();) {
+	for (auto layer = m_layers.end(); layer != m_layers.begin();) {
 		--layer;
 		(*layer)->onEvent(_e);
 		if (_e.isHandled())
 			break;
-	}*/
+	}
 	MIRA_ELOG(DEBUG, "{}", _e.toString());
 }
 
@@ -35,7 +35,7 @@ void GameApp::render() {
 
 void GameApp::update() {
 	m_window->pollEvents();
-	float time = 60.f;
+	float time = 144.0f;
 	float deltaTime = 1 / time;
 
 	for (auto layer = m_layers.begin(); layer != m_layers.end(); layer++) {
