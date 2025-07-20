@@ -7,10 +7,10 @@ namespace Mira {
 
 class MIRA_API LayerStack {
 public:
-	void pushLayer(Layer* _layer);
-	void pushOverlay(Layer* _overlay);
-	void popLayer(Layer* _layer);
-	void popOverlay(Layer* _overlay);
+	void pushLayer(Layer* layer);
+	void pushOverlay(Layer* overlay);
+	void popLayer(Layer* layer);
+	void popOverlay(Layer* overlay);
 
 	LayerStack() = default;
 	~LayerStack();

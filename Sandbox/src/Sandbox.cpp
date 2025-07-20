@@ -10,8 +10,8 @@ public:
 		MIRA_LOG(INFO, "Game Layer Detatched");
 	}
 
-	virtual void onUpdate(float _deltaTime) override {
-		//MIRA_LOG(INFO, "Game Layer Updating. Deltatime: {}", _deltaTime);
+	virtual void onUpdate(float deltaTime) override {
+		//MIRA_LOG(INFO, "Game Layer Updating. Deltatime: {}", deltaTime);
 	}
 
 

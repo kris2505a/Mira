@@ -3,10 +3,10 @@
 
 namespace Mira {
 
-void LayerStack::pushLayer(Layer* _layer) {
-	m_layers.emplace(m_layers.begin() + m_layerIndex, _layer);
+void LayerStack::pushLayer(Layer* layer) {
+	m_layers.emplace(m_layers.begin() + m_layerIndex, layer);
 	m_layerIndex++;
-	_layer->onAttach();
+	layer->onAttach();
 }
 
 void LayerStack::pushOverlay(Layer* _overlay) {
@@ -14,19 +14,19 @@ void LayerStack::pushOverlay(Layer* _overlay) {
 	_overlay->onAttach();
 }
 
-void LayerStack::popLayer(Layer* _layer) {
-	auto layer = std::find(m_layers.begin(), m_layers.end(), _layer);
-	if (layer != m_layers.end()) {
-		_layer->onDetach();
-		m_layers.erase(layer);
+void LayerStack::popLayer(Layer* layer) {
+	auto llayer = std::find(m_layers.begin(), m_layers.end(), layer);
+	if (llayer != m_layers.end()) {
+		layer->onDetach();
+		m_layers.erase(llayer);
 		m_layerIndex--;
 	}
 }
 
-void LayerStack::popOverlay(Layer* _overlay) {
-	auto layer = std::find(m_layers.begin(), m_layers.end(), _overlay);
+void LayerStack::popOverlay(Layer* overlay) {
+	auto layer = std::find(m_layers.begin(), m_layers.end(), overlay);
 	if (layer != m_layers.end()) {
-		_overlay->onDetach();
+		overlay->onDetach();
 		m_layers.erase(layer);
 	}
 }

@@ -14,7 +14,7 @@ Window::Window(const WinProcs& _procs)
 
 	int initResult = SDL_Init(SDL_INIT_VIDEO);
 	if (initResult != 0) {
-		MIRA_ELOG(ERROR, "Unable to init SDL");
+		MIRA_LOG(ERROR, "Unable to init SDL");
 	}
 	m_window = SDL_CreateWindow(m_procs.title.c_str(), 200, 200, m_procs.width, m_procs.height, SDL_WINDOW_SHOWN);
 	m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED);

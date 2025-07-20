@@ -3,8 +3,12 @@
 #include <chrono>
 #include <string>
 
-#define MIRA_ELOG(TYPE, ... ) Log::logEngineMessage(TYPE, std::format(__VA_ARGS__))
-#define MIRA_LOG(TYPE, ... ) Log::logMessage(TYPE, std::format(__VA_ARGS__))
+
+#ifdef API_ENGINE
+	#define MIRA_LOG(TYPE, ... ) Log::logEngineMessage(TYPE, std::format(__VA_ARGS__))
+#else
+	#define MIRA_LOG(TYPE, ... ) Log::logMessage(TYPE, std::format(__VA_ARGS__))
+#endif
 
 
 #define INFO 0

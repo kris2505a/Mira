@@ -16,7 +16,7 @@ public:
 	virtual void onUpdate(float deltaTime) {}
 	virtual void onRender() {}
 
-	void onEvent(Event& _e) {
+	void onEvent(Event& e) {
 		
 	}
 	Layer() = default;

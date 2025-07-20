@@ -5,7 +5,8 @@
 
 namespace Mira {
 
-GameApp::GameApp() {
+GameApp::GameApp()
+	: m_clock(Clock()), m_deltaTime(0.0f) {
 	m_window = std::make_unique<Window>();
 	m_window->setCallbackFn(std::bind(&GameApp::onEvent, this, std::placeholders::_1));
 }
@@ -14,14 +15,14 @@ GameApp::~GameApp() {
 
 }
 
-void GameApp::onEvent(Event& _e) {
+void GameApp::onEvent(Event& e) {
 	for (auto layer = m_layers.end(); layer != m_layers.begin();) {
 		--layer;
-		(*layer)->onEvent(_e);
-		if (_e.isHandled())
+		(*layer)->onEvent(e);
+		if (e.isHandled())
 			break;
 	}
-	MIRA_ELOG(DEBUG, "{}", _e.toString());
+	MIRA_LOG(DEBUG, "{}", e.toString());
 }
 
 void GameApp::render() {
@@ -35,11 +36,9 @@ void GameApp::render() {
 
 void GameApp::update() {
 	m_window->pollEvents();
-	float time = 144.0f;
-	float deltaTime = 1 / time;
-
+	m_deltaTime = m_clock.restart();
 	for (auto layer = m_layers.begin(); layer != m_layers.end(); layer++) {
-		(*layer)->onUpdate(deltaTime);
+		(*layer)->onUpdate(m_deltaTime);
 	}
 }
 
@@ -50,12 +49,12 @@ void GameApp::run() {
 	}
 }
 
-void GameApp::pushLayer(Layer* _layer) {
-	m_layers.pushLayer(_layer);
+void GameApp::pushLayer(Layer* layer) {
+	m_layers.pushLayer(layer);
 }
 
-void GameApp::pushOverlay(Layer* _overlay) {
-	m_layers.pushOverlay(_overlay);
+void GameApp::pushOverlay(Layer* overlay) {
+	m_layers.pushOverlay(overlay);
 }
 
 } //Namespace Ends
