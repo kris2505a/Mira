@@ -9,10 +9,15 @@ GameApp::GameApp()
 	: m_clock(Clock()), m_deltaTime(0.0f) {
 	m_window = std::make_unique<Window>();
 	m_window->setCallbackFn(std::bind(&GameApp::onEvent, this, std::placeholders::_1));
+	m_renderer = std::make_unique<Renderer>(m_window->getwindow());
 }
 
 GameApp::~GameApp() {
 
+}
+
+Renderer* GameApp::getRenderer() const {
+	return m_renderer.get();
 }
 
 void GameApp::onEvent(Event& e) {
@@ -22,16 +27,16 @@ void GameApp::onEvent(Event& e) {
 		if (e.isHandled())
 			break;
 	}
-	MIRA_LOG(DEBUG, "{}", e.toString());
+	MIRA_LOG(INFO, "{}", e.toString());
 }
 
 void GameApp::render() {
-	SDL_SetRenderDrawColor(m_window->getRenderer(), 0u, 0u, 0u, 0u);
-	SDL_RenderClear(m_window->getRenderer());
+
+	m_renderer->clear(0u, 0u, 0u, 0u);
 	for (auto layer = m_layers.begin(); layer != m_layers.end(); layer++) {
-		(*layer)->onRender();
+		(*layer)->onRender(m_renderer.get());
 	}
-	SDL_RenderPresent(m_window->getRenderer());
+	m_renderer->renderBinded();
 }
 
 void GameApp::update() {

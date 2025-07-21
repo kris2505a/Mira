@@ -30,15 +30,14 @@ public:
 
 	unsigned int getWidth() const;
 	unsigned int getHeight() const;
-	SDL_Renderer* getRenderer() const;
 	void pollEvents();
 	bool isOpen() const;
 	void setCallbackFn(const eventCallbackFn& fn);
+	SDL_Window* getwindow() const;
 
 private:
 	WinProcs m_procs;
 	SDL_Window* m_window;
-	SDL_Renderer* m_renderer;
 	SDL_Event m_event;
 	bool m_isOpen;
 	eventCallbackFn m_callback;

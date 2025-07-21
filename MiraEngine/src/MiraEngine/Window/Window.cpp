@@ -6,23 +6,22 @@
 //Events
 #include <MiraEngine/Event/KeyboardEvent.h>
 #include <MiraEngine/Event/MouseEvent.h>
+#include <MiraEngine/Event/WindowEvent.h>
 
 namespace Mira {
 
 Window::Window(const WinProcs& _procs)
-	: m_procs(_procs), m_window(nullptr), m_renderer(nullptr), m_isOpen(true), m_event(SDL_Event()) {
+	: m_procs(_procs), m_window(nullptr), m_isOpen(true), m_event(SDL_Event()) {
 
 	int initResult = SDL_Init(SDL_INIT_VIDEO);
 	if (initResult != 0) {
 		MIRA_LOG(ERROR, "Unable to init SDL");
 	}
 	m_window = SDL_CreateWindow(m_procs.title.c_str(), 200, 200, m_procs.width, m_procs.height, SDL_WINDOW_SHOWN);
-	m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED);
 }
 
 Window::~Window() {
 	SDL_DestroyWindow(m_window);
-	SDL_DestroyRenderer(m_renderer);
 }
 
 unsigned int Window::getWidth() const {
@@ -33,8 +32,8 @@ unsigned int Window::getHeight() const {
 	return m_procs.height;
 }
 
-SDL_Renderer* Window::getRenderer() const {
-	return m_renderer;
+SDL_Window* Window::getwindow() const {
+	return m_window;
 }
 
 void Window::pollEvents() {
@@ -43,8 +42,9 @@ void Window::pollEvents() {
 		
 		case SDL_QUIT:
 		{
+			WindowCloseEvent e;
+			m_callback(e);
 			m_isOpen = false;
-			//EVENT TO BE CREATED FOR CLOSE
 		}	break;
 
 		case SDL_KEYDOWN:
@@ -94,6 +94,4 @@ void Window::setCallbackFn(const eventCallbackFn& fn) {
 	m_callback = fn;
 }
 
-
-
-}
+} //namespace ends

@@ -91,13 +91,14 @@ project "Sandbox"
     }
 
     libdirs {
-		
+		"%{IncludeDirectories.SDL2}/lib"
     }
     
     links {
 		"winmm.lib",
 		"gdi32.lib",
-		"MiraEngine"
+		"MiraEngine",
+        "SDL2.lib"
     }
 
     filter "system:windows"

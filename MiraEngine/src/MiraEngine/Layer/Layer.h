@@ -1,5 +1,6 @@
 #pragma once
 #include <MiraEngine/Core/MiraCore.h>
+#include <MiraEngine/Renderer/Renderer.h>
 #include <MiraEngine/Event/Event.h>
 #include <MiraEngine/Event/EventDispatcher.h>
 #include <MiraEngine/Event/KeyboardEvent.h>
@@ -14,7 +15,7 @@ public:
 	virtual void onDetach() {}
 
 	virtual void onUpdate(float deltaTime) {}
-	virtual void onRender() {}
+	virtual void onRender(Renderer* renderer) {}
 
 	void onEvent(Event& e) {
 		
