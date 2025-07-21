@@ -35,6 +35,7 @@ public:
 	void setCallbackFn(const eventCallbackFn& fn);
 	SDL_Window* getwindow() const;
 
+
 private:
 	WinProcs m_procs;
 	SDL_Window* m_window;

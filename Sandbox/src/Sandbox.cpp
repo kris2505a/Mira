@@ -23,13 +23,13 @@ public:
 	void limitRect() {
 		if (rect.x <= 0)
 			rect.x = 0;
-		if (rect.x >= 1280 - rect.w)
-			rect.x = 1280 - rect.w;
+		if (rect.x >= Mira::GameApp::getInstance()->getWindow()->getWidth() - rect.w)
+			rect.x = Mira::GameApp::getInstance()->getWindow()->getWidth() - rect.w;
 
 		if (rect.y <= 0)
 			rect.y = 0;
-		if (rect.y >= 720 - rect.h)
-			rect.y = 720 - rect.h;
+		if (rect.y >= Mira::GameApp::getInstance()->getWindow()->getHeight() - rect.h)
+			rect.y = Mira::GameApp::getInstance()->getWindow()->getHeight() - rect.h;
 	}
 
 	virtual void onUpdate(float deltaTime) override {

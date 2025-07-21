@@ -6,4 +6,3 @@
 	#define MIRA_API __declspec(dllimport)
 #endif // API_ENGINE
 
-#define BIT(x) (1 << x)

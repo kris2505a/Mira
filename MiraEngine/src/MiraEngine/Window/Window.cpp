@@ -2,6 +2,7 @@
 #include "Window.h"
 #include <SDL.h>
 #include <MiraEngine/Logging/Log.h>
+#include <MiraEngine/Core/MiraMacros.h>
 
 //Events
 #include <MiraEngine/Event/KeyboardEvent.h>
@@ -14,9 +15,7 @@ Window::Window(const WinProcs& _procs)
 	: m_procs(_procs), m_window(nullptr), m_isOpen(true), m_event(SDL_Event()) {
 
 	int initResult = SDL_Init(SDL_INIT_VIDEO);
-	if (initResult != 0) {
-		MIRA_LOG(ERROR, "Unable to init SDL");
-	}
+	MIRA_ASSERT(initResult == 0, "Unable to init SDL");
 	m_window = SDL_CreateWindow(m_procs.title.c_str(), 200, 200, m_procs.width, m_procs.height, SDL_WINDOW_SHOWN);
 }
 

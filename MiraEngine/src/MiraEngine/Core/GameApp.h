@@ -19,8 +19,12 @@ public:
 	void pushLayer(Layer* layer);
 	void pushOverlay(Layer* overlay);
 	Renderer* getRenderer() const;
+	static GameApp* getInstance();
+	Window* getWindow() const;
 
 private:
+	static GameApp* s_instance;
+
 	std::unique_ptr <Window> m_window;
 	std::unique_ptr <Renderer> m_renderer;
 	LayerStack m_layers;

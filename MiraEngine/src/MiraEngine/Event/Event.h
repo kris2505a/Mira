@@ -1,6 +1,7 @@
 #pragma once
 #include <MiraPreCompHeader.h>
 #include <MiraEngine/Core/MiraCore.h>
+#include <MiraEngine/Core/MiraMacros.h>
 
 enum class EventType {
 	none = 0,
