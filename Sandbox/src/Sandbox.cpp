@@ -2,14 +2,14 @@
 
 class GameLayer : public Mira::Layer {
 private:
-	Mira::Vec2Df pos = { 100.0f, 100.0f };
-	SDL_Rect rect = { 10, 10, 50, 50 };
-
+	std::vector <SDL_Rect> m_rectangles;
+	std::vector <Mira::Vec2Df> m_velocities;
 public:
 
 	virtual void onRender(Mira::Renderer* renderer) override {
 		SDL_SetRenderDrawColor(renderer->getRenderer(), 50u, 0u, 200u, 255u);
-		SDL_RenderFillRect(renderer->getRenderer(), &rect);
+		for (auto& iter : m_rectangles)
+			SDL_RenderFillRect(renderer->getRenderer(), &iter);
 	}
 
 	virtual void onAttach() override {
@@ -20,35 +20,27 @@ public:
 		MIRA_LOG(INFO, "Game Layer Detatched");
 	}
 
-	void limitRect() {
-		if (rect.x <= 0)
-			rect.x = 0;
-		if (rect.x >= Mira::GameApp::getInstance()->getWindow()->getWidth() - rect.w)
-			rect.x = Mira::GameApp::getInstance()->getWindow()->getWidth() - rect.w;
-
-		if (rect.y <= 0)
-			rect.y = 0;
-		if (rect.y >= Mira::GameApp::getInstance()->getWindow()->getHeight() - rect.h)
-			rect.y = Mira::GameApp::getInstance()->getWindow()->getHeight() - rect.h;
-	}
-
 	virtual void onUpdate(float deltaTime) override {
-		//MIRA_LOG(INFO, "Game Layer Updating. Deltatime: {}", deltaTime);
-		if (Mira::Input::isKeyPressed(SDL_SCANCODE_RIGHT)) {
-			pos.x += (3000 * deltaTime);
+		
+		//MIRA_LOG(INFO, "Number of Particles: {}", m_rectangles.size());
+
+		if (Mira::Input::isButtonPressed(SDL_BUTTON_LEFT)) {
+			m_rectangles.push_back(SDL_Rect(Mira::Input::getMousePos().x, Mira::Input::getMousePos().y, 10, 10));
+			m_velocities.push_back({2000, 2000});
 		}
-		if (Mira::Input::isKeyPressed(SDL_SCANCODE_LEFT)) {
-			pos.x -= (3000 * deltaTime);
+
+		for (int i = 0; i < m_rectangles.size(); i++) {
+			m_rectangles[i].x += (m_velocities[i].x * deltaTime);
+			m_rectangles[i].y += (m_velocities[i].y * deltaTime);
+
+			if (m_rectangles[i].x <= 0 || m_rectangles[i].x >= Mira::GameApp::getInstance()->getWindow()->getWidth())
+				m_velocities[i].x *= -1;
+			if (m_rectangles[i].y <= 0 || m_rectangles[i].y >= Mira::GameApp::getInstance()->getWindow()->getHeight())
+				m_velocities[i].y *= -1;
+
+
 		}
-		if (Mira::Input::isKeyPressed(SDL_SCANCODE_UP)) {
-			pos.y -= (3000 * deltaTime);
-		}
-		if (Mira::Input::isKeyPressed(SDL_SCANCODE_DOWN)) {
-			pos.y += (3000 * deltaTime);
-		}
-		rect.x = static_cast<int>(pos.x);
-		rect.y = static_cast<int>(pos.y);
-		limitRect();
+
 	}
 };
 

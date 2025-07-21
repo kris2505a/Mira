@@ -18,12 +18,8 @@ public:
 	virtual void onRender(Renderer* renderer) {}
 
 	void onEvent(Event& e) {
-		if (e.getType() == EventType::keyPressed)
-			MIRA_LOG(INFO, "{}", e.toString());
 		if (e.getType() == EventType::windowClose)
 			MIRA_LOG(INFO, "Window Close");
-		if (e.getType() == EventType::mouseButtonPressed)
-			MIRA_LOG(INFO, "{}", e.toString());
 	}
 	Layer() = default;
 	virtual ~Layer() = default;
