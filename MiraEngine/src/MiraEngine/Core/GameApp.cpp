@@ -27,7 +27,7 @@ void GameApp::onEvent(Event& e) {
 		if (e.isHandled())
 			break;
 	}
-	MIRA_LOG(INFO, "{}", e.toString());
+	//MIRA_LOG(INFO, "{}", e.toString());
 }
 
 void GameApp::render() {

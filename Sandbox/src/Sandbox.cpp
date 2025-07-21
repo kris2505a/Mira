@@ -2,7 +2,8 @@
 
 class GameLayer : public Mira::Layer {
 private:
-	SDL_Rect rect = { 100, 100, 200, 150 };
+	Mira::Vec2Df pos = { 100.0f, 100.0f };
+	SDL_Rect rect = { 10, 10, 50, 50 };
 
 public:
 
@@ -19,8 +20,35 @@ public:
 		MIRA_LOG(INFO, "Game Layer Detatched");
 	}
 
+	void limitRect() {
+		if (rect.x <= 0)
+			rect.x = 0;
+		if (rect.x >= 1280 - rect.w)
+			rect.x = 1280 - rect.w;
+
+		if (rect.y <= 0)
+			rect.y = 0;
+		if (rect.y >= 720 - rect.h)
+			rect.y = 720 - rect.h;
+	}
+
 	virtual void onUpdate(float deltaTime) override {
 		//MIRA_LOG(INFO, "Game Layer Updating. Deltatime: {}", deltaTime);
+		if (Mira::Input::isKeyPressed(SDL_SCANCODE_RIGHT)) {
+			pos.x += (3000 * deltaTime);
+		}
+		if (Mira::Input::isKeyPressed(SDL_SCANCODE_LEFT)) {
+			pos.x -= (3000 * deltaTime);
+		}
+		if (Mira::Input::isKeyPressed(SDL_SCANCODE_UP)) {
+			pos.y -= (3000 * deltaTime);
+		}
+		if (Mira::Input::isKeyPressed(SDL_SCANCODE_DOWN)) {
+			pos.y += (3000 * deltaTime);
+		}
+		rect.x = static_cast<int>(pos.x);
+		rect.y = static_cast<int>(pos.y);
+		limitRect();
 	}
 };
 

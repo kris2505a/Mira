@@ -9,7 +9,6 @@
 
 namespace Mira {
 class MIRA_API GameApp {
-
 public:
 	GameApp();
 	virtual ~GameApp();

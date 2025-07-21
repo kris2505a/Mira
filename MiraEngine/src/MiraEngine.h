@@ -8,3 +8,5 @@
 #include "MiraEngine/Event/KeyboardEvent.h"
 #include "MiraEngine/Event/MouseEvent.h"
 #include "MiraEngine/Event/EventDispatcher.h"
+#include "MiraEngine/Input/Input.h"
+#include "MiraEngine/Math/Vector.h"
