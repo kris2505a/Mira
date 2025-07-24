@@ -22,6 +22,7 @@ public:
 private:
 	std::vector <Layer*> m_layers;
 	unsigned int m_layerIndex = 0;
+
 };
 
 } //Namespace ends

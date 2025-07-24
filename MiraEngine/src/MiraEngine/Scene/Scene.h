@@ -11,8 +11,8 @@ class MIRA_API Scene {
 public:
 	Scene(uint32_t _sceneId, const std::string& _name);
 	~Scene();
-	virtual void onUpdate(float deltaTime);
-	virtual void onRender(Renderer* renderer);
+	virtual void update(float deltaTime);
+	virtual void render(Renderer* renderer);
 	std::vector<std::shared_ptr<Entity>>& getEntities();
 	
 	template <typename T, typename... Args> 

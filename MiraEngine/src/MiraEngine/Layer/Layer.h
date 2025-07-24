@@ -22,11 +22,13 @@ public:
 	Layer() = default;
 	virtual ~Layer() = default;
 	Scene* getCurrentScene() const;
+	void loadScene(int sceneIndex);
+
 
 private:
-	std::unique_ptr <Scene> m_scene;
+	std::vector <std::unique_ptr <Scene>> m_scenes;
 	static uint32_t s_idGenerator;
-
+	int m_currentSceneIndex = 0;
 };
 
 }

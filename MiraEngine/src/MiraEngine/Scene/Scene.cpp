@@ -15,11 +15,11 @@ T& Scene::createEntity(Args&... args) {
 	return *ent;
 }
 
-void Scene::onUpdate(float deltaTime) {
+void Scene::update(float deltaTime) {
 
 }
 
-void Scene::onRender(Renderer* renderer) {
+void Scene::render(Renderer* renderer) {
 
 }
 
