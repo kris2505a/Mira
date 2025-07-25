@@ -1,6 +1,5 @@
 #pragma once
 #include <MiraEngine/Core/MiraCore.h>
-#include <MiraEngine/Scene/Scene.h>
 
 namespace Mira {
 
@@ -10,7 +9,7 @@ public:
 	~Entity() = default;
 
 private:
-	Scene* p_scene;
+	//Scene* p_scene;
 };
 
 } //namespace ends

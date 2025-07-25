@@ -20,6 +20,8 @@ public:
 
 	void onEvent(Event& e);
 	Layer() = default;
+	Layer(const Layer&) = delete;
+	Layer& operator=(const Layer&) = delete;
 	virtual ~Layer() = default;
 	Scene* getCurrentScene() const;
 	void loadScene(int sceneIndex);

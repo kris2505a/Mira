@@ -7,7 +7,7 @@ namespace Mira {
 uint32_t Layer::s_idGenerator = 0;
 
 void Layer::onAttach() {
-	//m_scene = std::make_unique <Scene>(s_idGenerator++, "Mira Scene");
+	m_scenes.push_back(std::make_unique<Scene>(s_idGenerator++, "Mira Scene"));
 }
 
 void Layer::onDetach() {
@@ -16,6 +16,7 @@ void Layer::onDetach() {
 
 Scene* Layer::getCurrentScene() const {
 	return m_scenes.at(m_currentSceneIndex).get();
+	//return nullptr;
 }
 
 void Layer::loadScene(int sceneIndex) {
@@ -23,7 +24,7 @@ void Layer::loadScene(int sceneIndex) {
 }
 
 void Layer::onUpdate(float deltaTime) {
-	MIRA_ASSERT(m_currentSceneIndex >= m_scenes.size(), "Scene Index out of range")
+	MIRA_ASSERT(m_currentSceneIndex < m_scenes.size(), "Scene Index out of range")
 	m_scenes.at(m_currentSceneIndex)->update(deltaTime);
 }
 
