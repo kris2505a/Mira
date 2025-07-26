@@ -2,6 +2,7 @@
 #include <MiraEngine/Core/MiraCore.h>
 #include <MiraEngine/Entity/Entity.h>
 #include <MiraEngine/Renderer/Renderer.h>
+#include <MiraEngine/Entity/Components.h>
 #include <memory>
 #include <vector>
 
@@ -25,6 +26,7 @@ private:
 	std::vector<std::shared_ptr<Entity>> m_entities;
 	uint32_t m_sceneId;
 	std::string m_name;
+	std::unordered_map <uint32_t, TransformComponent> m_transformComponents;
 };
 
 }//namespace ends

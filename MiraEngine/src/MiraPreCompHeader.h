@@ -1,5 +1,5 @@
 #pragma once
-
+#pragma warning(disable: 4251) // STL needs dll-interface
 
 #include <iostream>
 #include <string>
