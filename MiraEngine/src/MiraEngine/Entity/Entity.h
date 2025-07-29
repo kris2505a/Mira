@@ -5,8 +5,11 @@ namespace Mira {
 
 class MIRA_API Entity {
 public:
-	Entity(class Scene* _sceneRef, uint32_t _entityId);
+	Entity();
 	~Entity() = default;
+
+	void update(float deltatime);
+	void render(Renderer* renderer);
 
 private:
 	class Scene* p_scene;

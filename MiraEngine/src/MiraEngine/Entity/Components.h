@@ -8,6 +8,8 @@ struct MIRA_API TransformComponent {
 	Vec2Df position;
 	float rotation;
 	Vec2Df scale;
+	TransformComponent(const Vec2Df& _position = {0.0f, 0.0f}, float _rotation = 0.0f, const Vec2Df& _scale = {0.0f, 0.0f}) 
+		: position(_position), rotation(_rotation), scale(_scale) { }
 };
 
 } //namespace ends

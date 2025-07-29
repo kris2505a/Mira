@@ -4,8 +4,14 @@
 
 namespace Mira {
 
-Entity::Entity(Scene* _scene, uint32_t _entityId)
-	: p_scene(_scene), m_entityId(_entityId) {
+Entity::Entity() {
+}
+
+void Entity::update(float deltaTime) {
+
+}
+
+void Entity::render(Renderer* renderer) {
 
 }
 
