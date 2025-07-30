@@ -12,4 +12,10 @@ struct MIRA_API TransformComponent {
 		: position(_position), rotation(_rotation), scale(_scale) { }
 };
 
+struct MIRA_API CameraComponent {
+	Vec2Df position;
+	Vec2Df size;
+	float zoom;
+};
+
 } //namespace ends
