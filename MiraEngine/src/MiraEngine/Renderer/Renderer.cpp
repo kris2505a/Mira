@@ -1,30 +1,33 @@
 #include <MiraPreCompHeader.h>
 #include "Renderer.h"
-
+#include <MiraEngine/Core/MiraMacros.h>
 
 namespace Mira {
 
-Renderer::Renderer(SDL_Window* _window)
+Renderer::Renderer(sf::RenderWindow* _window)
 	: m_renderer(nullptr) {
 
-	m_renderer = SDL_CreateRenderer(_window, -1, SDL_RENDERER_ACCELERATED);
-
+	m_renderer = _window;
 }
 
+void Renderer::render(sf::Drawable& drawable) {
+	m_renderer->draw(drawable);
+}
+
+
 Renderer::~Renderer() {
-	SDL_DestroyRenderer(m_renderer);
+	
 }
 
 void Renderer::clear(int r, int g, int b, int a) {
-	SDL_SetRenderDrawColor(m_renderer, r, g, b, a);
-	SDL_RenderClear(m_renderer);
+	m_renderer->clear(sf::Color(r, g, b, a));
 }
 
 void Renderer::renderBinded() {
-	SDL_RenderPresent(m_renderer);
+	m_renderer->display();
 }
 
-SDL_Renderer* Renderer::getRenderer() const {
+sf::RenderWindow* Renderer::getRenderer() const {
 	return m_renderer;
 }
 

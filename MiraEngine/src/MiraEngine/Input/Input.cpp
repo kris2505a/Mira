@@ -1,22 +1,20 @@
 #include <MiraPreCompHeader.h>
 #include "Input.h"
+#include <MiraEngine/Core/MiraMacros.h>
 
 namespace Mira {
 
-bool Input::isKeyPressed(int _key) {
-	const Uint8* state = SDL_GetKeyboardState(nullptr);
-	return state[_key];
+bool Input::isKeyPressed(sf::Keyboard::Key _key) {
+	return sf::Keyboard::isKeyPressed(_key);
 }
 
-bool Input::isButtonPressed(int _button) {
-	uint32_t buttons = SDL_GetMouseState(nullptr, nullptr);
-	return buttons & SDL_BUTTON(_button);
+bool Input::isButtonPressed(sf::Mouse::Button _button) {
+	return sf::Mouse::isButtonPressed(_button);
 }
 
 Vec2Df Input::getMousePos() {
-	int x, y;
-	SDL_GetMouseState(&x, &y);
-	return Vec2Df(x, y);
+	auto pos = sf::Mouse::getPosition();
+	return { (float)pos.x, (float)pos.y };
 }
 
 } // namespace Mira

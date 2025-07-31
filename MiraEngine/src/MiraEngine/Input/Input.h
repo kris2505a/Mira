@@ -1,8 +1,9 @@
 #pragma once
 #include <MiraEngine/Core/MiraCore.h>
 #include <MiraEngine/Math/Vector.h>
-#include <SDL_keyboard.h>
-#include <SDL_mouse.h>
+
+#include <SFML/Window/Keyboard.hpp>
+#include <SFML/Window/Mouse.hpp>
 
 
 namespace Mira {
@@ -14,8 +15,8 @@ public:
 	Input(const Input&) = delete;
 	Input& operator=(const Input&) = delete;
 
-	static bool isKeyPressed(int _key);	
-	static bool isButtonPressed(int _button);
+	static bool isKeyPressed(sf::Keyboard::Key _key);	
+	static bool isButtonPressed(sf::Mouse::Button _button);
 	static Vec2Df getMousePos();
 
 };

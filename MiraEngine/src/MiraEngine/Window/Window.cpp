@@ -1,6 +1,5 @@
 #include <MiraPreCompHeader.h>
 #include "Window.h"
-#include <SDL.h>
 #include <MiraEngine/Logging/Log.h>
 #include <MiraEngine/Core/MiraMacros.h>
 
@@ -12,15 +11,13 @@
 namespace Mira {
 
 Window::Window(const WinProcs& _procs)
-	: m_procs(_procs), m_window(nullptr), m_isOpen(true), m_event(SDL_Event()) {
+	: m_procs(_procs), m_window(nullptr), m_isOpen(true), m_event({}) {
 
-	int initResult = SDL_Init(SDL_INIT_VIDEO);
-	MIRA_ASSERT(initResult == 0, "Unable to init SDL");
-	m_window = SDL_CreateWindow(m_procs.title.c_str(), 200, 200, m_procs.width, m_procs.height, SDL_WINDOW_SHOWN);
+	m_window = new sf::RenderWindow({ m_procs.width, m_procs.height }, m_procs.title, sf::Style::Close);
 }
 
 Window::~Window() {
-	SDL_DestroyWindow(m_window);
+	delete m_window;
 }
 
 unsigned int Window::getWidth() const {
@@ -31,54 +28,54 @@ unsigned int Window::getHeight() const {
 	return m_procs.height;
 }
 
-SDL_Window* Window::getwindow() const {
+sf::RenderWindow* Window::getwindow() const {
 	return m_window;
 }
 
 void Window::pollEvents() {
-	while (SDL_PollEvent(&m_event)) {
+	while (m_window->pollEvent(m_event)) {
 		switch (m_event.type) {
 		
-		case SDL_QUIT:
+		case sf::Event::Closed:
 		{
 			WindowCloseEvent e;
 			m_callback(e);
 			m_isOpen = false;
 		}	break;
 
-		case SDL_KEYDOWN:
+		case sf::Event::KeyPressed:
 		{
-			KeyPressedEvent e(m_event.key.keysym.sym, m_event.key.repeat);
+			KeyPressedEvent e(m_event.key.code, false);
 			m_callback(e);
 		}	break;
 
-		case SDL_KEYUP:
+		case sf::Event::KeyReleased:
 		{
-			KeyReleasedEvent e(m_event.key.keysym.sym);
+			KeyReleasedEvent e(m_event.key.code);
 			m_callback(e);
 		}	break;
 
-		case SDL_MOUSEMOTION:
+		case sf::Event::MouseMoved:
 		{
-			MouseMovedEvent e(m_event.motion.x, m_event.motion.y);
+			MouseMovedEvent e(m_event.mouseMove.x, m_event.mouseMove.y);
 			m_callback(e);
 		}	break;
 
-		case SDL_MOUSEBUTTONDOWN:
+		case sf::Event::MouseButtonPressed:
 		{
-			MouseButtonPressedEvent e(m_event.button.button);
+			MouseButtonPressedEvent e(m_event.mouseButton.button);
 			m_callback(e);
 		}	break;
 
-		case SDL_MOUSEBUTTONUP:
+		case sf::Event::MouseButtonReleased:
 		{
-			MouseButtonReleasedEvent e(m_event.button.button);
+			MouseButtonReleasedEvent e(m_event.mouseButton.button);
 			m_callback(e);
 		}	break;
 
-		case SDL_MOUSEWHEEL:
+		case sf::Event::MouseWheelScrolled:
 		{
-			MouseScrolledEvent e(m_event.wheel.x, m_event.wheel.y);
+			MouseScrolledEvent e(m_event.mouseWheel.x, m_event.mouseWheel.y);
 			m_callback(e);
 		}	break;
 		}

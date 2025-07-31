@@ -12,6 +12,7 @@ namespace Mira {
 
 class MIRA_API Layer {
 public:
+
 	virtual void onAttach();
 	virtual void onDetach();
 
@@ -25,12 +26,18 @@ public:
 	virtual ~Layer() = default;
 	Scene* getCurrentScene() const;
 	void loadScene(int sceneIndex);
+	//template <typename T>
+	/*int createScene() {
+		auto scene = std::make_unique <T>();
+		m_scenes.push_back(scene);
+		return m_currentSceneIndex;
+	}*/
 
-
-private:
+protected:
 	std::vector <std::unique_ptr <Scene>> m_scenes;
 	static uint32_t s_idGenerator;
 	int m_currentSceneIndex = 0;
 };
 
-}
+
+} //namespace ends

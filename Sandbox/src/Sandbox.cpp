@@ -1,15 +1,67 @@
 #include <MiraEngine.h>
+#include <SFML/Graphics.hpp>
+
+class Rectangle : public Mira::Entity {
+private:
+	Mira::Vec2Df m_position;
+	Mira::Vec2Df m_size;
+	Mira::Vec2Df m_velocity;
+	sf::RectangleShape m_rectangle;
+
+	
+public:
+	Rectangle() {
+		
+		m_position = { 100, 100 };
+
+		m_size = { 10, 10 };
+
+		m_rectangle.setPosition(m_position);
+		m_rectangle.setSize(m_size);
+		m_velocity = { 5000.0f, 5000.0f };
+		m_rectangle.setFillColor(sf::Color::White);
+	}
+	virtual void update(float deltatime) override {
+
+		if (Mira::Input::isKeyPressed(sf::Keyboard::Left)) {
+			m_position.x -= m_velocity.x;
+		}
+		if (Mira::Input::isKeyPressed(sf::Keyboard::Right)) {
+			m_position.x += m_velocity.x;
+		}
+		if (Mira::Input::isKeyPressed(sf::Keyboard::Up)) {
+			m_position.y -= m_velocity.y;
+		}
+		if (Mira::Input::isKeyPressed(sf::Keyboard::Down)) {
+			m_position.y += m_velocity.y;
+		}
+		
+		m_rectangle.setPosition(m_position);
+
+	}
+
+	virtual void render(Mira::Renderer* renderer) override {
+		renderer->render(m_rectangle);
+	}
+};
+
+class GameScene : public Mira::Scene {
+
+public:
+	GameScene() : Mira::Scene(0, "Scene") {
+		m_entities.push_back(std::make_shared<Rectangle>());
+	}
+};
+
 
 class GameLayer : public Mira::Layer {
 private:
-	std::vector <SDL_Rect> m_rectangles;
-	std::vector <Mira::Vec2Df> m_velocities;
+	//int m_sceneId;
 public:
 
-	virtual void onRender(Mira::Renderer* renderer) override {
-		SDL_SetRenderDrawColor(renderer->getRenderer(), 50u, 0u, 200u, 255u);
-		for (auto& iter : m_rectangles)
-			SDL_RenderFillRect(renderer->getRenderer(), &iter);
+	GameLayer() {
+		//m_sceneId = this->createScene <Mira::Scene> ();
+		m_scenes.push_back(std::make_unique <GameScene>());
 	}
 
 	virtual void onAttach() override {
@@ -18,29 +70,6 @@ public:
 
 	virtual void onDetach() override {
 		MIRA_LOG(INFO, "Game Layer Detatched");
-	}
-
-	virtual void onUpdate(float deltaTime) override {
-		
-		//MIRA_LOG(INFO, "Number of Particles: {}", m_rectangles.size());
-
-		if (Mira::Input::isButtonPressed(SDL_BUTTON_LEFT)) {
-			m_rectangles.push_back(SDL_Rect(Mira::Input::getMousePos().x, Mira::Input::getMousePos().y, 10, 10));
-			m_velocities.push_back({2000, 2000});
-		}
-
-		for (int i = 0; i < m_rectangles.size(); i++) {
-			m_rectangles[i].x += (m_velocities[i].x * deltaTime);
-			m_rectangles[i].y += (m_velocities[i].y * deltaTime);
-
-			if (m_rectangles[i].x <= 0 || m_rectangles[i].x >= Mira::GameApp::getInstance()->getWindow()->getWidth())
-				m_velocities[i].x *= -1;
-			if (m_rectangles[i].y <= 0 || m_rectangles[i].y >= Mira::GameApp::getInstance()->getWindow()->getHeight())
-				m_velocities[i].y *= -1;
-
-
-		}
-
 	}
 };
 

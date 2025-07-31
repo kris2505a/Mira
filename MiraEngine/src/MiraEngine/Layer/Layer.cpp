@@ -25,6 +25,7 @@ void Layer::loadScene(int sceneIndex) {
 
 void Layer::onUpdate(float deltaTime) {
 	MIRA_ASSERT(m_currentSceneIndex < m_scenes.size(), "Scene Index out of range")
+	m_scenes.at(m_currentSceneIndex)->handleInput(deltaTime);
 	m_scenes.at(m_currentSceneIndex)->update(deltaTime);
 }
 
@@ -36,5 +37,7 @@ void Layer::onEvent(Event& e) {
 	if (e.getType() == EventType::windowClose)
 		MIRA_LOG(INFO, "Window Close");
 }
+
+
 
 } //namespace ends

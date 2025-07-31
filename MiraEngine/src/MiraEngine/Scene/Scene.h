@@ -10,22 +10,28 @@ namespace Mira {
 
 class MIRA_API Scene {
 
-	friend class Entity;
 public:
-	Scene(uint32_t _sceneId, const std::string& _name);
+	Scene(uint32_t _sceneId = 0, const std::string& _name = "Scene");
 	~Scene();
-	virtual void update(float deltaTime);
-	virtual void render(Renderer* renderer);
+	void update(float deltaTime);
+	void render(Renderer* renderer);
+	virtual void handleInput(float deltaTime);
 	std::vector<std::shared_ptr<Entity>>& getEntities();
 	
 	template <typename T, typename... Args> 
-	T& createEntity(Args&... args);
+	void createEntity(Args&... args) {
+		std::shared_ptr <Entity> ent = std::make_shared <T>(std::forward<Args>(args)...);
+		ent->p_scene = this;
+		ent->m_entityId = m_entityIdGenerator++;
+		m_entities.push_back(ent);
+		m_transformComponents[ent->m_entityId] = TransformComponent();
+	}
 
 	uint32_t getId() const;
 	const std::string& getName() const;
+	std::vector<std::shared_ptr<Entity>> m_entities;
 
 private:
-	std::vector<std::shared_ptr<Entity>> m_entities;
 	uint32_t m_sceneId;
 	std::string m_name;
 	static uint32_t m_entityIdGenerator;

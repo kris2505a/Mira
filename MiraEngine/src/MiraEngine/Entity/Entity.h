@@ -1,15 +1,22 @@
 #pragma once
 #include <MiraEngine/Core/MiraCore.h>
+#include <MiraEngine/Renderer/Renderer.h>
+#include <SFML/Graphics.hpp>
 
 namespace Mira {
 
 class MIRA_API Entity {
+
+	friend class Scene;
+
+
 public:
 	Entity();
 	~Entity() = default;
 
-	void update(float deltatime);
-	void render(Renderer* renderer);
+	virtual void update(float deltatime);
+	virtual void render(Renderer* renderer);
+	virtual void handleInput(float deltaTime);
 
 private:
 	class Scene* p_scene;

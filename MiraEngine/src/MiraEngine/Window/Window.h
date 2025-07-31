@@ -2,10 +2,11 @@
 #include <MiraEngine/Core/MiraCore.h>
 #include <MiraEngine/Event/Event.h>
 #include <MiraPreCompHeader.h>
-#include <SDL_video.h>
-#include <SDL_render.h>
-#include <SDL_events.h>
 #include <functional>
+
+//SFML
+#include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/Window/Event.hpp>
 
 namespace Mira {
 
@@ -33,13 +34,13 @@ public:
 	void pollEvents();
 	bool isOpen() const;
 	void setCallbackFn(const eventCallbackFn& fn);
-	SDL_Window* getwindow() const;
+	sf::RenderWindow *getwindow() const;
 
 
 private:
 	WinProcs m_procs;
-	SDL_Window* m_window;
-	SDL_Event m_event;
+	sf::RenderWindow* m_window;
+	sf::Event m_event;
 	bool m_isOpen;
 	eventCallbackFn m_callback;
 

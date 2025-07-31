@@ -11,7 +11,7 @@ outputDir = "%{cfg.buildcfg}-%{cfg.architecture}"
 
 IncludeDirectories = {}
 
-IncludeDirectories["SDL2"] = "MiraEngine/thirdparty/SDL2"
+IncludeDirectories["SFML"] = "MiraEngine/thirdparty/SFML"
 
 
 project "MiraEngine"
@@ -34,15 +34,15 @@ project "MiraEngine"
 
     includedirs {
         "%{prj.name}/src",
-		"%{IncludeDirectories.SDL2}/include"
+		"%{IncludeDirectories.SFML}/include"
     }
 
     libdirs {
-		"%{IncludeDirectories.SDL2}/lib"
+		"%{IncludeDirectories.SFML}/lib"
     }
     
     links {
-        "SDL2.lib",
+        "opengl32.lib",
 		"winmm.lib",
 		"gdi32.lib"
     }
@@ -62,10 +62,24 @@ project "MiraEngine"
 
 
     filter "configurations:Debug"
+        links {
+            "sfml-audio-d.lib",
+            "sfml-graphics-d.lib",
+            "sfml-window-d.lib",
+            "sfml-main-d.lib",
+            "sfml-system-d.lib"
+        }
         runtime "Debug"
         symbols "On"
 
     filter "configurations:Release"
+        links {
+            "sfml-audio.lib",
+            "sfml-graphics.lib",
+            "sfml-window.lib",
+            "sfml-main.lib",
+            "sfml-system.lib"
+        }
         runtime "Release"
         optimize "On"
 
@@ -85,20 +99,20 @@ project "Sandbox"
     }
 
     includedirs {
-        "%{IncludeDirectories.SDL2}/include",
+        "%{IncludeDirectories.SFML}/include",
         "%{prj.name}/src",
 		"MiraEngine/src/"
     }
 
     libdirs {
-		"%{IncludeDirectories.SDL2}/lib"
+		"%{IncludeDirectories.SFML}/lib"
     }
     
     links {
+        "opengl32.lib",
 		"winmm.lib",
 		"gdi32.lib",
 		"MiraEngine",
-        "SDL2.lib"
     }
 
     filter "system:windows"
@@ -110,11 +124,25 @@ project "Sandbox"
 	
     }
 
-    filter "configurations:Debug"
+    filter "configurations:Debug" 
+        links {
+            "sfml-audio.lib",
+            "sfml-graphics.lib",
+            "sfml-window.lib",
+            "sfml-main.lib",
+            "sfml-system.lib"
+        }
         runtime "Debug"
         symbols "On"
 
     filter "configurations:Release"
+        links {
+            "sfml-audio.lib",
+            "sfml-graphics.lib",
+            "sfml-window.lib",
+            "sfml-main.lib",
+            "sfml-system.lib"
+        }
         runtime "Release"
         optimize "On"
 

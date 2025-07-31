@@ -15,16 +15,20 @@ GameApp::GameApp()
 	s_instance = this;
 
 	m_window = std::make_unique<Window>();
+	MIRA_ASSERT(m_window->getwindow(), "Failed to create Window");
 	m_window->setCallbackFn(std::bind(&GameApp::onEvent, this, std::placeholders::_1));
-	m_renderer = std::make_unique<Renderer>(m_window->getwindow());
+	//m_renderer = std::make_unique<Renderer>(m_window->getwindow());
+	m_renderer = new Renderer(m_window->getwindow());
+
 }
 
 GameApp::~GameApp() {
 	s_instance = nullptr;
+	delete m_renderer;
 }
 
 Renderer* GameApp::getRenderer() const {
-	return m_renderer.get();
+	return m_renderer;
 }
 
 GameApp* GameApp::getInstance() {
@@ -42,14 +46,13 @@ void GameApp::onEvent(Event& e) {
 		if (e.isHandled())
 			break;
 	}
-	//MIRA_LOG(INFO, "{}", e.toString());
 }
 
 void GameApp::render() {
 
 	m_renderer->clear(0u, 0u, 0u, 0u);
 	for (auto layer = m_layers.begin(); layer != m_layers.end(); layer++) {
-		(*layer)->onRender(m_renderer.get());
+		(*layer)->onRender(m_renderer);
 	}
 	m_renderer->renderBinded();
 }
@@ -62,7 +65,6 @@ void GameApp::update() {
 	}
 	int fps = 1.0f / m_deltaTime;
 	std::string title = "Mira Engine | FPS: " + std::to_string(fps);
-	SDL_SetWindowTitle(m_window.get()->getwindow(), title.c_str());
 }
 
 void GameApp::run() {
