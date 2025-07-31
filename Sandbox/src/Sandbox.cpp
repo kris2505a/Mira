@@ -24,16 +24,16 @@ public:
 	virtual void update(float deltatime) override {
 
 		if (Mira::Input::isKeyPressed(sf::Keyboard::Left)) {
-			m_position.x -= m_velocity.x;
+			m_position.x -= m_velocity.x * deltatime;
 		}
 		if (Mira::Input::isKeyPressed(sf::Keyboard::Right)) {
-			m_position.x += m_velocity.x;
+			m_position.x += m_velocity.x * deltatime;
 		}
 		if (Mira::Input::isKeyPressed(sf::Keyboard::Up)) {
-			m_position.y -= m_velocity.y;
+			m_position.y -= m_velocity.y * deltatime;
 		}
 		if (Mira::Input::isKeyPressed(sf::Keyboard::Down)) {
-			m_position.y += m_velocity.y;
+			m_position.y += m_velocity.y * deltatime;
 		}
 		
 		m_rectangle.setPosition(m_position);

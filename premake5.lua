@@ -126,11 +126,11 @@ project "Sandbox"
 
     filter "configurations:Debug" 
         links {
-            "sfml-audio.lib",
-            "sfml-graphics.lib",
-            "sfml-window.lib",
-            "sfml-main.lib",
-            "sfml-system.lib"
+            "sfml-audio-d.lib",
+            "sfml-graphics-d.lib",
+            "sfml-window-d.lib",
+            "sfml-main-d.lib",
+            "sfml-system-d.lib"
         }
         runtime "Debug"
         symbols "On"
