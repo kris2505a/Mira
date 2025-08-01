@@ -8,8 +8,6 @@ namespace Mira {
 class MIRA_API Entity {
 
 	friend class Scene;
-
-
 public:
 	Entity();
 	~Entity() = default;

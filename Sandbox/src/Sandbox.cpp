@@ -13,12 +13,12 @@ public:
 	Rectangle() {
 		
 		m_position = { 100, 100 };
-
-		m_size = { 10, 10 };
+		 
+		m_size = { 50, 50 };
 
 		m_rectangle.setPosition(m_position);
 		m_rectangle.setSize(m_size);
-		m_velocity = { 5000.0f, 5000.0f };
+		m_velocity = { 1000.0f, 1000.0f };
 		m_rectangle.setFillColor(sf::Color::White);
 	}
 	virtual void update(float deltatime) override {
@@ -50,16 +50,17 @@ class GameScene : public Mira::Scene {
 public:
 	GameScene() : Mira::Scene(0, "Scene") {
 		m_entities.push_back(std::make_shared<Rectangle>());
+		//this->createEntity <Rectangle> ();
 	}
 };
 
 
 class GameLayer : public Mira::Layer {
 private:
-	//int m_sceneId;
+	int m_sceneId;
 public:
 
-	GameLayer() {
+	GameLayer() : m_sceneId(0) {
 		//m_sceneId = this->createScene <Mira::Scene> ();
 		m_scenes.push_back(std::make_unique <GameScene>());
 	}

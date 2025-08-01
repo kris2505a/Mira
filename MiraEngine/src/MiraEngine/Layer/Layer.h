@@ -26,12 +26,12 @@ public:
 	virtual ~Layer() = default;
 	Scene* getCurrentScene() const;
 	void loadScene(int sceneIndex);
-	//template <typename T>
-	/*int createScene() {
+	template <typename T>
+	int createScene() {
 		auto scene = std::make_unique <T>();
 		m_scenes.push_back(scene);
 		return m_currentSceneIndex;
-	}*/
+	}
 
 protected:
 	std::vector <std::unique_ptr <Scene>> m_scenes;

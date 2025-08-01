@@ -18,17 +18,19 @@ public:
 	virtual void handleInput(float deltaTime);
 	std::vector<std::shared_ptr<Entity>>& getEntities();
 	
-	template <typename T, typename... Args> 
+	/*template <typename T, typename... Args> 
 	void createEntity(Args&... args) {
 		std::shared_ptr <Entity> ent = std::make_shared <T>(std::forward<Args>(args)...);
 		ent->p_scene = this;
 		ent->m_entityId = m_entityIdGenerator++;
 		m_entities.push_back(ent);
 		m_transformComponents[ent->m_entityId] = TransformComponent();
-	}
+	}*/
 
 	uint32_t getId() const;
 	const std::string& getName() const;
+
+protected:
 	std::vector<std::shared_ptr<Entity>> m_entities;
 
 private:

@@ -65,6 +65,7 @@ void GameApp::update() {
 	}
 	int fps = 1.0f / m_deltaTime;
 	std::string title = "Mira Engine | FPS: " + std::to_string(fps);
+	m_window->getwindow()->setTitle(title);
 }
 
 void GameApp::run() {
