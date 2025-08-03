@@ -1,2 +1,2 @@
 # Mira
-Mira - A Game Engine
+Mira - A Library type game engine made using sfml
