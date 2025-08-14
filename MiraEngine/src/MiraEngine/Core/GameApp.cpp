@@ -3,6 +3,7 @@
 #include <MiraEngine/Logging/Log.h>
 #include <MiraEngine/Event/MouseEvent.h>
 #include "MiraMacros.h"
+#include <MiraEngine/Layer/Layer.h>	
 
 namespace Mira {
 

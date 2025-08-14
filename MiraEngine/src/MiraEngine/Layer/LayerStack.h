@@ -1,5 +1,4 @@
 #pragma once
-#include "Layer.h"
 #include <MiraEngine/Core/MiraCore.h>
 #include <vector>
 
@@ -7,16 +6,16 @@ namespace Mira {
 
 class MIRA_API LayerStack {
 public:
-	void pushLayer(Layer* layer);
-	void pushOverlay(Layer* overlay);
-	void popLayer(Layer* layer);
-	void popOverlay(Layer* overlay);
+	void pushLayer(class Layer* layer);
+	void pushOverlay(class Layer* overlay);
+	void popLayer(class Layer* layer);
+	void popOverlay(class Layer* overlay);
 
 	LayerStack() = default;
 	~LayerStack();
 
-	std::vector<Layer*>::iterator begin();
-	std::vector<Layer*>::iterator end();
+	std::vector<class Layer*>::iterator begin();
+	std::vector<class Layer*>::iterator end();
 
 
 private:

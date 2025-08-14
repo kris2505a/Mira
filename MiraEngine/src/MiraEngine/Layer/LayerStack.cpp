@@ -1,5 +1,6 @@
 #include <MiraPreCompHeader.h>
 #include "LayerStack.h"
+#include "Layer.h"
 
 namespace Mira {
 
