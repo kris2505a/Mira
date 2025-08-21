@@ -28,7 +28,7 @@ void Scene::handleInput(float deltaTime) {
 	}
 }
 
-std::vector<std::shared_ptr<Entity>>& Scene::getEntities() {
+std::vector<Entity*>& Scene::getEntities() {
 	return m_entities;
 }
 
@@ -41,6 +41,11 @@ const std::string& Scene::getName() const {
 }
 
 Scene::~Scene() {
+
+	for (auto* iter : m_entities) {
+		if (iter)
+			delete iter;
+	}
 	m_entities.clear();
 	m_transformComponents.clear();
 }

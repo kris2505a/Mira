@@ -5,7 +5,7 @@ workspace "Mira"
         "Debug", "Release"
     }
 	
-	startproject "Sandbox"
+	-- startproject "Sandbox"
 	
 outputDir = "%{cfg.buildcfg}-%{cfg.architecture}" 
 
@@ -21,19 +21,19 @@ project "MiraEngine"
     staticruntime "Off"
 
 
-    targetdir("bin/" .. outputDir .. "/%{prj.name}")
-    objdir("obj/" .. outputDir .. "/%{prj.name}")
+    targetdir("binaries/" .. outputDir .. "/%{prj.name}")
+    objdir("intermediate/" .. outputDir .. "/%{prj.name}")
 	
 	pchheader "MiraPreCompHeader.h"
-	pchsource "MiraEngine/src/MiraPreCompHeader.cpp"
+	pchsource "MiraEngine/sources/MiraPreCompHeader.cpp"
 
     files {
-        "%{prj.name}/src/**.h",
-        "%{prj.name}/src/**.cpp"
+        "%{prj.name}/sources/**.h",
+        "%{prj.name}/sources/**.cpp"
     }
 
     includedirs {
-        "%{prj.name}/src",
+        "%{prj.name}/sources",
 		"%{IncludeDirectories.SFML}/include"
     }
 
@@ -57,7 +57,7 @@ project "MiraEngine"
     }
 	
 	postbuildcommands {
-		"{COPY} %{cfg.buildtarget.abspath} ../bin/" .. outputDir .. "/Sandbox"
+		"{COPY} %{cfg.buildtarget.abspath} ../binaries/" .. outputDir .. "/Sandbox"
 	}
 
 
@@ -90,18 +90,18 @@ project "MiraEngine"
 --     staticruntime "Off"
 
 
---     targetdir("bin/" .. outputDir .. "/%{prj.name}")
---     objdir("obj/" .. outputDir .. "/%{prj.name}")
+--     targetdir("binaries/" .. outputDir .. "/%{prj.name}")
+--     objdir("intermediate/" .. outputDir .. "/%{prj.name}")
 
 --     files {
---         "%{prj.name}/src/**.h",
---         "%{prj.name}/src/**.cpp"
+--         "%{prj.name}/sources/**.h",
+--         "%{prj.name}/sources/**.cpp"
 --     }
 
 --     includedirs {
 --         "%{IncludeDirectories.SFML}/include",
---         "%{prj.name}/src",
--- 		"MiraEngine/src/"
+--         "%{prj.name}/sources",
+-- 		"MiraEngine/sources/"
 --     }
 
 --     libdirs {

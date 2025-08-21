@@ -16,22 +16,22 @@ public:
 	void update(float deltaTime);
 	void render(Renderer* renderer);
 	virtual void handleInput(float deltaTime);
-	std::vector<std::shared_ptr<Entity>>& getEntities();
+	std::vector<Entity*>& getEntities();
 	
-	/*template <typename T, typename... Args> 
-	void createEntity(Args&... args) {
-		std::shared_ptr <Entity> ent = std::make_shared <T>(std::forward<Args>(args)...);
+	template <typename T> 
+	void createEntity() {
+		Entity* ent = new T;
 		ent->p_scene = this;
 		ent->m_entityId = m_entityIdGenerator++;
 		m_entities.push_back(ent);
 		m_transformComponents[ent->m_entityId] = TransformComponent();
-	}*/
+	}
 
 	uint32_t getId() const;
 	const std::string& getName() const;
 
 protected:
-	std::vector<std::shared_ptr<Entity>> m_entities;
+	std::vector<Entity*> m_entities;
 
 private:
 	uint32_t m_sceneId;

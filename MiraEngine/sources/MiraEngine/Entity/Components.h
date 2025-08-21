@@ -15,7 +15,7 @@ struct MIRA_API TransformComponent {
 
 struct MIRA_API CameraComponent {
 	Vec2Df position;
-	Vec2Df size;
+	Vec2Df size;	
 	float zoom;
 	sf::View camera;
 	CameraComponent(const Vec2Df& _position = {0.0f, 0.0f}, const Vec2Df& _size = {100.f, 100.f}, float _zoom = 1.0f) 

@@ -4,8 +4,7 @@
 
 namespace Mira {
 
-Entity::Entity() {
-
+Entity::Entity() : m_entityId(0), p_scene(nullptr) {
 
 }
 
