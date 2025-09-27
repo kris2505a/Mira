@@ -1,18 +1,13 @@
-workspace "Mira"
+workspace "Mira2D"
     architecture "x64"
 
     configurations {
         "Debug", "Release"
     }
 	
-	-- startproject "Sandbox"
+	startproject "Sandbox"
 	
 outputDir = "%{cfg.buildcfg}-%{cfg.architecture}" 
-
-IncludeDirectories = {}
-
-IncludeDirectories["SFML"] = "MiraEngine/thirdparty/SFML"
-
 
 project "MiraEngine"
     location "MiraEngine"
@@ -24,8 +19,8 @@ project "MiraEngine"
     targetdir("binaries/" .. outputDir .. "/%{prj.name}")
     objdir("intermediate/" .. outputDir .. "/%{prj.name}")
 	
-	pchheader "MiraPreCompHeader.h"
-	pchsource "MiraEngine/sources/MiraPreCompHeader.cpp"
+    pchheader "MiraPreCompHeader.h"
+    pchsource "MiraEngine/sources/MiraPreCompHeader.cpp"
 
     files {
         "%{prj.name}/sources/**.h",
@@ -34,23 +29,20 @@ project "MiraEngine"
 
     includedirs {
         "%{prj.name}/sources",
-		"%{IncludeDirectories.SFML}/include"
-    }
-
-    libdirs {
-		"%{IncludeDirectories.SFML}/lib"
     }
     
     links {
-        "opengl32.lib",
-		"winmm.lib",
-		"gdi32.lib"
+        "d3d11.lib",
+        "dxgi.lib",
+        "d3dcompiler.lib"
     }
 
     filter "system:windows"
         cppdialect "C++20"
         staticruntime "Off"
         systemversion "latest"
+        buildoptions { "/wd4251" }
+
 
     defines {
         "API_ENGINE"
@@ -60,90 +52,57 @@ project "MiraEngine"
 		"{COPY} %{cfg.buildtarget.abspath} ../binaries/" .. outputDir .. "/Sandbox"
 	}
 
-
     filter "configurations:Debug"
-        links {
-            "sfml-audio-d.lib",
-            "sfml-graphics-d.lib",
-            "sfml-window-d.lib",
-            "sfml-main-d.lib",
-            "sfml-system-d.lib"
+        defines {
+            "MIRA_DEBUG"
         }
         runtime "Debug"
         symbols "On"
 
     filter "configurations:Release"
-        links {
-            "sfml-audio.lib",
-            "sfml-graphics.lib",
-            "sfml-window.lib",
-            "sfml-main.lib",
-            "sfml-system.lib"
-        }
         runtime "Release"
         optimize "On"
 
--- project "Sandbox"
---     location "Sandbox"
---     kind "consoleApp"
---     language "C++"
---     staticruntime "Off"
+
+project "Sandbox"
+    location "Sandbox"
+    kind "windowedApp"
+    language "C++"
+    staticruntime "Off"
+    entrypoint "WinMainCRTStartup"  
+
+    targetdir("binaries/" .. outputDir .. "/%{prj.name}")
+    objdir("intermediate/" .. outputDir .. "/%{prj.name}")
+
+    files {
+        "%{prj.name}/sources/**.h",
+        "%{prj.name}/sources/**.cpp"
+    }
+
+    includedirs {
+        "%{prj.name}/sources",
+		"MiraEngine/sources/"
+    }
+
+    links {
+		"MiraEngine",
+    }
+
+    filter "system:windows"
+        cppdialect "C++20"
+        staticruntime "Off"
+        systemversion "latest"
 
 
---     targetdir("binaries/" .. outputDir .. "/%{prj.name}")
---     objdir("intermediate/" .. outputDir .. "/%{prj.name}")
+    filter "configurations:Debug" 
+        defines {
+            "MIRA_DEBUG"
+        }
+        runtime "Debug"
+        symbols "On"
 
---     files {
---         "%{prj.name}/sources/**.h",
---         "%{prj.name}/sources/**.cpp"
---     }
-
---     includedirs {
---         "%{IncludeDirectories.SFML}/include",
---         "%{prj.name}/sources",
--- 		"MiraEngine/sources/"
---     }
-
---     libdirs {
--- 		"%{IncludeDirectories.SFML}/lib"
---     }
-    
---     links {
---         "opengl32.lib",
--- 		"winmm.lib",
--- 		"gdi32.lib",
--- 		"MiraEngine",
---     }
-
---     filter "system:windows"
---         cppdialect "C++20"
---         staticruntime "Off"
---         systemversion "latest"
-
---     defines {
-	
---     }
-
---     filter "configurations:Debug" 
---         links {
---             "sfml-audio-d.lib",
---             "sfml-graphics-d.lib",
---             "sfml-window-d.lib",
---             "sfml-main-d.lib",
---             "sfml-system-d.lib"
---         }
---         runtime "Debug"
---         symbols "On"
-
---     filter "configurations:Release"
---         links {
---             "sfml-audio.lib",
---             "sfml-graphics.lib",
---             "sfml-window.lib",
---             "sfml-main.lib",
---             "sfml-system.lib"
---         }
---         runtime "Release"
---         optimize "On"
+    filter "configurations:Release"
+        runtime "Release"
+        optimize "On"
 
 	

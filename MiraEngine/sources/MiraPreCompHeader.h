@@ -1,11 +1,14 @@
 #pragma once
-#pragma warning(disable: 4251) // STL needs dll-interface
+
+#include <Windows.h>
+#include <windowsx.h>
+#include <fcntl.h>
+#include <io.h>
 
 #include <iostream>
-#include <string>
 #include <vector>
 #include <unordered_map>
-#include <iomanip>
+#include <unordered_set>
+#include <memory>
 #include <string>
-#include <format>
-#include <chrono>
+#include <sstream>
