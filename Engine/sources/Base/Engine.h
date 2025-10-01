@@ -1,6 +1,7 @@
 #pragma once
 #include <Base/MiraAPI.h>
 #include <Window/Window.h>
+#include <Events/Event.h>
 
 namespace Mira {
 
@@ -17,6 +18,7 @@ private:
 
 	void update();
 	void render();
+	void event(Event& e);
 
 private:
 	std::unique_ptr <WindowBase> m_window;

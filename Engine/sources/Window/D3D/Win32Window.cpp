@@ -2,6 +2,8 @@
 #include "Win32Window.h"
 #include "Keyboard.h"
 #include "Mouse.h"
+#include "Events/KeyboardEvent.h"
+#include "Events/MouseEvent.h"
 
 namespace Mira {
 Win32Window::Win32Window() {
@@ -12,39 +14,37 @@ Win32Window::~Win32Window() {
 	shutdown();
 }
 
-void Win32Window::wipeOff(uint8_t r, uint8_t g, uint8_t b, uint8_t a) {
-
-}
-
-
 LRESULT CALLBACK Win32Window::messageProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 
 	Win32Window* p_window = nullptr;
 
 	if (msg == WM_NCCREATE) {
-		// get "this" from lpCreateParams
 		CREATESTRUCT* cs = reinterpret_cast<CREATESTRUCT*>(lParam);
 		p_window = static_cast<Win32Window*>(cs->lpCreateParams);
 		SetWindowLongPtr(hwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(p_window));
 	}
 	else {
-		// retrieve stored "this"
 		p_window = reinterpret_cast<Win32Window*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
 	}
 
 	switch (msg) {
 	case WM_DESTROY:
 	{
-		p_window->m_properties.open = false;
+		if (p_window)
+			p_window->m_properties.open = false;
 		PostQuitMessage(0);
-		break;
-	}
+	}break;
+
 
 	case WM_SYSKEYDOWN:
 	case WM_KEYDOWN:
 	{
-		if (!(lParam & 0x40000000) || Keyboard::repeatStatus())
+		if (!(lParam & 0x40000000) || Keyboard::repeatStatus()) {
 			Keyboard::keyPressed(wParam);
+			KeyPressedEvent e(static_cast <int> (wParam));
+			p_window->m_callback(e);
+		}
+
 		break;
 	}
 
@@ -52,18 +52,26 @@ LRESULT CALLBACK Win32Window::messageProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 	case WM_KEYUP:
 	{
 		Keyboard::keyReleased(wParam);
+		KeyReleasedEvent e(static_cast <int> (wParam));
+		p_window->m_callback(e);
 		break;
 	}
 
 	case WM_XBUTTONDOWN:
-	{
-		Mouse::buttonDown(VK_MBUTTON);
+	{	
+		unsigned int button = GET_XBUTTON_WPARAM(wParam);
+		Mouse::buttonDown(button);
+		MouseButtonPressEvent e(static_cast <int> (button));
+		p_window->m_callback(e);
 		break;
 	}
 
 	case WM_XBUTTONUP:
 	{
-		Mouse::buttonUp(VK_MBUTTON);
+		unsigned int button = GET_XBUTTON_WPARAM(wParam);
+		Mouse::buttonUp(button);
+		MouseButtonReleaseEvent e(static_cast <int> (button));
+		p_window->m_callback(e);
 		break;
 	}
 
@@ -87,12 +95,18 @@ LRESULT CALLBACK Win32Window::messageProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 				Mouse::offWindow();
 			}
 		}
+		MouseMoveEvent e(pts.x, pts.y);
+		p_window->m_callback(e);
 		break;
 	}
 
 	case WM_MOUSEWHEEL:
 	{
-		Mouse::scroll(GET_WHEEL_DELTA_WPARAM(wParam));
+		int delta = GET_WHEEL_DELTA_WPARAM(wParam);
+		Mouse::scroll(delta);
+		float yOffset = static_cast <float> (delta) / WHEEL_DELTA;
+		MouseScrollEvent e(0.0f, yOffset);
+		p_window->m_callback(e);
 		break;
 	}
 

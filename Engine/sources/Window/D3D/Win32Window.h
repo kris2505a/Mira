@@ -9,7 +9,6 @@ class MIRA_API Win32Window : public WindowBase {
 public:
 	Win32Window();
 	~Win32Window();
-	void wipeOff(uint8_t r, uint8_t g, uint8_t b, uint8_t a) final override;
 	static LRESULT CALLBACK messageProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 	bool isOpen() const;
 	HWND& getHandle();

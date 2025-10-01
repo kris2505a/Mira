@@ -2,7 +2,8 @@
 #include <memory>
 #include <string>
 #include <Base/MiraAPI.h>
-
+#include <functional>
+#include <Events/Event.h>
 
 namespace Mira {
 
@@ -16,12 +17,15 @@ struct WindowProperties {
 };
 
 class MIRA_API WindowBase {
+	using EventCallBack = std::function<void(Event&)>;
+
 public:
 	WindowBase();
 	virtual ~WindowBase();
 	static std::unique_ptr <WindowBase> createWindow();
-	virtual void wipeOff(uint8_t r, uint8_t g, uint8_t b, uint8_t a) = 0;
 	virtual void handleMessages() = 0;
+	void setCallBack(const EventCallBack& callback);
+	bool isOpen() const;
 
 private:
 	virtual void init() = 0;
@@ -29,6 +33,7 @@ private:
 
 protected:
 	WindowProperties m_properties;
+	EventCallBack m_callback;
 
 };
 

@@ -10,7 +10,7 @@ Engine::Engine() {
 
 void Engine::init() {
 	m_window = WindowBase::createWindow();
-	MIRA_LOG(LOG_DEBUG, "Engine init successful with code {}", 69);
+	m_window->setCallBack(std::bind(&Engine::event, this, std::placeholders::_1));
 }
 
 void Engine::update() {
@@ -21,9 +21,12 @@ void Engine::render() {
 
 }
 
+void Engine::event(Event& e) {
+}
+
 void Engine::run() {
 
-	while (true) {
+	while (m_window->isOpen()) {
 		this->update();
 		this->render();
 	}

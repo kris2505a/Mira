@@ -12,6 +12,14 @@ WindowBase::~WindowBase() {
 
 }
 
+void WindowBase::setCallBack(const EventCallBack& callback) {
+	m_callback = callback;
+}
+
+bool WindowBase::isOpen() const {
+	return m_properties.open;
+}
+
 
 std::unique_ptr <WindowBase> WindowBase::createWindow() {
 #ifdef PLATFORM_WINDOWS
