@@ -9,8 +9,8 @@ workspace "Mira2D"
 	
 outputDir = "%{cfg.buildcfg}-%{cfg.architecture}" 
 
-project "MiraEngine"
-    location "MiraEngine"
+project "Engine"
+    location "Engine"
     kind "sharedLib"
     language "C++"
     staticruntime "Off"
@@ -18,9 +18,10 @@ project "MiraEngine"
 
     targetdir("binaries/" .. outputDir .. "/%{prj.name}")
     objdir("intermediate/" .. outputDir .. "/%{prj.name}")
+
+    pchheader("MiraPreCompHeader.h")
+    pchsource("Engine/sources/MiraPreCompHeader.cpp")
 	
-    pchheader "MiraPreCompHeader.h"
-    pchsource "MiraEngine/sources/MiraPreCompHeader.cpp"
 
     files {
         "%{prj.name}/sources/**.h",
@@ -38,10 +39,11 @@ project "MiraEngine"
     }
 
     filter "system:windows"
-        cppdialect "C++20"
+        cppdialect "C++23"
         staticruntime "Off"
         systemversion "latest"
         buildoptions { "/wd4251" }
+        defines {"PLATFORM_WINDOWS"}  
 
 
     defines {
@@ -66,10 +68,10 @@ project "MiraEngine"
 
 project "Sandbox"
     location "Sandbox"
-    kind "windowedApp"
+    -- kind "WindowedApp"
+    kind "ConsoleApp"
     language "C++"
     staticruntime "Off"
-    entrypoint "WinMainCRTStartup"  
 
     targetdir("binaries/" .. outputDir .. "/%{prj.name}")
     objdir("intermediate/" .. outputDir .. "/%{prj.name}")
@@ -81,17 +83,24 @@ project "Sandbox"
 
     includedirs {
         "%{prj.name}/sources",
-		"MiraEngine/sources/"
+		"Engine/sources/"
     }
 
     links {
-		"MiraEngine",
+		"Engine",
+        "d3d11.lib",
+        "dxgi.lib",
+        "d3dcompiler.lib"
     }
 
     filter "system:windows"
-        cppdialect "C++20"
+        cppdialect "C++23"
         staticruntime "Off"
         systemversion "latest"
+        defines {"PLATFORM_WINDOWS"}  
+        -- entrypoint "WinMainCRTStartup"  
+        -- linkoptions { "/SUBSYSTEM:WINDOWS" }
+
 
 
     filter "configurations:Debug" 
@@ -104,5 +113,3 @@ project "Sandbox"
     filter "configurations:Release"
         runtime "Release"
         optimize "On"
-
-	
