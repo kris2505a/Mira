@@ -53,7 +53,7 @@ public:
 	}
 
 	std::string print() override {
-		return name() + ": (" + std::to_string(m_xPos) + ", " + std::to_string(m_yPos);
+		return name() + ": (" + std::to_string(m_xPos) + ", " + std::to_string(m_yPos) +")";
 	}
 
 private:

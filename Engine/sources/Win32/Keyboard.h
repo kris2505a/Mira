@@ -3,7 +3,6 @@
 #include <Windows.h>
 #include <Base/MiraAPI.h>
 
-
 namespace Mira {
 
 class MIRA_API Keyboard {

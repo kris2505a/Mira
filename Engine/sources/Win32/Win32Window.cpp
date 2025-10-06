@@ -2,16 +2,25 @@
 #include "Win32Window.h"
 #include "Keyboard.h"
 #include "Mouse.h"
-#include "Events/KeyboardEvent.h"
-#include "Events/MouseEvent.h"
+
+#include <Events/KeyboardEvent.h>
+#include <Events/MouseEvent.h>
+#include <Events/EngineEvent.h>
+
+#include <Logger/Log.h>
 
 namespace Mira {
-Win32Window::Win32Window() {
-	init();
+
+Win32Window::Win32Window(unsigned int width, unsigned int height, const std::wstring& title) {
+	m_instance = GetModuleHandle(nullptr);
+	m_props = { width, height, title, L"WinClass", true, false, false };
+	initWndClass();
+	initWindowHandle();
+	ShowWindow(m_handle, SW_SHOW);
 }
 
 Win32Window::~Win32Window() {
-	shutdown();
+	DestroyWindow(m_handle);
 }
 
 LRESULT CALLBACK Win32Window::messageProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
@@ -30,21 +39,19 @@ LRESULT CALLBACK Win32Window::messageProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 	switch (msg) {
 	case WM_DESTROY:
 	{
-		if (p_window)
-			p_window->m_properties.open = false;
+		WindowCloseEvent e;
+		p_window->m_callback(e);
 		PostQuitMessage(0);
 	}break;
-
 
 	case WM_SYSKEYDOWN:
 	case WM_KEYDOWN:
 	{
 		if (!(lParam & 0x40000000) || Keyboard::repeatStatus()) {
 			Keyboard::keyPressed(wParam);
-			KeyPressedEvent e(static_cast <int> (wParam));
-			p_window->m_callback(e);
 		}
-
+		KeyPressedEvent e(static_cast <int> (wParam));
+		p_window->m_callback(e);
 		break;
 	}
 
@@ -58,10 +65,10 @@ LRESULT CALLBACK Win32Window::messageProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 	}
 
 	case WM_XBUTTONDOWN:
-	{	
+	{
 		unsigned int button = GET_XBUTTON_WPARAM(wParam);
 		Mouse::buttonDown(button);
-		MouseButtonPressEvent e(static_cast <int> (button));
+		MouseButtonPressEvent e(static_cast <int> (wParam));
 		p_window->m_callback(e);
 		break;
 	}
@@ -70,7 +77,7 @@ LRESULT CALLBACK Win32Window::messageProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 	{
 		unsigned int button = GET_XBUTTON_WPARAM(wParam);
 		Mouse::buttonUp(button);
-		MouseButtonReleaseEvent e(static_cast <int> (button));
+		MouseButtonReleaseEvent e(static_cast <int> (wParam));
 		p_window->m_callback(e);
 		break;
 	}
@@ -79,7 +86,7 @@ LRESULT CALLBACK Win32Window::messageProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 	{
 		POINTS pts = MAKEPOINTS(lParam);
 
-		if (pts.x >= 0 && pts.x <= p_window->m_properties.width && pts.y >= 0 && pts.y <= p_window->m_properties.height) {
+		if (pts.x >= 0 && pts.x <= p_window->m_props.width && pts.y >= 0 && pts.y <= p_window->m_props.height) {
 			Mouse::move(pts.x, pts.y);
 			if (!Mouse::isInWindow()) {
 				SetCapture(p_window->m_handle);
@@ -105,7 +112,7 @@ LRESULT CALLBACK Win32Window::messageProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 		int delta = GET_WHEEL_DELTA_WPARAM(wParam);
 		Mouse::scroll(delta);
 		float yOffset = static_cast <float> (delta) / WHEEL_DELTA;
-		MouseScrollEvent e(0.0f, yOffset);
+		MouseScrollEvent e(0, yOffset);
 		p_window->m_callback(e);
 		break;
 	}
@@ -113,39 +120,37 @@ LRESULT CALLBACK Win32Window::messageProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 	case WM_KILLFOCUS:
 	{
 		Keyboard::clearState();
+		WindowLostFocusEvent e;
+		p_window->m_callback(e);
 		break;
 	}
 
-	} //switch ends
+	} 
 
 	return DefWindowProc(hwnd, msg, wParam, lParam);
 }
 
 bool Win32Window::isOpen() const {
-	return m_properties.open;
+	return m_props.open;
 }
 
 HWND& Win32Window::getHandle() {
 	return m_handle;
 }
 
-void Win32Window::handleMessages(){
+void Win32Window::handleMessages() {
 	while (PeekMessage(&m_msg, nullptr, 0, 0, PM_REMOVE)) {
 		TranslateMessage(&m_msg);
 		DispatchMessage(&m_msg);
 	}
 }
 
-void Win32Window::init() {
-	m_instance = GetModuleHandle(nullptr);
-	m_className = const_cast<LPWSTR>(L"WinClass");
-	initWndClass();
-	initWindowHandle();
-	ShowWindow(m_handle, SW_SHOW);
+void Win32Window::setCallBack(std::function<void(Event&)> fn) {
+	m_callback = fn;
 }
 
 void Win32Window::initWndClass() {
-	m_className = const_cast<LPWSTR>(L"WinClass");
+	m_className = m_props.className.c_str();
 	m_wc.cbSize = sizeof(WNDCLASSEX);
 	m_wc.style = CS_OWNDC;
 	m_wc.lpfnWndProc = Win32Window::messageProc;
@@ -163,15 +168,21 @@ void Win32Window::initWndClass() {
 }
 
 void Win32Window::initWindowHandle() {
-	std::wstring name = std::wstring(m_properties.title.begin(), m_properties.title.end());
+
+
+	int screenWidth = GetSystemMetrics(SM_CXSCREEN);
+	int screenHeight = GetSystemMetrics(SM_CYSCREEN);
+
+	int x = (screenWidth - m_props.width) / 2;
+	int y = (screenHeight - m_props.height) / 2;
 
 	m_handle = CreateWindowEx(
 		0,
 		m_className.c_str(),
-		name.c_str(),
+		m_props.title.c_str(),
 		WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU,
-		CW_USEDEFAULT, CW_USEDEFAULT,
-		m_properties.width, m_properties.height,
+		x, y,
+		m_props.width, m_props.height,
 		nullptr,
 		nullptr,
 		m_instance,
@@ -179,8 +190,8 @@ void Win32Window::initWindowHandle() {
 	);
 }
 
-void Win32Window::shutdown() {
-	DestroyWindow(m_handle);
+void Win32Window::close() {
+	m_props.open = false;
 }
 
 }
