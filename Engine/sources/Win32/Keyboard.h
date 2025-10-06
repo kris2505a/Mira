@@ -10,7 +10,7 @@ class MIRA_API Keyboard {
 	friend class Win32Window;
 
 
-public:
+private:
 	Keyboard() = delete;
 	~Keyboard() = delete;
 	Keyboard(const Keyboard&) = delete;

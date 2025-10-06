@@ -39,7 +39,7 @@ project "Engine"
     }
 
     filter "system:windows"
-        cppdialect "C++23"
+        cppdialect "C++20"
         staticruntime "Off"
         systemversion "latest"
         buildoptions { "/wd4251" }
@@ -94,7 +94,7 @@ project "Sandbox"
     }
 
     filter "system:windows"
-        cppdialect "C++23"
+        cppdialect "C++20"
         staticruntime "Off"
         systemversion "latest"
         defines {"PLATFORM_WINDOWS"}  

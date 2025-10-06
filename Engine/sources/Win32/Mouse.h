@@ -8,7 +8,7 @@ class MIRA_API Mouse {
 	friend class Input;
 	friend class Win32Window;
 
-public:
+private:
 	Mouse() = delete;
 	~Mouse() = delete;
 	Mouse(const Mouse&) = delete;
