@@ -1,2 +1,2 @@
 # Mira
-Mira - A Library type game engine built using SFML, C++
+Mira - A 2D game engine built using DirectX 11, C++
