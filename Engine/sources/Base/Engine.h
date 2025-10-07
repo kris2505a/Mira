@@ -3,6 +3,7 @@
 #include <Win32/Win32Window.h>
 #include <Events/Event.h>
 #include <memory>
+#include <EngineComponents/LayerStack.h>
 
 namespace Mira {
 
@@ -21,6 +22,7 @@ private:
 
 private:
 	std::unique_ptr <Win32Window> m_window;
+	LayerStack m_layerStack;
 };
 
 }

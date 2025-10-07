@@ -15,13 +15,16 @@ void Engine::update() {
 }
 
 void Engine::render() {
-	
+			
 }
 
 void Engine::event(Event& e) {
 	EventDispatcher dispatcher(e);
 	//MIRA_LOG(LOG_INFO, "{}", e.print());
 	dispatcher.dispatch<WindowCloseEvent>([this](WindowCloseEvent& e) { m_window->close(); return true; });
+	for (auto& iter : m_layerStack.getLayers()) {
+		iter->event(e);
+	}
 }
 
 void Engine::run() {
