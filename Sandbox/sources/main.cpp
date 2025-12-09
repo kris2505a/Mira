@@ -2,8 +2,8 @@
 
 class Sandbox : public Mira::Engine {
 public:
-	Sandbox() {};
-	~Sandbox() {};
+	Sandbox() {}
+	~Sandbox() {}
 };
 
 RUN_PROJECT(Sandbox);
