@@ -15,7 +15,7 @@ public:
 
 	HWND& getHandle();
 	void setWindowTitle(const std::wstring& str);
-	void handleMessages();
+	bool handleMessages();
 	void close();
 
 	void create();

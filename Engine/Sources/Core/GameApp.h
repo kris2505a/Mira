@@ -16,7 +16,7 @@ public:
 
 private:
 	std::unique_ptr<Window> m_window;
-
+	bool m_running;
 };
 
 GameApp* createApp();

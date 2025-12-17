@@ -1,6 +1,7 @@
 #include "Window.h"
 #include "Keyboard.h"
 #include "Mouse.h"
+#include "Input/Input.h"
 
 #include "Logger/Log.h"
 
@@ -32,7 +33,9 @@ LRESULT CALLBACK Window::messageProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 	case WM_SYSKEYDOWN:
 	case WM_KEYDOWN:
 	{
-		if ((wParam & (1 << 30)) != 0)
+
+		const bool wasDown = (lParam & (1 << 30)) != 0;
+		if (!wasDown)
 			Keyboard::keyPressed(wParam);
 		break;
 	}
@@ -167,11 +170,16 @@ void Window::setWindowTitle(const std::wstring& str) {
 	SetWindowText(m_handle, str.c_str());
 }
 
-void Window::handleMessages() {
+bool Window::handleMessages() {
 	while (PeekMessage(&m_message, nullptr, 0, 0, PM_REMOVE)) {
+
+		if (m_message.message == WM_QUIT)
+			return false;
+
 		TranslateMessage(&m_message);
 		DispatchMessage(&m_message);
 	}
+	return true;
 }
 
 void Window::create() {
@@ -179,11 +187,13 @@ void Window::create() {
 	initWindowHandle();
 	ShowWindow(m_handle, SW_SHOWMAXIMIZED);
 	m_active = true;
+	MIRA_LOG(LOG_INFO, "Window Created");
 }
 
 void Window::destroy() {
 	DestroyWindow(m_handle);
 	m_active = false;
+	MIRA_LOG(LOG_INFO, "Window Destroyed");
 }
 
 Window::~Window() {
@@ -193,4 +203,4 @@ Window::~Window() {
 }
 
 
-} //NAMESPACE Mira
+} //NAMESPACE Mirat
