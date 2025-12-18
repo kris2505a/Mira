@@ -1,5 +1,4 @@
 #include "Keyboard.h"
-#include <iostream>
 
 namespace Mira {
 

@@ -6,7 +6,7 @@ namespace Mira {
 
 GameApp::GameApp() : m_running(true) {
 	m_window = std::make_unique <Window>(GetModuleHandle(nullptr), m_attrib);
-	m_renderer = std::make_unique <Renderer>();
+	m_renderer = std::make_unique <Renderer>(m_attrib);
 }
 
 GameApp::~GameApp() {
@@ -31,6 +31,7 @@ void GameApp::mainloop() {
 	while (m_running) {
 		m_running = m_window->handleMessages();
 		m_renderer->wipeOff();
+		m_renderer->bindEssentials();
 
 		if (Input::keyDown(Key::Escape)) {
 			m_running = false;
