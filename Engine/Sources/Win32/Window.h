@@ -2,6 +2,7 @@
 #include <Windows.h>
 #include <memory>
 #include <string>
+#include "Core/WindowAttributes.h"
 
 #include "Core/Core.h"
 
@@ -9,7 +10,7 @@ namespace Mira {
 
 class MIRA_API Window {
 public:
-	Window(HINSTANCE instance);
+	Window(HINSTANCE instance, WindowAttributes& attrib);
 	~Window();
 	static LRESULT CALLBACK messageProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
@@ -18,8 +19,8 @@ public:
 	bool handleMessages();
 	void close();
 
-	void create();
-	void destroy();
+	void init();
+	void shutdown();
 
 private:
 	void initWndClassEx();
@@ -32,6 +33,7 @@ private:
 	LPWSTR m_windowName;
 	bool m_active;
 
+	WindowAttributes& r_attrib;
 	
 	//WIN32
 	LPWSTR m_className;
@@ -39,7 +41,7 @@ private:
 	HWND m_handle;
 	HINSTANCE m_instance;
 	MSG m_message;
-
+	
 };
 
 } //NAMESPACE Mira

@@ -96,12 +96,15 @@ LRESULT CALLBACK Window::messageProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 	case WM_SIZE:
 	{
-		if (!wParam == SIZE_MINIMIZED) {
-			p_window->m_width = LOWORD(lParam);
-			p_window->m_height = HIWORD(lParam);
+		RECT wr;
+		GetWindowRect(p_window->m_handle, &wr);
+		if (wParam != SIZE_MINIMIZED) {
+			p_window->r_attrib.width = wr.right - wr.left;
+			p_window->r_attrib.height = wr.bottom - wr.top;
 		}
+		p_window->r_attrib.maximized = (wParam == SIZE_MAXIMIZED);
 		break;
-	} 
+	} 	
 
 	} //switch ends
 
@@ -109,11 +112,11 @@ LRESULT CALLBACK Window::messageProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 }
 
 
-Window::Window(HINSTANCE instance)
-	: m_instance(instance) {
+Window::Window(HINSTANCE instance, WindowAttributes& attrib)
+	: m_instance(instance), r_attrib(attrib) {
 
-	m_width = 1920;
-	m_height = 1080;
+	m_width = r_attrib.width;
+	m_height = r_attrib.height;
 	m_windowName = const_cast <LPWSTR> (L"Mira Engine");
 	m_className = const_cast<LPWSTR>(L"WinClass");
 	m_wc = {};
@@ -143,16 +146,13 @@ void Window::initWndClassEx() {
 
 void Window::initWindowHandle() {
 
-	unsigned int xPos = (1920 - m_width) / 2;
-	unsigned int yPos = (1080 - m_height) / 2;
-
 	m_handle = CreateWindowEx(
 		0,
 		m_className,
 		m_windowName,
 		WS_OVERLAPPEDWINDOW,
-		xPos, yPos,
-		m_width, m_height,
+		CW_USEDEFAULT, CW_USEDEFAULT,
+		r_attrib.width, r_attrib.height,
 		nullptr,
 		nullptr,
 		m_instance,
@@ -182,15 +182,21 @@ bool Window::handleMessages() {
 	return true;
 }
 
-void Window::create() {
+void Window::init() {
 	initWndClassEx();
 	initWindowHandle();
-	ShowWindow(m_handle, SW_SHOWMAXIMIZED);
+
+	int showCmd = 0;
+	if (r_attrib.maximized)
+		showCmd = SW_SHOWMAXIMIZED;
+	else
+		showCmd = SW_SHOW;
+	ShowWindow(m_handle, showCmd);
 	m_active = true;
 	MIRA_LOG(LOG_INFO, "Window Created");
 }
 
-void Window::destroy() {
+void Window::shutdown() {
 	DestroyWindow(m_handle);
 	m_active = false;
 	MIRA_LOG(LOG_INFO, "Window Destroyed");
@@ -198,7 +204,7 @@ void Window::destroy() {
 
 Window::~Window() {
 	if (m_active) {
-		destroy();
+		shutdown();
 	}
 }
 

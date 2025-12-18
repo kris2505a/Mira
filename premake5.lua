@@ -30,6 +30,7 @@ project "Engine"
 
     includedirs {
         "%{prj.name}/Sources",
+        "%{prj.name}/thirdparty/json/include"
     }
     
     links {
