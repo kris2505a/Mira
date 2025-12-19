@@ -3,6 +3,9 @@
 #include <memory>
 #include <string>
 #include "Core/WindowAttributes.h"
+#include <functional>
+
+#include "Signals/Signal.h"
 
 #include "Core/Core.h"
 
@@ -17,10 +20,10 @@ public:
 	HWND& getHandle();
 	void setWindowTitle(const std::wstring& str);
 	bool handleMessages();
-	void close();
 
 	void init();
 	void shutdown();
+	void signalDestination(std::function<void(Signal&)> dest);
 
 private:
 	void initWndClassEx();
@@ -34,13 +37,15 @@ private:
 	bool m_active;
 
 	WindowAttributes& r_attrib;
-	
+	std::function<void(Signal&)> m_sendSignals;
+
 	//WIN32
 	LPWSTR m_className;
 	WNDCLASSEX m_wc;
 	HWND m_handle;
 	HINSTANCE m_instance;
 	MSG m_message;
+
 	
 };
 

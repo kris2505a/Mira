@@ -4,17 +4,23 @@
 #include "Renderer/Renderer.h"
 #include "WindowAttributes.h"
 #include <memory>
+#include "Signals/Signal.h"
 
 namespace Mira {
 
-class MIRA_API GameApp {
+class MIRA_API Engine {
 public:
-	GameApp();
-	~GameApp();
+	Engine();
+	~Engine();
 
 	void init();
 	void shutdown();
 	void mainloop();
+
+private:
+	void pulse();
+	void render();
+	void signal(const Signal& s);
 
 private:
 	std::unique_ptr <Window>     m_window;
@@ -23,6 +29,6 @@ private:
 	WindowAttributes			 m_attrib;
 };
 
-GameApp* createApp();
+Engine* createApp();
 
 }

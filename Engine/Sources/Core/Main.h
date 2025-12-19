@@ -1,12 +1,12 @@
 #pragma once
-#include "GameApp.h"
+#include "Engine.h"
 
-extern Mira::GameApp* Mira::createApp();
+extern Mira::Engine* Mira::createApp();
 
-#define CREATE_GAME(x) Mira::GameApp* Mira::createApp() { return new x; }
+#define CREATE_GAME(x) Mira::Engine* Mira::createApp() { return new x; }
 
 int main() {
-	Mira::GameApp* app = Mira::createApp();
+	Mira::Engine* app = Mira::createApp();
 	app->init();
 	app->mainloop();
 	app->shutdown();

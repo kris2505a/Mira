@@ -3,6 +3,9 @@
 #include "Mouse.h"
 
 #include "Logger/Log.h"
+#include "Signals/KeyboardSignal.h"
+#include "Signals/MouseSignal.h"
+#include "Signals/WindowSignal.h"
 
 #include <windowsx.h>
 
@@ -25,6 +28,8 @@ LRESULT CALLBACK Window::messageProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 	switch (msg) {
 	case WM_DESTROY:
 	{
+		WindowCloseSignal s;
+		p_window->m_sendSignals(s);
 		PostQuitMessage(0);
 		break;
 	}
@@ -95,6 +100,9 @@ LRESULT CALLBACK Window::messageProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 	case WM_SIZE:
 	{
+		WindowResizeSignal s;
+		p_window->m_sendSignals(s);
+
 		RECT wr;
 		GetWindowRect(p_window->m_handle, &wr);
 		if (wParam != SIZE_MINIMIZED) {
@@ -171,10 +179,6 @@ void Window::setWindowTitle(const std::wstring& str) {
 
 bool Window::handleMessages() {
 	while (PeekMessage(&m_message, nullptr, 0, 0, PM_REMOVE)) {
-
-		if (m_message.message == WM_QUIT)
-			return false;
-
 		TranslateMessage(&m_message);
 		DispatchMessage(&m_message);
 	}
@@ -199,6 +203,10 @@ void Window::shutdown() {
 	DestroyWindow(m_handle);
 	m_active = false;
 	MIRA_LOG(LOG_INFO, "Window Destroyed");
+}
+
+void Window::signalDestination(std::function<void(Signal&)> dest) {
+	m_sendSignals = dest;
 }
 
 Window::~Window() {

@@ -7,8 +7,10 @@ namespace Mira {
 Renderer::Renderer(WindowAttributes& attrib)
 	: p_handle(nullptr), r_attrib(attrib) {
 
-	m_clearColor = { 0.0f, 0.0f, 0.0f, 0.0f };
-	m_viewPort = {};
+	m_clearColor      = { 0.0f, 0.0f, 0.0f, 0.0f };
+	m_viewPort        = {};
+	m_renderWidth     = 0;
+	m_renderHeight    = 0;
 }
 
 void Renderer::init(HWND handle) {

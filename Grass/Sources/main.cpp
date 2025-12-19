@@ -1,7 +1,7 @@
-#include <Core/GameApp.h>
+#include <Core/Engine.h>
 #include <Core/Main.h>
 
-class Grass : public Mira::GameApp {
+class Grass : public Mira::Engine {
 public:
 	Grass() {}
 	~Grass() {}
