@@ -41,6 +41,8 @@ LRESULT CALLBACK Window::messageProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		const bool wasDown = (lParam & (1 << 30)) != 0;
 		if (!wasDown)
 			Keyboard::keyPressed(wParam);
+		KeyDownSignal s(static_cast <Key> (wParam));
+		p_window->m_sendSignals(s);
 		break;
 	}
 
@@ -48,18 +50,56 @@ LRESULT CALLBACK Window::messageProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 	case WM_KEYUP:
 	{
 		Keyboard::keyReleased(wParam);
+		KeyUpSignal s(static_cast <Key> (wParam));
+		p_window->m_sendSignals(s);
 		break;
 	}
 
-	case WM_XBUTTONDOWN:
+	case WM_LBUTTONDOWN:
 	{
-		Mouse::buttonDown(VK_MBUTTON);
+		Mouse::buttonDown(Button::MouseLeft);
+		MouseButtonDownSignal s(Button::MouseLeft);
+		p_window->m_sendSignals(s);
 		break;
 	}
 
-	case WM_XBUTTONUP:
+	case WM_RBUTTONDOWN:
 	{
-		Mouse::buttonUp(VK_MBUTTON);
+		Mouse::buttonDown(Button::MouseRight);
+		MouseButtonDownSignal s(Button::MouseRight);
+		p_window->m_sendSignals(s);
+		break;
+	}
+	
+	case WM_MBUTTONDOWN:
+	{
+		Mouse::buttonDown(Button::MouseMiddle);
+		MouseButtonDownSignal s(Button::MouseMiddle);
+		p_window->m_sendSignals(s);
+		break;
+	}
+
+	case WM_LBUTTONUP:
+	{
+		Mouse::buttonUp(Button::MouseLeft);
+		MouseButtonUpSignal s(Button::MouseLeft);
+		p_window->m_sendSignals(s);
+		break;
+	}
+
+	case WM_RBUTTONUP:
+	{
+		Mouse::buttonUp(Button::MouseRight);
+		MouseButtonUpSignal s(Button::MouseRight);
+		p_window->m_sendSignals(s);
+		break;
+	}
+
+	case WM_MBUTTONUP:
+	{
+		Mouse::buttonUp(Button::MouseMiddle);
+		MouseButtonUpSignal s(Button::MouseMiddle);
+		p_window->m_sendSignals(s);
 		break;
 	}
 
@@ -83,6 +123,9 @@ LRESULT CALLBACK Window::messageProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				Mouse::offWindow();
 			}
 		}
+
+		MouseMoveSignal s(pts.x, pts.y);
+		p_window->m_sendSignals(s);
 		break;
 	}
 
@@ -196,13 +239,13 @@ void Window::init() {
 		showCmd = SW_SHOW;
 	ShowWindow(m_handle, showCmd);
 	m_active = true;
-	MIRA_LOG(LOG_INFO, "Window Created");
+	MIRA_LOG(LOG_INFO, "Window Initialized");
 }
 
 void Window::shutdown() {
 	DestroyWindow(m_handle);
 	m_active = false;
-	MIRA_LOG(LOG_INFO, "Window Destroyed");
+	MIRA_LOG(LOG_INFO, "Window ShutDown");
 }
 
 void Window::signalDestination(std::function<void(Signal&)> dest) {
@@ -216,4 +259,4 @@ Window::~Window() {
 }
 
 
-} //NAMESPACE Mirat
+} //NAMESPACE Mira

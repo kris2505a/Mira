@@ -1,6 +1,8 @@
 #pragma once
 #include <Windows.h>
 #include "Core/Core.h"
+#include "Input/KeyCodes.h"
+
 
 namespace Mira {
 
@@ -20,8 +22,8 @@ public:
 
 	//functions accessible using window.cpp
 private:
-	static void buttonDown(WPARAM button);
-	static void buttonUp(WPARAM button);
+	static void buttonDown(Button button);
+	static void buttonUp(Button button);
 	static void move(int x, int y);
 	static void scroll(int delta);
 	static bool isInWindow();

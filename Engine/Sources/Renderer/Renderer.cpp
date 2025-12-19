@@ -11,6 +11,7 @@ Renderer::Renderer(WindowAttributes& attrib)
 	m_viewPort        = {};
 	m_renderWidth     = 0;
 	m_renderHeight    = 0;
+	m_initialized     = false;
 }
 
 void Renderer::init(HWND handle) {
@@ -18,10 +19,12 @@ void Renderer::init(HWND handle) {
 	MIRA_LOG(LOG_INFO, "Renderer Initialized");
 	this->createDeviceSwapChain();
 	this->createRenderTargetView();
-	this->createDepthStencil();
+	this->createDepthStencilState();
+	this->createDepthStencilView();
 	this->createViewPort();
 
 	this->bindEssentials();
+	m_initialized = true;
 }
 
 void Renderer::createDeviceSwapChain() {
@@ -86,7 +89,7 @@ void Renderer::createViewPort() {
 	m_viewPort.MaxDepth		  = 1.0f;
 }
 
-void Renderer::createDepthStencil() {
+void Renderer::createDepthStencilState() {
 
 	D3D11_DEPTH_STENCIL_DESC dsd = {};
 	dsd.DepthEnable				 = TRUE;
@@ -95,6 +98,10 @@ void Renderer::createDepthStencil() {
 	dsd.StencilEnable			 = FALSE;
 
 	HRUN(m_device->CreateDepthStencilState(&dsd, &m_stencilState));
+
+}
+
+void Renderer::createDepthStencilView() {
 
 
 	D3D11_TEXTURE2D_DESC td = {};
@@ -140,7 +147,28 @@ void Renderer::flipBuffers() {
 	RUN(m_swapchain->Present(0, 0), m_device);
 }
 
+void Renderer::resizeCall() {
+	MIRA_LOG(LOG_DEBUG, "Window Resize Call");
+
+	ID3D11RenderTargetView* nullRTV = nullptr;
+	m_context->OMSetRenderTargets(1, &nullRTV, nullptr);
+
+	m_targetView.Reset();
+	m_stencilView.Reset();
+	
+	HRUN(m_swapchain->ResizeBuffers(0, 0, 0, DXGI_FORMAT_UNKNOWN, 0));
+	createRenderTargetView();
+	createDepthStencilView();
+	createViewPort();
+	bindEssentials();
+}
+
+bool Renderer::isInitialized() const {
+	return m_initialized;
+}
+
 void Renderer::shutdown() {
+	m_initialized = false;
 	MIRA_LOG(LOG_INFO, "Renderer Shutdown");
 }
 

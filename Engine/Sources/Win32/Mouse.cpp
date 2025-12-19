@@ -18,33 +18,33 @@ int  Mouse::m_wheel = 0;
 float Mouse::m_deltaX = 0.0f;
 float Mouse::m_deltaY = 0.0f;
 
-void Mouse::buttonDown(WPARAM button) {
+void Mouse::buttonDown(Button button) {
 	switch (button) {
-	case VK_LBUTTON:
+	case Button::MouseLeft:
 		m_left = true;
 		break;
 
-	case VK_RBUTTON:
+	case Button::MouseRight:
 		m_right = true;
 		break;
 
-	case VK_MBUTTON:
+	case Button::MouseMiddle:
 		m_middle = true;
 		break;
 	}
 }
 
-void Mouse::buttonUp(WPARAM button) {
+void Mouse::buttonUp(Button button) {
 	switch (button) {
-	case VK_LBUTTON:
+	case Button::MouseLeft:
 		m_left = false;
 		break;
 
-	case VK_RBUTTON:
+	case Button::MouseRight:
 		m_right = false;
 		break;
 
-	case VK_MBUTTON:
+	case Button::MouseMiddle:
 		m_middle = false;
 		break;
 	}

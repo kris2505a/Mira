@@ -2,6 +2,7 @@
 #include "Input/Input.h"
 #include "Logger/Log.h"
 #include "Signals/WindowSignal.h"
+#include "Signals/KeyboardSignal.h"
 
 namespace Mira {
 
@@ -29,7 +30,11 @@ void Engine::signal(const Signal& s) {
 		m_running = false;
 	}
 	if (Signal::match<WindowResizeSignal>(s)) {
-		MIRA_LOG(LOG_DEBUG, "{}", s.name());
+		if (!m_renderer->isInitialized()) 
+			MIRA_LOG(LOG_INFO, "Resize Call Skipped! -> Renderer not initialized");
+		
+		else
+			m_renderer->resizeCall();
 	}
 }
 

@@ -18,12 +18,15 @@ public:
 	void wipeOff();
 	void flipBuffers();
 	void bindEssentials();
+	void resizeCall();
+	bool isInitialized() const;
 
 private:
 	void createDeviceSwapChain();
 	void createRenderTargetView();
 	void createViewPort();
-	void createDepthStencil();
+	void createDepthStencilState();
+	void createDepthStencilView();
 
 private:
 
@@ -41,6 +44,7 @@ private:
 	
 	int									  m_renderWidth;
 	int									  m_renderHeight;
+	bool								  m_initialized;
 
 	//References
 	HWND                                  p_handle;
