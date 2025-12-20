@@ -1,8 +1,12 @@
+#include <PreCompHeader.h>
 #include "Renderer.h"
 #include "Error.h"
 #include "Logger/Log.h"
+#include "imgui_impl_dx11.h"
 
 namespace Mira {
+
+Renderer* Renderer::s_instance = nullptr;
 
 Renderer::Renderer(WindowAttributes& attrib)
 	: p_handle(nullptr), r_attrib(attrib) {
@@ -12,6 +16,9 @@ Renderer::Renderer(WindowAttributes& attrib)
 	m_renderWidth     = 0;
 	m_renderHeight    = 0;
 	m_initialized     = false;
+
+	MIRA_ASSERT(!s_instance, "Renderer Instance Already Exists");
+	s_instance = this;
 }
 
 void Renderer::init(HWND handle) {
@@ -24,6 +31,8 @@ void Renderer::init(HWND handle) {
 	this->createViewPort();
 
 	this->bindEssentials();
+	ImGui_ImplDX11_Init(m_device.Get(), m_context.Get());
+
 	m_initialized = true;
 }
 
@@ -169,11 +178,13 @@ bool Renderer::isInitialized() const {
 
 void Renderer::shutdown() {
 	m_initialized = false;
+	ImGui_ImplDX11_Shutdown();
 	MIRA_LOG(LOG_INFO, "Renderer Shutdown");
 }
 
 Renderer::~Renderer() {
-
+	if (m_initialized)
+		shutdown();
 }
 
 }

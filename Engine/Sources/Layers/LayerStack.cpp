@@ -1,3 +1,4 @@
+#include <PreCompHeader.h>
 #include "LayerStack.h"
 #include "Logger/Log.h"
 

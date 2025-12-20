@@ -1,5 +1,5 @@
+#include <PreCompHeader.h>
 #include "WindowAttributes.h" 
-#include <fstream>
 #include <nlohmann/json.hpp>
 
 WindowAttributes::WindowAttributes()

@@ -1,3 +1,4 @@
+#include <PreCompHeader.h>
 #include "Timer.h"
 
 namespace Mira {

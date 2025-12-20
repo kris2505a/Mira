@@ -1,3 +1,4 @@
+#include <PreCompHeader.h>
 #include "Window.h"
 #include "Keyboard.h"
 #include "Mouse.h"
@@ -6,10 +7,14 @@
 #include "Signals/KeyboardSignal.h"
 #include "Signals/MouseSignal.h"
 #include "Signals/WindowSignal.h"
+#include <imgui_impl_win32.h>
 
-#include <windowsx.h>
 
 namespace Mira {
+
+//forward declaration for imgui
+
+extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 LRESULT CALLBACK Window::messageProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 
@@ -23,6 +28,10 @@ LRESULT CALLBACK Window::messageProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 	}
 	else {
 		p_window = reinterpret_cast<Window*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
+	}
+
+	if (ImGui_ImplWin32_WndProcHandler(hwnd, msg, wParam, lParam)) {
+		return true;
 	}
 
 	switch (msg) {
@@ -231,6 +240,7 @@ bool Window::handleMessages() {
 void Window::init() {
 	initWndClassEx();
 	initWindowHandle();
+	ImGui_ImplWin32_Init(m_handle);
 
 	int showCmd = 0;
 	if (r_attrib.maximized)
@@ -244,6 +254,7 @@ void Window::init() {
 
 void Window::shutdown() {
 	DestroyWindow(m_handle);
+	ImGui_ImplWin32_Shutdown();
 	m_active = false;
 	MIRA_LOG(LOG_INFO, "Window ShutDown");
 }

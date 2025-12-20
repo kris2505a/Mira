@@ -1,3 +1,4 @@
+#include <PreCompHeader.h>
 #include "Engine.h"
 #include "Input/Input.h"
 #include "Logger/Log.h"
@@ -80,7 +81,6 @@ void Engine::mainloop() {
 
 		m_renderer->flipBuffers();
 		Keyboard::endState();
-		
 	}
 }
 

@@ -1,5 +1,5 @@
+#include <PreCompHeader.h>
 #include "Log.h"
-#include <iostream>
 
 
 std::time_t Log::m_now = std::time(nullptr);

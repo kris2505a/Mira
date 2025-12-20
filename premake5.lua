@@ -19,18 +19,19 @@ project "Engine"
     targetdir("binaries/" .. outputDir .. "/%{prj.name}")
     objdir("intermediate/" .. outputDir .. "/%{prj.name}")
 
-    -- pchheader("MiraPreCompHeader.h")
-    -- pchsource("Engine/sources/MiraPreCompHeader.cpp")
+    pchheader("PreCompHeader.h")
+    pchsource("Engine/Sources/PreCompHeader.cpp")
 	
 
     files {
         "%{prj.name}/Sources/**.h",
-        "%{prj.name}/Sources/**.cpp"
+        "%{prj.name}/Sources/**.cpp",
     }
 
     includedirs {
         "%{prj.name}/Sources",
-        "%{prj.name}/thirdparty/json/include"
+        "%{prj.name}/thirdparty/json/include",
+        "%{prj.name}/thirdparty/ImGui"
     }
     
     links {

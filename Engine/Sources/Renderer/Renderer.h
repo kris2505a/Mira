@@ -9,6 +9,8 @@ namespace wrl = Microsoft::WRL;
 namespace Mira {
 
 class Renderer {
+	friend class Binds;
+
 public:
 	Renderer(WindowAttributes& attrib);
 	~Renderer();
@@ -49,6 +51,8 @@ private:
 	//References
 	HWND                                  p_handle;
 	WindowAttributes&					  r_attrib;
+
+	static Renderer* s_instance;
 
 };
 
