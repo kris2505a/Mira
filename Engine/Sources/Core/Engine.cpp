@@ -8,9 +8,10 @@
 namespace Mira {
 
 Engine::Engine() : m_running(true) {
-	m_window = std::make_unique <Window>(GetModuleHandle(nullptr), m_attrib);
-	m_renderer = std::make_unique <Renderer>(m_attrib);
+	m_window    = std::make_unique <Window>(GetModuleHandle(nullptr), m_attrib);
+	m_renderer  = std::make_unique <Renderer>(m_attrib);
 	m_window->signalDestination(std::bind(&Engine::signal, this, std::placeholders::_1));
+	m_deltaTime = 0;
 }
 
 Engine::~Engine() {
@@ -24,8 +25,9 @@ void Engine::render() {
 }
 
 void Engine::pulse() {
+	m_deltaTime = m_dtClock.elapsed();
 	for (size_t i = 0; i < m_layerStack.getLayers().size(); i++) {
-		m_layerStack.getLayers()[i]->pulse(1.0f / 60.0f ); //fake deltaTime
+		m_layerStack.getLayers()[i]->pulse(m_deltaTime);
 	}
 }
 

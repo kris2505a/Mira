@@ -3,7 +3,7 @@
 #include <nlohmann/json.hpp>
 
 WindowAttributes::WindowAttributes()
-	: width(0), height(0), vSync(false) {
+	: width(0), height(0), vSync(false), maximized(false) {
 
 }
 

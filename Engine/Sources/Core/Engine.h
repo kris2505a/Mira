@@ -6,6 +6,7 @@
 #include <memory>
 #include "Signals/Signal.h"
 #include "Layers/LayerStack.h"
+#include "Utils/Timer.h"
 
 namespace Mira {
 
@@ -32,6 +33,8 @@ private:
 	bool                         m_running;
 	WindowAttributes			 m_attrib;
 	LayerStack                   m_layerStack;
+	Timer						 m_dtClock;
+	float						 m_deltaTime;
 };
 
 Engine* createApp();
