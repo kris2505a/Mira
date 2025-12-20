@@ -1,2 +1,2 @@
 # Mira
-Mira - A 2D game engine built using DirectX 11, C++
+Mira - A 3D game engine built using DirectX 11, C++

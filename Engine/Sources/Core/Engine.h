@@ -5,6 +5,7 @@
 #include "WindowAttributes.h"
 #include <memory>
 #include "Signals/Signal.h"
+#include "Layers/LayerStack.h"
 
 namespace Mira {
 
@@ -17,6 +18,9 @@ public:
 	void shutdown();
 	void mainloop();
 
+protected:
+	void addLayer(std::unique_ptr <Layer> layer);
+
 private:
 	void pulse();
 	void render();
@@ -27,6 +31,7 @@ private:
 	std::unique_ptr <Renderer>   m_renderer;
 	bool                         m_running;
 	WindowAttributes			 m_attrib;
+	LayerStack                   m_layerStack;
 };
 
 Engine* createApp();

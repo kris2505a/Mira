@@ -144,7 +144,7 @@ void Renderer::wipeOff() {
 }
 
 void Renderer::flipBuffers() {
-	RUN(m_swapchain->Present(0, 0), m_device);
+	RUN(m_swapchain->Present(r_attrib.vSync, 0), m_device);
 }
 
 void Renderer::resizeCall() {

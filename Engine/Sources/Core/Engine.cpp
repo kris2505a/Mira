@@ -3,6 +3,7 @@
 #include "Logger/Log.h"
 #include "Signals/WindowSignal.h"
 #include "Signals/KeyboardSignal.h"
+#include "Win32/Keyboard.h"
 
 namespace Mira {
 
@@ -17,11 +18,15 @@ Engine::~Engine() {
 }
 
 void Engine::render() {
-
+	for (size_t i = 0; i < m_layerStack.getLayers().size(); i++) {
+		m_layerStack.getLayers()[i]->render();
+	}
 }
 
 void Engine::pulse() {
-
+	for (size_t i = 0; i < m_layerStack.getLayers().size(); i++) {
+		m_layerStack.getLayers()[i]->pulse(1.0f / 60.0f ); //fake deltaTime
+	}
 }
 
 void Engine::signal(const Signal& s) {
@@ -29,23 +34,29 @@ void Engine::signal(const Signal& s) {
 		MIRA_LOG(LOG_DEBUG, "{}", s.name());
 		m_running = false;
 	}
-	if (Signal::match<WindowResizeSignal>(s)) {
-		if (!m_renderer->isInitialized()) 
-			MIRA_LOG(LOG_INFO, "Resize Call Skipped! -> Renderer not initialized");
-		
-		else
+	if (Signal::match<WindowResizeSignal>(s) && m_renderer->isInitialized()) {
 			m_renderer->resizeCall();
 	}
+
+	for (size_t i = 0; i < m_layerStack.getLayers().size(); i++) {
+		m_layerStack.getLayers()[i]->signal(s);
+	}
+}
+
+void Engine::addLayer(std::unique_ptr <Layer> layer) {
+	m_layerStack.addLayer(std::move(layer));
 }
 
 void Engine::init() {
 	MIRA_LOG(LOG_INFO, "Game Initialization");
+	Log::init();
 	m_attrib.init();
 	m_window->init();
 	m_renderer->init(m_window->getHandle());
 }
 
 void Engine::shutdown() {
+	Log::shutdown();
 	m_attrib.shutdown();
 	m_renderer->shutdown();
 	m_window->shutdown();
@@ -58,11 +69,16 @@ void Engine::mainloop() {
 		m_renderer->wipeOff();
 		m_renderer->bindEssentials();
 
+		this->pulse();
+		this->render();
+
 		if (Input::keyDown(Key::Escape)) {
 			m_running = false;
 		}
 
 		m_renderer->flipBuffers();
+		Keyboard::endState();
+		
 	}
 }
 

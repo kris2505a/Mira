@@ -2,6 +2,7 @@
 #include <Core/Core.h>
 #include <chrono>
 #include <string>
+#include <fstream>
 
 
 #ifdef API_ENGINE
@@ -30,9 +31,11 @@ public:
 	static MIRA_API void logMessage(int type, const std::string& message);
 	static MIRA_API void logEngineMessage(int type, const std::string& message);
 
+	static void init();
+	static void shutdown();
+
 private:
 	static std::time_t m_now;
 	static std::tm m_localTime;
 	static std::string m_logColors[5];
-
 };

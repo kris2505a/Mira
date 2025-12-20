@@ -18,10 +18,7 @@ public:
 	Keyboard& operator=(Keyboard&&) = delete;
 
 	static void clearState();
-
-	static bool isKeyDown(int key) {
-		return m_keys[key];
-	}
+	static void endState();
 
 private:
 	static void keyPressed(WPARAM key);
@@ -30,6 +27,7 @@ private:
 
 private:
 	static std::bitset <256> m_keys;
+	static std::bitset <256> m_prevState;
 };
 
 }
