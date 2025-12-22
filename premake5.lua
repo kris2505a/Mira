@@ -9,6 +9,8 @@ workspace "Mira"
 	
 outputDir = "%{cfg.buildcfg}-%{cfg.architecture}" 
 
+include "Engine/thirdparty/ImGui"
+
 project "Engine"
     location "Engine"
     kind "sharedLib"
@@ -26,14 +28,7 @@ project "Engine"
     files {
         "%{prj.name}/Sources/**.h",
         "%{prj.name}/Sources/**.cpp",
-        "%{prj.name}/thirdparty/ImGui/*.h",
-        "%{prj.name}/thirdparty/ImGui/*.cpp"
     }
-
-    filter "files:**/thirdparty/ImGui/**.cpp"
-    flags { "NoPCH" }
-
-    filter {}
 
     includedirs {
         "%{prj.name}/Sources",
@@ -42,6 +37,7 @@ project "Engine"
     }
     
     links {
+        "ImGui",
         "d3d11.lib",
         "dxgi.lib",
         "d3dcompiler.lib"

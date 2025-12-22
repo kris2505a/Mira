@@ -1,4 +1,49 @@
-[23:15:16]: Engine ->> Window Initialized
-[23:15:16]: Engine ->> Renderer Initialized
-[23:15:18]: Game ->> ButtonDown
-[23:15:22]: Engine ->> WindowClose
+[00:24:38]: Engine ->> Window Initialized
+[00:24:38]: Engine ->> Renderer Initialized
+[00:24:52]: Engine ->> Window Resize Call
+[00:24:52]: Engine ->> Window Resize Call
+[00:24:52]: Engine ->> Window Resize Call
+[00:24:52]: Engine ->> Window Resize Call
+[00:24:52]: Engine ->> Window Resize Call
+[00:24:52]: Engine ->> Window Resize Call
+[00:24:52]: Engine ->> Window Resize Call
+[00:24:52]: Engine ->> Window Resize Call
+[00:24:52]: Engine ->> Window Resize Call
+[00:24:52]: Engine ->> Window Resize Call
+[00:24:52]: Engine ->> Window Resize Call
+[00:24:53]: Engine ->> Window Resize Call
+[00:24:53]: Engine ->> Window Resize Call
+[00:24:53]: Engine ->> Window Resize Call
+[00:24:53]: Engine ->> Window Resize Call
+[00:24:53]: Engine ->> Window Resize Call
+[00:24:53]: Engine ->> Window Resize Call
+[00:24:53]: Engine ->> Window Resize Call
+[00:24:53]: Engine ->> Window Resize Call
+[00:24:53]: Engine ->> Window Resize Call
+[00:24:53]: Engine ->> Window Resize Call
+[00:24:53]: Engine ->> Window Resize Call
+[00:24:53]: Engine ->> Window Resize Call
+[00:24:53]: Engine ->> Window Resize Call
+[00:24:53]: Engine ->> Window Resize Call
+[00:24:53]: Engine ->> Window Resize Call
+[00:24:53]: Engine ->> Window Resize Call
+[00:24:53]: Engine ->> Window Resize Call
+[00:24:53]: Engine ->> Window Resize Call
+[00:24:53]: Engine ->> Window Resize Call
+[00:24:53]: Engine ->> Window Resize Call
+[00:24:53]: Engine ->> Window Resize Call
+[00:24:53]: Engine ->> Window Resize Call
+[00:24:53]: Engine ->> Window Resize Call
+[00:24:53]: Engine ->> Window Resize Call
+[00:24:53]: Engine ->> Window Resize Call
+[00:24:53]: Engine ->> Window Resize Call
+[00:24:53]: Engine ->> Window Resize Call
+[00:24:53]: Engine ->> Window Resize Call
+[00:24:53]: Engine ->> Window Resize Call
+[00:24:53]: Engine ->> Window Resize Call
+[00:24:53]: Engine ->> Window Resize Call
+[00:24:53]: Engine ->> Window Resize Call
+[00:24:53]: Engine ->> Window Resize Call
+[00:24:53]: Engine ->> Window Resize Call
+[00:24:53]: Engine ->> Window Resize Call
+[00:24:59]: Engine ->> WindowClose
