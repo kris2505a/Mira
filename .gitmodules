@@ -1,3 +1,0 @@
-[submodule "Engine/Engine/thirdparty/ImGui"]
-	path = Engine/thirdparty/ImGui
-	url = https://github.com/kris2505a/imgui.git
