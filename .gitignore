@@ -7,3 +7,4 @@ intermediate/
 *.vcxproj.filters
 *.vcxproj
 *.user
+*.log
