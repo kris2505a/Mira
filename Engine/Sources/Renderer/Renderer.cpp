@@ -2,7 +2,6 @@
 #include "Renderer.h"
 #include "Error.h"
 #include "Logger/Log.h"
-#include "imgui_impl_dx11.h"
 
 namespace Mira {
 
