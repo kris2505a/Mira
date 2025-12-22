@@ -22,6 +22,9 @@ public:
 	void bindEssentials();
 	void resizeCall();
 	bool isInitialized() const;
+	ID3D11Device* device() const;
+	ID3D11DeviceContext* context() const;
+
 
 private:
 	void createDeviceSwapChain();
@@ -29,6 +32,8 @@ private:
 	void createViewPort();
 	void createDepthStencilState();
 	void createDepthStencilView();
+
+
 
 private:
 

@@ -5,6 +5,8 @@
 #include "Signals/WindowSignal.h"
 #include "Signals/KeyboardSignal.h"
 #include "Win32/Keyboard.h"
+#include "Layers/ImGuiLayer.h"
+
 
 namespace Mira {
 
@@ -56,6 +58,8 @@ void Engine::init() {
 	m_attrib.init();
 	m_window->init();
 	m_renderer->init(m_window->getHandle());
+
+	addLayer(std::make_unique<ImGuiLayer>(m_renderer->device(), m_renderer->context(), m_window->getHandle()));
 }
 
 void Engine::shutdown() {

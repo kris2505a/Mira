@@ -10,7 +10,7 @@ public:
 	~Layer() {}
 
 	virtual void pulse(float deltaTime) {}
-	void render() {}
+	virtual void render() {}
 	virtual void signal(const Signal& s) {}
 
 };

@@ -26,7 +26,14 @@ project "Engine"
     files {
         "%{prj.name}/Sources/**.h",
         "%{prj.name}/Sources/**.cpp",
+        "%{prj.name}/thirdparty/ImGui/*.h",
+        "%{prj.name}/thirdparty/ImGui/*.cpp"
     }
+
+    filter "files:**/thirdparty/ImGui/**.cpp"
+    flags { "NoPCH" }
+
+    filter {}
 
     includedirs {
         "%{prj.name}/Sources",

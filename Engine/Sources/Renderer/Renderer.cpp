@@ -31,7 +31,6 @@ void Renderer::init(HWND handle) {
 	this->createViewPort();
 
 	this->bindEssentials();
-	ImGui_ImplDX11_Init(m_device.Get(), m_context.Get());
 
 	m_initialized = true;
 }
@@ -178,8 +177,15 @@ bool Renderer::isInitialized() const {
 
 void Renderer::shutdown() {
 	m_initialized = false;
-	ImGui_ImplDX11_Shutdown();
 	MIRA_LOG(LOG_INFO, "Renderer Shutdown");
+}
+
+ID3D11Device* Renderer::device() const {
+	return m_device.Get();
+}
+
+ID3D11DeviceContext* Renderer::context() const {
+	return m_context.Get();
 }
 
 Renderer::~Renderer() {

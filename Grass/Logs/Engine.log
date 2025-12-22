@@ -1,17 +1,4 @@
-[16:01:04]: Engine ->> Window Initialized
-[16:01:04]: Engine ->> Renderer Initialized
-[16:01:05]: Game ->> KeyDown
-[16:01:06]: Game ->> KeyDown
-[16:01:06]: Game ->> KeyDown
-[16:01:06]: Game ->> KeyDown
-[16:01:06]: Game ->> KeyDown
-[16:01:06]: Game ->> KeyDown
-[16:01:06]: Game ->> KeyDown
-[16:01:06]: Game ->> KeyDown
-[16:01:06]: Game ->> KeyDown
-[16:01:06]: Game ->> KeyDown
-[16:01:06]: Game ->> KeyDown
-[16:01:06]: Game ->> KeyDown
-[16:01:06]: Game ->> KeyDown
-[16:01:06]: Game ->> KeyUp
-[16:01:07]: Engine ->> WindowClose
+[23:15:16]: Engine ->> Window Initialized
+[23:15:16]: Engine ->> Renderer Initialized
+[23:15:18]: Game ->> ButtonDown
+[23:15:22]: Engine ->> WindowClose
