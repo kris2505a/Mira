@@ -64,7 +64,11 @@ void Engine::init() {
 	m_renderer->init(m_window->getHandle());
 
 	m_initialized = true;
-	m_cube = new DbgCube();
+
+	//debug
+	m_material = Material::createMaterial();
+	m_mesh = Mesh::cubeMesh();
+	m_cube = new DbgCube(m_material, m_mesh);
 
 	addLayer(std::make_unique<ImGuiLayer>(m_renderer->device(), m_renderer->context(), m_window->getHandle()));
 }
@@ -76,6 +80,10 @@ void Engine::shutdown() {
 	m_window->shutdown();
 
 	m_initialized = false;
+
+	delete m_cube;
+	delete m_material;
+	delete m_mesh;
 
 	MIRA_LOG(LOG_INFO, "Game Shutdown");
 }

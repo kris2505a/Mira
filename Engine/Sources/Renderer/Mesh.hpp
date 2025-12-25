@@ -11,6 +11,11 @@ public:
 	
 	static Mesh* cubeMesh();
 
+	void bind() {
+		m_vbo->bind();
+		m_ibo->bind();
+	}
+
 private:
 	VertexBuffer* m_vbo;
 	IndexBuffer*  m_ibo;

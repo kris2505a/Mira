@@ -8,7 +8,10 @@
 #include "Layers/LayerStack.hpp"
 #include "Utils/Timer.hpp"
 
+//debug stuff
 #include "Renderer/DbgCube.hpp"
+#include "Renderer/Material.hpp"
+#include "Renderer/Mesh.hpp"
 
 namespace Mira {
 
@@ -43,6 +46,8 @@ private:
 private:
 	//DEBUG STUFF
 	DbgCube* m_cube;
+	Material* m_material;
+	Mesh* m_mesh;
 };
 
 Engine* createApp();
