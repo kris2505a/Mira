@@ -1,4 +1,3 @@
-[00:50:19]: Engine ->> Window Initialized
-[00:50:19]: Engine ->> Renderer Initialized
-[00:50:21]: Game ->> ButtonDown
-[00:50:24]: Engine ->> WindowClose
+[19:20:24]: Engine ->> Window Initialized
+[19:20:24]: Engine ->> Renderer Initialized
+[19:20:26]: Engine ->> WindowClose

@@ -1,6 +1,6 @@
-#include <PreCompHeader.h>
-#include "Binds.h"
-#include "Renderer.h"
+#include <PreCompHeader.hpp>
+#include "Binds.hpp"
+#include "Renderer.hpp"
 
 namespace Mira {
 

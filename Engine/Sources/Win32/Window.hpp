@@ -2,12 +2,12 @@
 #include <Windows.h>
 #include <memory>
 #include <string>
-#include "Core/WindowAttributes.h"
+#include "Core/WindowAttributes.hpp"
 #include <functional>
 
-#include "Signals/Signal.h"
+#include "Signals/Signal.hpp"
 
-#include "Core/Core.h"
+#include "Core/Core.hpp"
 
 namespace Mira {
 

@@ -1,6 +1,6 @@
 #pragma once
-#include "Signals/Signal.h"
-#include "Core/Core.h"
+#include "Signals/Signal.hpp"
+#include "Core/Core.hpp"
 
 namespace Mira {
 

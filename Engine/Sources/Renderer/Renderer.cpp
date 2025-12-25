@@ -1,7 +1,7 @@
-#include <PreCompHeader.h>
-#include "Renderer.h"
-#include "Error.h"
-#include "Logger/Log.h"
+#include <PreCompHeader.hpp>
+#include "Renderer.hpp"
+#include "Error.hpp"
+#include "Logger/Log.hpp"
 
 namespace Mira {
 
@@ -168,6 +168,10 @@ void Renderer::resizeCall() {
 	createDepthStencilView();
 	createViewPort();
 	bindEssentials();
+}
+
+void Renderer::indexedRender(size_t size) {
+	RUN(context()->DrawIndexed(size, 0, 0), device());
 }
 
 bool Renderer::isInitialized() const {

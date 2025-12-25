@@ -1,6 +1,6 @@
-#include <PreCompHeader.h>
-#include "LayerStack.h"
-#include "Logger/Log.h"
+#include <PreCompHeader.hpp>
+#include "LayerStack.hpp"
+#include "Logger/Log.hpp"
 
 namespace Mira {
 

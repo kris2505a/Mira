@@ -1,7 +1,7 @@
 #pragma once
 #include <bitset>
 #include <Windows.h>
-#include "Core/Core.h"
+#include "Core/Core.hpp"
 
 namespace Mira {
 

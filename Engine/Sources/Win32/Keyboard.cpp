@@ -1,5 +1,5 @@
-#include <PreCompHeader.h>
-#include "Keyboard.h"
+#include <PreCompHeader.hpp>
+#include "Keyboard.hpp"
 
 namespace Mira {
 

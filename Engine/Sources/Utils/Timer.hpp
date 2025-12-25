@@ -1,6 +1,6 @@
 #pragma once
 #include <chrono>
-#include "Core/Core.h"
+#include "Core/Core.hpp"
 
 namespace Mira {
 

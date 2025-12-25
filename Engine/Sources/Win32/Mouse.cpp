@@ -1,5 +1,5 @@
-#include <PreCompHeader.h>
-#include "Mouse.h"
+#include <PreCompHeader.hpp>
+#include "Mouse.hpp"
 
 namespace Mira {
 

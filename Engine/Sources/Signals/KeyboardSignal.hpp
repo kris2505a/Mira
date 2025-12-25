@@ -1,5 +1,5 @@
 #pragma once
-#include "Signal.h"
+#include "Signal.hpp"
 
 namespace Mira {
 class KeyboardSignal : public Signal {

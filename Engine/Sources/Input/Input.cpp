@@ -1,8 +1,8 @@
-#include <PreCompHeader.h>
-#include "Input.h"
-#include "./Win32/Keyboard.h"
-#include "./Win32/Mouse.h"
-#include "Logger/Log.h"
+#include <PreCompHeader.hpp>
+#include "Input.hpp"
+#include "./Win32/Keyboard.hpp"
+#include "./Win32/Mouse.hpp"
+#include "Logger/Log.hpp"
 
 namespace Mira {
 

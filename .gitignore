@@ -8,3 +8,4 @@ intermediate/
 *.vcxproj
 *.user
 *.log
+*.cso

@@ -1,4 +1,4 @@
-#include <MiraEngine.h>
+#include <MiraEngine.hpp>
 
 class GameLayer : public Mira::Layer {
 public:

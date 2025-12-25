@@ -1,5 +1,5 @@
 #pragma once
-#include "KeyCodes.h"
+#include "KeyCodes.hpp"
 
 namespace Mira {
 

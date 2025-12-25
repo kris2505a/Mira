@@ -1,5 +1,5 @@
-#include <PreCompHeader.h>
-#include "ImGuiLayer.h"
+﻿#include <PreCompHeader.hpp>
+#include "ImGuiLayer.hpp"
 #include <imgui.h>
 #include <backends/imgui_impl_dx11.h>
 #include <backends/imgui_impl_win32.h>
@@ -20,14 +20,16 @@ ImGuiLayer::ImGuiLayer(ID3D11Device* device, ID3D11DeviceContext* context, HWND 
 }
 
 void ImGuiLayer::render() {
+
+
+
 	ImGui_ImplDX11_NewFrame();
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
 	//ImGui::DockSpaceOverViewport(ImGui::GetMainViewport()->ID);
-		
-	ImGui::Begin("Test Window");
 
-	ImGui::End();
+	renderUiElements();
+
 
 	ImGui::Render();
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
@@ -46,6 +48,13 @@ void ImGuiLayer::signal(const Signal& s) {
 
 void ImGuiLayer::pulse(float deltaTime) {
 
+}
+
+void ImGuiLayer::renderUiElements() {
+	ImGui::Begin("Console");
+
+
+	ImGui::End();
 }
 
 ImGuiLayer::~ImGuiLayer() {

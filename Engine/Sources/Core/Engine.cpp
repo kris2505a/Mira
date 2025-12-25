@@ -1,11 +1,11 @@
-#include <PreCompHeader.h>
-#include "Engine.h"
-#include "Input/Input.h"
-#include "Logger/Log.h"
-#include "Signals/WindowSignal.h"
-#include "Signals/KeyboardSignal.h"
-#include "Win32/Keyboard.h"
-#include "Layers/ImGuiLayer.h"
+#include <PreCompHeader.hpp>
+#include "Engine.hpp"
+#include "Input/Input.hpp"
+#include "Logger/Log.hpp"
+#include "Signals/WindowSignal.hpp"
+#include "Signals/KeyboardSignal.hpp"
+#include "Win32/Keyboard.hpp"
+#include "Layers/ImGuiLayer.hpp"
 
 
 namespace Mira {
@@ -15,16 +15,20 @@ Engine::Engine() : m_running(true) {
 	m_renderer  = std::make_unique <Renderer>(m_attrib);
 	m_window->signalDestination(std::bind(&Engine::signal, this, std::placeholders::_1));
 	m_deltaTime = 0;
+	m_initialized = false;
 }
 
 Engine::~Engine() {
-
+	delete m_cube;
 }
 
 void Engine::render() {
+	m_cube->bind();
+	m_renderer->indexedRender(6);
 	for (size_t i = 0; i < m_layerStack.getLayers().size(); i++) {
 		m_layerStack.getLayers()[i]->render();
 	}
+
 }
 
 void Engine::pulse() {
@@ -59,6 +63,9 @@ void Engine::init() {
 	m_window->init();
 	m_renderer->init(m_window->getHandle());
 
+	m_initialized = true;
+	m_cube = new DbgCube();
+
 	addLayer(std::make_unique<ImGuiLayer>(m_renderer->device(), m_renderer->context(), m_window->getHandle()));
 }
 
@@ -67,11 +74,18 @@ void Engine::shutdown() {
 	m_attrib.shutdown();
 	m_renderer->shutdown();
 	m_window->shutdown();
+
+	m_initialized = false;
+
 	MIRA_LOG(LOG_INFO, "Game Shutdown");
 }
 
 void Engine::mainloop() {
 	while (m_running) {
+
+		if (!m_initialized) 
+			continue;
+
 		m_window->handleMessages();
 		m_renderer->wipeOff();
 		m_renderer->bindEssentials();

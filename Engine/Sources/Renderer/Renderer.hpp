@@ -2,7 +2,7 @@
 #include <d3d11.h>
 #include <wrl/client.h>
 #include <array>
-#include "Core/WindowAttributes.h"
+#include "Core/WindowAttributes.hpp"
 
 namespace wrl = Microsoft::WRL;
 
@@ -21,6 +21,7 @@ public:
 	void flipBuffers();
 	void bindEssentials();
 	void resizeCall();
+	void indexedRender(size_t size);
 	bool isInitialized() const;
 	ID3D11Device* device() const;
 	ID3D11DeviceContext* context() const;

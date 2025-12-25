@@ -21,12 +21,12 @@ project "Engine"
     targetdir("binaries/" .. outputDir .. "/%{prj.name}")
     objdir("intermediate/" .. outputDir .. "/%{prj.name}")
 
-    pchheader("PreCompHeader.h")
+    pchheader("PreCompHeader.hpp")
     pchsource("Engine/Sources/PreCompHeader.cpp")
 	
 
     files {
-        "%{prj.name}/Sources/**.h",
+        "%{prj.name}/Sources/**.hpp",
         "%{prj.name}/Sources/**.cpp",
     }
 
@@ -81,7 +81,7 @@ project "Grass"
     objdir("Intermediate/" .. outputDir .. "/%{prj.name}")
 
     files {
-        "%{prj.name}/Sources/**.h",
+        "%{prj.name}/Sources/**.hpp",
         "%{prj.name}/Sources/**.cpp"
     }
 

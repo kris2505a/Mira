@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-#include "Input/KeyCodes.h"
+#include "Input/KeyCodes.hpp"
 
 namespace Mira {
 

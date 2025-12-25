@@ -1,12 +1,12 @@
-#include <PreCompHeader.h>
-#include "Window.h"
-#include "Keyboard.h"
-#include "Mouse.h"
+#include <PreCompHeader.hpp>
+#include "Window.hpp"
+#include "Keyboard.hpp"
+#include "Mouse.hpp"
 
-#include "Logger/Log.h"
-#include "Signals/KeyboardSignal.h"
-#include "Signals/MouseSignal.h"
-#include "Signals/WindowSignal.h"
+#include "Logger/Log.hpp"
+#include "Signals/KeyboardSignal.hpp"
+#include "Signals/MouseSignal.hpp"
+#include "Signals/WindowSignal.hpp"
 #include <backends/imgui_impl_win32.h>
 
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);

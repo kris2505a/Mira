@@ -1,7 +1,7 @@
 #pragma once
 #include <Windows.h>
-#include "Core/Core.h"
-#include "Input/KeyCodes.h"
+#include "Core/Core.hpp"
+#include "Input/KeyCodes.hpp"
 
 
 namespace Mira {

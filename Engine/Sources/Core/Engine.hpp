@@ -1,12 +1,14 @@
 #pragma once
-#include "Core.h"
-#include "Win32/Window.h"
-#include "Renderer/Renderer.h"
-#include "WindowAttributes.h"
+#include "Core.hpp"
+#include "Win32/Window.hpp"
+#include "Renderer/Renderer.hpp"
+#include "WindowAttributes.hpp"
 #include <memory>
-#include "Signals/Signal.h"
-#include "Layers/LayerStack.h"
-#include "Utils/Timer.h"
+#include "Signals/Signal.hpp"
+#include "Layers/LayerStack.hpp"
+#include "Utils/Timer.hpp"
+
+#include "Renderer/DbgCube.hpp"
 
 namespace Mira {
 
@@ -35,6 +37,12 @@ private:
 	LayerStack                   m_layerStack;
 	Timer						 m_dtClock;
 	float						 m_deltaTime;
+	bool						 m_initialized;
+
+
+private:
+	//DEBUG STUFF
+	DbgCube* m_cube;
 };
 
 Engine* createApp();

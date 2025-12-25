@@ -1,5 +1,5 @@
 #pragma once
-#include "Layer.h"
+#include "Layer.hpp"
 #include <d3d11.h>
 
 namespace Mira {
@@ -13,7 +13,7 @@ public:
 	virtual void signal(const Signal& s) override;
 
 private:
-
+	void renderUiElements();
 
 };
 
