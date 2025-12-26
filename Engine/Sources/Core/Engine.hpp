@@ -26,7 +26,7 @@ public:
 	void mainloop();
 
 protected:
-	void addLayer(std::unique_ptr <Layer> layer);
+	void addLayer(Layer* layer);
 
 private:
 	void pulse();

@@ -64,8 +64,8 @@ void Engine::signal(const Signal& s) {
 	}
 }
 
-void Engine::addLayer(std::unique_ptr <Layer> layer) {
-	m_layerStack.addLayer(std::move(layer));
+void Engine::addLayer(Layer* layer) {
+	m_layerStack.addLayer(layer);
 }
 
 void Engine::init() {
@@ -87,7 +87,7 @@ void Engine::init() {
 	m_cube2 = new DbgCube(m_material, m_mesh, m_camera);
 	m_cube2->color(1.0f, 1.0f, 0.0f);
 	m_cube->transform()->position().x = 2.0f;
-	addLayer(std::make_unique<ImGuiLayer>(m_renderer->device(), m_renderer->context(), m_window->getHandle()));
+	m_layerStack.addUI(new ImGuiLayer(m_renderer->device(), m_renderer->context(), m_window->getHandle()));
 }
 
 void Engine::shutdown() {
