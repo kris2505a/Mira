@@ -1,8 +1,8 @@
 {
   "Window": {
-    "height": 720,
-    "maximized": false,
+    "height": 1080,
+    "maximized": true,
     "vSync": true,
-    "width": 1280
+    "width": 1920
   }
 }

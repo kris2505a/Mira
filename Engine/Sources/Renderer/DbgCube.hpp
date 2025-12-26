@@ -18,14 +18,20 @@ public:
 	void pulse(float deltaTime);
 	void render();
 	Transform* transform();
+	void color(float r, float g, float b) {
+		m_color = { r, g, b, 1.0f };
+	}
 
 
 private:
 	Material* m_material = nullptr;
 	Mesh*	  m_mesh = nullptr;
 	ConstantBuffer* m_cbo = nullptr;
+	ConstantBuffer* m_ccbo = nullptr;
 	Transform* m_transform = nullptr;
 	Camera* p_camera = nullptr;
+	dx::XMFLOAT4 m_color;
+
 };
 
 }

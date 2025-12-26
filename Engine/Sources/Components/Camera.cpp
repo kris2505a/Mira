@@ -53,7 +53,6 @@ void Camera::pulse(float deltaTime) {
 
 	if (Input::keyDown(Key::W)) 
 		m_position = dx::XMVectorAdd(m_position, dx::XMVectorScale(m_forward, m_speed * deltaTime));
-	
 	if (Input::keyDown(Key::S))
 		m_position = dx::XMVectorSubtract(m_position, dx::XMVectorScale(m_forward, m_speed * deltaTime));
 	if (Input::keyDown(Key::D)) 
@@ -62,6 +61,7 @@ void Camera::pulse(float deltaTime) {
 		m_position = dx::XMVectorSubtract(m_position, dx::XMVectorScale(m_right, m_speed * deltaTime));
 
 	m_view = dx::XMMatrixLookAtLH(m_position, dx::XMVectorAdd(m_position, m_forward), m_up);
+
 }
 
 dx::XMMATRIX& Camera::view() {

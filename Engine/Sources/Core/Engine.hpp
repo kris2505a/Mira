@@ -47,6 +47,7 @@ private:
 private:
 	//DEBUG STUFF
 	DbgCube*					 m_cube;
+	DbgCube*					 m_cube2;
 	Material*					 m_material;
 	Mesh*						 m_mesh;
 	Camera*						 m_camera;

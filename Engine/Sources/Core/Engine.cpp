@@ -33,6 +33,7 @@ Engine::~Engine() {
 
 void Engine::render() {
 	m_cube->render();
+	m_cube2->render();
 
 	for (size_t i = 0; i < m_layerStack.getLayers().size(); i++) {
 		m_layerStack.getLayers()[i]->render();
@@ -43,6 +44,7 @@ void Engine::pulse() {
 	m_deltaTime = m_dtClock.elapsed();
 	m_camera->pulse(m_deltaTime);
 	m_cube->pulse(m_deltaTime);
+	m_cube2->pulse(m_deltaTime);
 	for (size_t i = 0; i < m_layerStack.getLayers().size(); i++) {
 		m_layerStack.getLayers()[i]->pulse(m_deltaTime);
 	}
@@ -79,8 +81,12 @@ void Engine::init() {
 	m_material = Material::createMaterial();
 	m_mesh = Mesh::cubeMesh();
 	m_camera = new Camera;
-	m_cube = new DbgCube(m_material, m_mesh, m_camera);
-
+	m_cube = new DbgCube(m_material, m_mesh, m_camera);	
+	m_cube->color(1.0f, 0.0f, 1.0f);
+	m_cube->transform()->position().x = -2.0f;
+	m_cube2 = new DbgCube(m_material, m_mesh, m_camera);
+	m_cube2->color(1.0f, 1.0f, 0.0f);
+	m_cube->transform()->position().x = 2.0f;
 	addLayer(std::make_unique<ImGuiLayer>(m_renderer->device(), m_renderer->context(), m_window->getHandle()));
 }
 

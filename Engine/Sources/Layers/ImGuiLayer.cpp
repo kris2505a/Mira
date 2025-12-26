@@ -51,10 +51,7 @@ void ImGuiLayer::pulse(float deltaTime) {
 }
 
 void ImGuiLayer::renderUiElements() {
-	ImGui::Begin("Console");
-
-
-	ImGui::End();
+	
 }
 
 ImGuiLayer::~ImGuiLayer() {
