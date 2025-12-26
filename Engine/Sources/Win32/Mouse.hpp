@@ -18,6 +18,8 @@ public:
 	Mouse& operator=(Mouse&&) = delete;
 
 	static void lockMouse(bool condition);
+	static float xDelta();
+	static float yDelta();
 
 
 	//functions accessible using window.cpp
@@ -30,8 +32,7 @@ private:
 	static void inWindow();
 	static void offWindow();
 
-
-public:
+private:
 	static bool m_left;
 	static bool m_right;
 	static bool m_middle;

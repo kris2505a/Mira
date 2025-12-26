@@ -10,6 +10,7 @@ namespace Mira {
 
 class Renderer {
 	friend class Binds;
+	friend class DbgCube;
 
 public:
 	Renderer(WindowAttributes& attrib);

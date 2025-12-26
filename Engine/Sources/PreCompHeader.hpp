@@ -10,3 +10,4 @@
 #include <windowsx.h>
 #include <memory>
 #include <chrono>
+#include <algorithm>

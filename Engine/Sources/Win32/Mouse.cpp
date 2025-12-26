@@ -3,20 +3,20 @@
 
 namespace Mira {
 
-bool Mouse::m_left = false;
-bool Mouse::m_right = false;
-bool Mouse::m_middle = false;
-bool Mouse::m_inWindow = false;
-bool Mouse::m_firstMove = true;
-bool Mouse::m_locked = false;
-bool Mouse::m_ignoreMove = false;
+bool Mouse::m_left		  = false;
+bool Mouse::m_right	      = false;
+bool Mouse::m_middle	  = false;
+bool Mouse::m_inWindow    = false;
+bool Mouse::m_firstMove   = true;
+bool Mouse::m_locked	  = false;
+bool Mouse::m_ignoreMove  = false;
 
-int  Mouse::m_xPos = 0;
-int  Mouse::m_yPos = 0;
-int  Mouse::m_wheel = 0;
+int  Mouse::m_xPos        = 0;
+int  Mouse::m_yPos        = 0;
+int  Mouse::m_wheel       = 0;
 
-float Mouse::m_deltaX = 0.0f;
-float Mouse::m_deltaY = 0.0f;
+float Mouse::m_deltaX	  = 0.0f;
+float Mouse::m_deltaY	  = 0.0f;
 
 void Mouse::buttonDown(Button button) {
 	switch (button) {
@@ -110,6 +110,18 @@ void Mouse::lockMouse(bool condition) {
 		ShowCursor(FALSE);
 	else
 		ShowCursor(TRUE);
+}
+
+float Mouse::xDelta() {
+	float val = m_deltaX;
+	m_deltaX = 0;
+	return val;
+}
+
+float Mouse::yDelta() {
+	float val = m_deltaY;
+	m_deltaY = 0;
+	return val;
 }
 
 }

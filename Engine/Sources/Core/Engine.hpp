@@ -12,6 +12,7 @@
 #include "Renderer/DbgCube.hpp"
 #include "Renderer/Material.hpp"
 #include "Renderer/Mesh.hpp"
+#include "Components/Camera.hpp"
 
 namespace Mira {
 
@@ -45,9 +46,10 @@ private:
 
 private:
 	//DEBUG STUFF
-	DbgCube* m_cube;
-	Material* m_material;
-	Mesh* m_mesh;
+	DbgCube*					 m_cube;
+	Material*					 m_material;
+	Mesh*						 m_mesh;
+	Camera*						 m_camera;
 };
 
 Engine* createApp();

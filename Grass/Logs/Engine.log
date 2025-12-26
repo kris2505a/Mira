@@ -1,2 +1,14 @@
-[00:33:35]: Engine ->> Window Initialized
-[00:33:35]: Engine ->> Renderer Initialized
+[22:00:13]: Engine ->> Window Initialized
+[22:00:13]: Engine ->> Renderer Initialized
+[22:00:14]: Game ->> ButtonDown
+[22:00:14]: Game ->> KeyDown
+[22:00:14]: Game ->> KeyDown
+[22:00:14]: Game ->> KeyUp
+[22:00:14]: Game ->> KeyDown
+[22:00:15]: Game ->> KeyUp
+[22:00:15]: Game ->> KeyDown
+[22:00:15]: Game ->> KeyUp
+[22:00:15]: Game ->> KeyDown
+[22:00:15]: Game ->> KeyUp
+[22:00:15]: Game ->> KeyUp
+[22:00:16]: Engine ->> WindowClose
