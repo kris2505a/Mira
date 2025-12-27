@@ -11,40 +11,36 @@
 namespace Mira {
 
 Engine::Engine() : m_running(true) {
-	m_window    = std::make_unique <Window>(GetModuleHandle(nullptr), m_attrib);
-	m_renderer  = std::make_unique <Renderer>(m_attrib);
+	m_window    = new Window(GetModuleHandle(nullptr), m_attrib);
+	m_renderer  = new Renderer(m_attrib);
 	m_window->signalDestination(std::bind(&Engine::signal, this, std::placeholders::_1));
 	m_deltaTime = 0;
 	m_initialized = false;
 
 	//temp
 
-	m_cube = nullptr;
 	m_material = nullptr;
 	m_mesh = nullptr;
-	m_camera = nullptr;
 	
 }
 
 Engine::~Engine() {
-	if (m_initialized)
-		shutdown();
+
 }
 
 void Engine::render() {
-	m_cube->render();
-	m_cube2->render();
+
+	ImGuiLayer::begin();
 
 	for (size_t i = 0; i < m_layerStack.getLayers().size(); i++) {
 		m_layerStack.getLayers()[i]->render();
 	}
+
+	ImGuiLayer::end();
 }
 
 void Engine::pulse() {
 	m_deltaTime = m_dtClock.elapsed();
-	m_camera->pulse(m_deltaTime);
-	m_cube->pulse(m_deltaTime);
-	m_cube2->pulse(m_deltaTime);
 	for (size_t i = 0; i < m_layerStack.getLayers().size(); i++) {
 		m_layerStack.getLayers()[i]->pulse(m_deltaTime);
 	}
@@ -80,27 +76,21 @@ void Engine::init() {
 	//debug
 	m_material = Material::createMaterial();
 	m_mesh = Mesh::cubeMesh();
-	m_camera = new Camera;
-	m_cube = new DbgCube(m_material, m_mesh, m_camera);	
-	m_cube->color(1.0f, 0.0f, 1.0f);
-	m_cube->transform()->position().x = -2.0f;
-	m_cube2 = new DbgCube(m_material, m_mesh, m_camera);
-	m_cube2->color(1.0f, 1.0f, 0.0f);
-	m_cube->transform()->position().x = 2.0f;
 	m_layerStack.addUI(new ImGuiLayer(m_renderer->device(), m_renderer->context(), m_window->getHandle()));
 }
 
 void Engine::shutdown() {
 	Log::shutdown();
 
-	delete m_cube;
 	delete m_material;
 	delete m_mesh;
-	delete m_camera;
 
 	m_attrib.shutdown();
 	m_renderer->shutdown();
 	m_window->shutdown();
+	delete m_renderer;
+	delete m_window;
+
 
 	m_initialized = false;
 

@@ -8,9 +8,12 @@ class ImGuiLayer : public Layer {
 public:
 	ImGuiLayer(ID3D11Device* device, ID3D11DeviceContext* context, HWND handle);
 	~ImGuiLayer();
-	virtual void pulse(float deltaTime) override;
-	virtual void render();
-	virtual void signal(const Signal& s) override;
+	void pulse(float deltaTime) override;
+	void render();
+	void signal(const Signal& s) override;
+	
+	static void begin();
+	static void end();
 
 private:
 	void renderUiElements();

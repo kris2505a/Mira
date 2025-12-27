@@ -21,25 +21,11 @@ ImGuiLayer::ImGuiLayer(ID3D11Device* device, ID3D11DeviceContext* context, HWND 
 
 void ImGuiLayer::render() {
 
+	
 
 
-	ImGui_ImplDX11_NewFrame();
-	ImGui_ImplWin32_NewFrame();
-	ImGui::NewFrame();
-	//ImGui::DockSpaceOverViewport(ImGui::GetMainViewport()->ID);
 
-	renderUiElements();
-
-
-	ImGui::Render();
-	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
-	ImGuiIO& io = ImGui::GetIO();
-	if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
-	{
-		ImGui::UpdatePlatformWindows();
-		ImGui::RenderPlatformWindowsDefault();
-	}
-
+	
 }
 
 void ImGuiLayer::signal(const Signal& s) {
@@ -58,6 +44,26 @@ ImGuiLayer::~ImGuiLayer() {
 	ImGui_ImplDX11_Shutdown();
 	ImGui_ImplWin32_Shutdown();
 	ImGui::DestroyContext();
+}
+
+void ImGuiLayer::begin() {
+	ImGui_ImplDX11_NewFrame();
+	ImGui_ImplWin32_NewFrame();
+	ImGui::NewFrame();
+	//ImGui::DockSpaceOverViewport(ImGui::GetMainViewport()->ID);
+
+}
+
+void ImGuiLayer::end() {
+	ImGui::Render();
+	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+	ImGuiIO& io = ImGui::GetIO();
+	if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+	{
+		ImGui::UpdatePlatformWindows();
+		ImGui::RenderPlatformWindowsDefault();
+	}
+
 }
 
 }

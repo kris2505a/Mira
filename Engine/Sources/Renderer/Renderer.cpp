@@ -174,6 +174,7 @@ void Renderer::indexedRender(size_t size) {
 	RUN(context()->DrawIndexed(size, 0, 0), device());
 }
 
+
 bool Renderer::isInitialized() const {
 	return m_initialized;
 }
@@ -189,6 +190,10 @@ ID3D11Device* Renderer::device() const {
 
 ID3D11DeviceContext* Renderer::context() const {
 	return m_context.Get();
+}
+
+Renderer* Renderer::instance() {
+	return s_instance;
 }
 
 Renderer::~Renderer() {

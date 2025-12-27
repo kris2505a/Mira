@@ -3,6 +3,7 @@
 #include <wrl/client.h>
 #include <array>
 #include "Core/WindowAttributes.hpp"
+#include "Entity/Drawable.hpp"
 
 namespace wrl = Microsoft::WRL;
 
@@ -23,9 +24,13 @@ public:
 	void bindEssentials();
 	void resizeCall();
 	void indexedRender(size_t size);
+
 	bool isInitialized() const;
+
 	ID3D11Device* device() const;
 	ID3D11DeviceContext* context() const;
+
+	static Renderer* instance();
 
 
 private:
@@ -34,8 +39,6 @@ private:
 	void createViewPort();
 	void createDepthStencilState();
 	void createDepthStencilView();
-
-
 
 private:
 

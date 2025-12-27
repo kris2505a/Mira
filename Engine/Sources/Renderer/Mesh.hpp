@@ -11,10 +11,8 @@ public:
 	
 	static Mesh* cubeMesh();
 
-	void bind() {
-		m_vbo->bind();
-		m_ibo->bind();
-	}
+	uint32_t indexCount() const;
+	
 
 private:
 	VertexBuffer* m_vbo;

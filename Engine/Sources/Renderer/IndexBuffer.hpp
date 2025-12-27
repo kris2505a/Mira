@@ -9,7 +9,7 @@ public:
 	~IndexBuffer() = default;
 
 	void bind() const final override;
-	size_t indexCount() const;
+	uint32_t indexCount() const;
 
 private:
 	wrl::ComPtr <ID3D11Buffer> m_buffer;

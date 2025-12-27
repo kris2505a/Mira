@@ -11,6 +11,10 @@ Mesh::~Mesh() {
 		delete m_ibo;
 }
 
+uint32_t Mesh::indexCount() const {
+    return m_ibo->indexCount();
+}
+
 Mesh* Mesh::cubeMesh() {
 	Mesh* mesh = new Mesh;
 

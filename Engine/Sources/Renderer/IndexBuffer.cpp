@@ -24,7 +24,7 @@ void IndexBuffer::bind() const {
 	RUN(context()->IASetIndexBuffer(m_buffer.Get(), DXGI_FORMAT_R32_UINT, m_offset), device());
 }
 
-size_t IndexBuffer::indexCount() const {
+uint32_t IndexBuffer::indexCount() const {
 	return m_indexCount;
 }
 

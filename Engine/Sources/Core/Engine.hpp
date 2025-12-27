@@ -9,7 +9,6 @@
 #include "Utils/Timer.hpp"
 
 //debug stuff
-#include "Renderer/DbgCube.hpp"
 #include "Renderer/Material.hpp"
 #include "Renderer/Mesh.hpp"
 #include "Components/Camera.hpp"
@@ -34,8 +33,8 @@ private:
 	void signal(const Signal& s);
 
 private:
-	std::unique_ptr <Window>     m_window;
-	std::unique_ptr <Renderer>   m_renderer;
+	Window*					     m_window;
+	Renderer*				     m_renderer;
 	bool                         m_running;
 	WindowAttributes			 m_attrib;
 	LayerStack                   m_layerStack;
@@ -46,11 +45,8 @@ private:
 
 private:
 	//DEBUG STUFF
-	DbgCube*					 m_cube;
-	DbgCube*					 m_cube2;
 	Material*					 m_material;
 	Mesh*						 m_mesh;
-	Camera*						 m_camera;
 };
 
 Engine* createApp();
