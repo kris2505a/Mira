@@ -1,10 +1,11 @@
 #pragma once
 #include "VertexBuffer.hpp"
 #include "IndexBuffer.hpp"
+#include "Core/Core.hpp"
 
 namespace Mira {
 
-class Mesh {
+class MIRA_API Mesh {
 public:
 	Mesh() = default;
 	~Mesh();

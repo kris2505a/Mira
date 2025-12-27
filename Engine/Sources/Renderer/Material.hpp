@@ -3,10 +3,11 @@
 #include "InputLayout.hpp"
 #include "ConstantBuffer.hpp"
 #include <DirectXMath.h>
+#include "Core/Core.hpp"
 
 namespace Mira {
 
-class Material {
+class MIRA_API Material {
 public:
 	Material() = default;
 	~Material();

@@ -8,3 +8,7 @@
 #include "Layers/Layer.hpp"
 #include "Signals/KeyboardSignal.hpp"
 #include "Signals/MouseSignal.hpp"
+#include "World/World.hpp"
+#include "Components/Camera.hpp"
+#include "Renderer/Material.hpp"
+#include "Renderer/Mesh.hpp"

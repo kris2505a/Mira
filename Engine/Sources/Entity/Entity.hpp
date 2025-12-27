@@ -9,11 +9,12 @@
 
 namespace Mira {
 
-class MIRA_API Entity {
+class MIRA_API Entity : public Drawable {
 public:
 	Entity();
 	~Entity();
 	
+	virtual void render(Renderer* renderer) {};
 	virtual void spark() {}
 	virtual void pulse(float deltaTime) {}
 	uint32_t id() const;

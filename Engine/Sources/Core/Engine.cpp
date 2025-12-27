@@ -16,6 +16,7 @@ Engine::Engine() : m_running(true) {
 	m_window->signalDestination(std::bind(&Engine::signal, this, std::placeholders::_1));
 	m_deltaTime = 0;
 	m_initialized = false;
+	m_world = nullptr;
 
 	//temp
 	m_imguiLayer = nullptr;
@@ -30,11 +31,16 @@ Engine::~Engine() {
 
 }
 
+void Engine::setWorld(World* world) {
+	m_world = world;
+	m_world->spark();
+}
+
 void Engine::render() {
 
 	ImGuiLayer::begin();
 
-	m_cube->render(m_renderer);
+	m_world->render(m_renderer);
 	//m_cube->renderUI();
 
 	ImGuiLayer::end();
@@ -42,8 +48,7 @@ void Engine::render() {
 
 void Engine::pulse() {
 	m_deltaTime = m_dtClock.elapsed();
-	m_camera->pulse(m_deltaTime);
-	m_cube->pulse(m_deltaTime);
+	m_world->pulse(m_deltaTime);
 }
 
 void Engine::signal(const Signal& s) {
@@ -58,32 +63,23 @@ void Engine::signal(const Signal& s) {
 
 void Engine::init() {
 	MIRA_LOG(LOG_INFO, "Game Initialization");
-	Log::init();
 	m_attrib.init();
 	m_window->init();
 	m_renderer->init(m_window->getHandle());
 	m_imguiLayer = new ImGuiLayer(m_renderer->device(), m_renderer->context(), m_window->getHandle());
+	m_world->init();
 
 	m_initialized = true;
 
-	//debug
-	m_material = Material::createMaterial();
-	m_mesh = Mesh::cubeMesh();
-	m_camera = new Camera;
-	m_cube = new Cube(m_camera);
-	m_cube->setMesh(m_mesh);
-	m_cube->setMaterial(m_material);
-	m_cube->spark();
 }
 
 void Engine::shutdown() {
-	Log::shutdown();
 
-	delete m_cube;
-	delete m_material;
-	delete m_mesh;
-	delete m_camera;
 	delete m_imguiLayer;
+
+	m_world->shutdown();
+	if (m_world)
+		delete m_world;
 
 	m_attrib.shutdown();
 	m_renderer->shutdown();

@@ -1,14 +1,13 @@
 #pragma once
 #include "Core/Core.hpp"
 #include "Entity.hpp"
-#include "Drawable.hpp"
 #include "Components/RenderComponent.hpp"
 #include "Components/TransformComponent.hpp"
 #include "Components/Camera.hpp"
 
 namespace Mira {
 
-class MIRA_API Cube : public Entity, Drawable {
+class MIRA_API Cube : public Entity{
 public:
 	Cube(Camera* camera);
 	~Cube();

@@ -31,8 +31,6 @@ public:
 	static MIRA_API void logMessage(int type, const std::string& message);
 	static MIRA_API void logEngineMessage(int type, const std::string& message);
 
-	static void init();
-	static void shutdown();
 
 private:
 	static std::time_t m_now;

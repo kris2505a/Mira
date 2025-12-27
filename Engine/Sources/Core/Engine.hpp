@@ -3,10 +3,10 @@
 #include "Win32/Window.hpp"
 #include "Renderer/Renderer.hpp"
 #include "WindowAttributes.hpp"
-#include <memory>
 #include "Signals/Signal.hpp"
 #include "Utils/Timer.hpp"
 #include "Layers/ImGuiLayer.hpp"
+#include "World/World.hpp"
 
 //debug stuff
 #include "Renderer/Material.hpp"
@@ -24,6 +24,8 @@ public:
 	void init();
 	void shutdown();
 	void mainloop();
+	void setWorld(World* world);
+	
 
 private:
 	void pulse();
@@ -39,6 +41,7 @@ private:
 	float						 m_deltaTime;
 	bool						 m_initialized;
 	ImGuiLayer*					 m_imguiLayer;
+	World*                       m_world;
 
 private:
 	//DEBUG STUFF
