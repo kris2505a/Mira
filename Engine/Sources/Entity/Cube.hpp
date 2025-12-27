@@ -10,10 +10,11 @@ namespace Mira {
 
 class MIRA_API Cube : public Entity, Drawable {
 public:
-	Cube() = default;
-	~Cube() = default;
+	Cube(Camera* camera);
+	~Cube();
 
-	void render(const Renderer* renderer) final override;
+	void render(Renderer* renderer) final override;
+	void renderUI();
 	void spark() override;
 	void pulse(float deltaTime) override;
 	
@@ -26,9 +27,8 @@ public:
 private:
 	TransformComponent* m_transformComp;
 	RenderComponent* m_renderComp;
-	DirectX::XMFLOAT4 color;
-	Camera* m_camera;
-	
+	Camera* p_camera;
+	ConstantBuffer* m_vcbo;
 };
 
 }

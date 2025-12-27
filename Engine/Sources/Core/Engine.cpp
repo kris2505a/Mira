@@ -18,7 +18,9 @@ Engine::Engine() : m_running(true) {
 	m_initialized = false;
 
 	//temp
-
+	m_imguiLayer = nullptr;
+	m_camera = nullptr;
+	m_cube = nullptr;
 	m_material = nullptr;
 	m_mesh = nullptr;
 	
@@ -32,18 +34,16 @@ void Engine::render() {
 
 	ImGuiLayer::begin();
 
-	for (size_t i = 0; i < m_layerStack.getLayers().size(); i++) {
-		m_layerStack.getLayers()[i]->render();
-	}
+	m_cube->render(m_renderer);
+	//m_cube->renderUI();
 
 	ImGuiLayer::end();
 }
 
 void Engine::pulse() {
 	m_deltaTime = m_dtClock.elapsed();
-	for (size_t i = 0; i < m_layerStack.getLayers().size(); i++) {
-		m_layerStack.getLayers()[i]->pulse(m_deltaTime);
-	}
+	m_camera->pulse(m_deltaTime);
+	m_cube->pulse(m_deltaTime);
 }
 
 void Engine::signal(const Signal& s) {
@@ -54,14 +54,6 @@ void Engine::signal(const Signal& s) {
 	if (Signal::match<WindowResizeSignal>(s) && m_renderer->isInitialized()) {
 			m_renderer->resizeCall();
 	}
-
-	for (size_t i = 0; i < m_layerStack.getLayers().size(); i++) {
-		m_layerStack.getLayers()[i]->signal(s);
-	}
-}
-
-void Engine::addLayer(Layer* layer) {
-	m_layerStack.addLayer(layer);
 }
 
 void Engine::init() {
@@ -70,20 +62,28 @@ void Engine::init() {
 	m_attrib.init();
 	m_window->init();
 	m_renderer->init(m_window->getHandle());
+	m_imguiLayer = new ImGuiLayer(m_renderer->device(), m_renderer->context(), m_window->getHandle());
 
 	m_initialized = true;
 
 	//debug
 	m_material = Material::createMaterial();
 	m_mesh = Mesh::cubeMesh();
-	m_layerStack.addUI(new ImGuiLayer(m_renderer->device(), m_renderer->context(), m_window->getHandle()));
+	m_camera = new Camera;
+	m_cube = new Cube(m_camera);
+	m_cube->setMesh(m_mesh);
+	m_cube->setMaterial(m_material);
+	m_cube->spark();
 }
 
 void Engine::shutdown() {
 	Log::shutdown();
 
+	delete m_cube;
 	delete m_material;
 	delete m_mesh;
+	delete m_camera;
+	delete m_imguiLayer;
 
 	m_attrib.shutdown();
 	m_renderer->shutdown();

@@ -16,6 +16,7 @@ public:
 	void bind() {
 		m_shader->bind();
 		m_layout->bind();
+		m_pcbo->bind();
 	}
 
 	void color(const DirectX::XMFLOAT4& color);

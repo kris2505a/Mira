@@ -5,13 +5,14 @@
 #include "WindowAttributes.hpp"
 #include <memory>
 #include "Signals/Signal.hpp"
-#include "Layers/LayerStack.hpp"
 #include "Utils/Timer.hpp"
+#include "Layers/ImGuiLayer.hpp"
 
 //debug stuff
 #include "Renderer/Material.hpp"
 #include "Renderer/Mesh.hpp"
 #include "Components/Camera.hpp"
+#include "Entity/Cube.hpp"
 
 namespace Mira {
 
@@ -24,9 +25,6 @@ public:
 	void shutdown();
 	void mainloop();
 
-protected:
-	void addLayer(Layer* layer);
-
 private:
 	void pulse();
 	void render();
@@ -37,16 +35,17 @@ private:
 	Renderer*				     m_renderer;
 	bool                         m_running;
 	WindowAttributes			 m_attrib;
-	LayerStack                   m_layerStack;
 	Timer						 m_dtClock;
 	float						 m_deltaTime;
 	bool						 m_initialized;
-
+	ImGuiLayer*					 m_imguiLayer;
 
 private:
 	//DEBUG STUFF
 	Material*					 m_material;
 	Mesh*						 m_mesh;
+	Camera*						 m_camera;
+	Cube*						 m_cube;
 };
 
 Engine* createApp();
