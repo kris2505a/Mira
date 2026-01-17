@@ -1,113 +1,118 @@
-workspace "Mira"
+workspace "Mira-Engine"
     architecture "x64"
 
     configurations {
-        "Debug", "Release"
+        "Debug",
+        "Release"
     }
-	
-	startproject "Grass"
-	
-outputDir = "%{cfg.buildcfg}-%{cfg.architecture}" 
 
-include "Engine/thirdparty/ImGui"
+    startproject "Game"
 
+outputDir = "%{cfg.buildcfg}-%{cfg.architecture}"
+
+include "Engine/thirdparty/stb_image"
+
+-------------------------------------------------
+-- ENGINE
+-------------------------------------------------
 project "Engine"
     location "Engine"
-    kind "sharedLib"
+    kind "StaticLib"
     language "C++"
+
+    cppdialect "C++20"
     staticruntime "Off"
+    systemversion "latest"
 
-
-    targetdir("binaries/" .. outputDir .. "/%{prj.name}")
-    objdir("intermediate/" .. outputDir .. "/%{prj.name}")
-
-    pchheader("PreCompHeader.hpp")
-    pchsource("Engine/Sources/PreCompHeader.cpp")
-	
+    targetdir ("binaries/" .. outputDir .. "/%{prj.name}")
+    objdir    ("intermediate/" .. outputDir .. "/%{prj.name}")
 
     files {
-        "%{prj.name}/Sources/**.hpp",
-        "%{prj.name}/Sources/**.cpp",
+        "%{prj.name}/src/**.hpp",
+        "%{prj.name}/src/**.cpp",
+        "%{prj.name}/shader/**.hlsl"
     }
 
     includedirs {
-        "%{prj.name}/Sources",
-        "%{prj.name}/thirdparty/json/include",
-        "%{prj.name}/thirdparty/ImGui"
+        "%{prj.name}/src",
+        "%{prj.name}/thirdparty/GLFW/include",
+        "%{prj.name}/thirdparty/stb_image/src"
     }
-    
+
+    libdirs {
+        "%{prj.name}/thirdparty/GLFW/lib"
+    }
+
     links {
-        "ImGui",
+        "glfw3.lib",
+
         "d3d11.lib",
         "dxgi.lib",
-        "d3dcompiler.lib"
+        "d3dcompiler.lib",
+        "dxguid.lib",
+
+        "user32.lib",
+        "gdi32.lib",
+        "shell32.lib",
+        "ole32.lib",
+        "STB_Image"
     }
-
-    filter "system:windows"
-        cppdialect "C++20"
-        staticruntime "Off"
-        systemversion "latest"
-        buildoptions { "/wd4251" }
-        defines {"PLATFORM_WINDOWS"}  
-
 
     defines {
-        "API_ENGINE"
+        "PLATFORM_WINDOWS",
+        "ENGINE_BUILD"
     }
-	
-	postbuildcommands {
-		"{COPY} %{cfg.buildtarget.abspath} ../binaries/" .. outputDir .. "/Grass"
-	}
 
     filter "configurations:Debug"
-        defines {
-            "MIRA_DEBUG"
-        }
         runtime "Debug"
         symbols "On"
+        defines { "_DEBUG" }
 
     filter "configurations:Release"
         runtime "Release"
         optimize "On"
 
-
-project "Grass"
-    location "Grass"
+-------------------------------------------------
+-- GAME
+-------------------------------------------------
+project "Game"
+    location "Game"
     kind "ConsoleApp"
     language "C++"
-    staticruntime "Off"
 
-    targetdir("Binaries/" .. outputDir .. "/%{prj.name}")
-    objdir("Intermediate/" .. outputDir .. "/%{prj.name}")
+    cppdialect "C++20"
+    staticruntime "Off"
+    systemversion "latest"
+
+    targetdir ("binaries/" .. outputDir .. "/%{prj.name}")
+    objdir    ("intermediate/" .. outputDir .. "/%{prj.name}")
 
     files {
-        "%{prj.name}/Sources/**.hpp",
-        "%{prj.name}/Sources/**.cpp"
+        "%{prj.name}/src/**.hpp",
+        "%{prj.name}/src/**.cpp"
     }
 
     includedirs {
-        "%{prj.name}/Sources",
-		"Engine/Sources/"
+        "%{prj.name}/src",
+        "Engine/src",
+        "Engine/thirdparty/GLFW/include",
+        "%{prj.name}/thirdparty/stb_image/src"
+    }
+
+    libdirs {
+        "Engine/thirdparty/GLFW/lib",
     }
 
     links {
-		"Engine",
-
+        "Engine",
+        "glfw3.lib",
+        "STB_Image"
     }
 
-    filter "system:windows"
-        cppdialect "C++20"
-        staticruntime "Off"
-        systemversion "latest"
-        defines {"PLATFORM_WINDOWS"}  
-
-
-    filter "configurations:Debug" 
-        defines {
-            "MIRA_DEBUG"
-        }
+    filter "configurations:Debug"
         runtime "Debug"
         symbols "On"
+        defines { "_DEBUG" }
 
     filter "configurations:Release"
         runtime "Release"
