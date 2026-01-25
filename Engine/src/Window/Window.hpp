@@ -1,21 +1,43 @@
 #pragma once
-#include <GLFW/glfw3.h>
+#include <Windows.h>
+#include <memory>
 #include <string>
-#include <string_view>
-#define GLFW_EXPOSE_NATIVE_WIN32
-#include <GLFW/glfw3native.h>
+
+
+
 
 class Window {
 public:
-	Window(unsigned int width, unsigned int height, std::string_view title);
+	Window(unsigned int width, unsigned int height, const std::wstring& title);
 	~Window();
-	void pollEvents();
-	HWND handle();
-	bool open() const;
+	static LRESULT CALLBACK messageProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+
+	HWND& getHandle();
+	void setWindowTitle(const std::wstring& str);
+	bool handleMessages();
+	bool isOpen() const;
+
 
 private:
-	GLFWwindow* m_window;
+	void initWndClassEx();
+	void initWindowHandle();
+
+
+private:
 	unsigned int m_width;
 	unsigned int m_height;
-	std::string m_title;
+	std::wstring m_title;
+	bool m_active;
+	bool m_open;
+
+
+	//WIN32
+	LPWSTR m_className;
+	WNDCLASSEX m_wc;
+	HWND m_handle;
+	HINSTANCE m_instance;
+	MSG m_message;
+
+
 };
+

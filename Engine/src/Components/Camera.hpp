@@ -7,62 +7,107 @@ namespace dx = DirectX;
 class Camera : public Component {
 public:
 	Camera() {
-		this->position = dx::XMVectorSet(0.0f, 0.0f, -3.0f, 1.0f);
-		this->up = dx::XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
+		m_up = dx::XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
 
-		this->pitch = 0.0f;
-		this->yaw = 0.0f;
+		setRotation(0.0f, 0.0f, 0.0f);
+		m_position = dx::XMVectorZero();
 		
-		this->forward = dx::XMVector3Normalize(
+		m_forward = dx::XMVector3Normalize(
 			dx::XMVectorSet(
-				cosf(this->pitch) * sinf(this->yaw),
-				sinf(this->pitch),
-				cosf(this->pitch) * cosf(this->yaw),
+				cosf(m_pitch) * sinf(m_yaw),
+				sinf(m_pitch),
+				cosf(m_pitch) * cosf(m_yaw),
 				0.0f
 			)
 		);
 
-		this->right = dx::XMVector3Normalize(dx::XMVector3Cross(this->up, this->forward));
+		m_right = dx::XMVector3Normalize(dx::XMVector3Cross(m_up, m_forward));
 		
-		this->view = dx::XMMatrixLookAtLH(
-			this->position,
-			dx::XMVectorAdd(this->position, this->forward),
-			this->up
+		m_view = dx::XMMatrixLookAtLH(
+			m_position,
+			dx::XMVectorAdd(m_position, m_forward),
+			m_up
 		);
 
-		this->projection = dx::XMMatrixPerspectiveFovLH(
+		m_projection = dx::XMMatrixPerspectiveFovLH(
 			dx::XM_PIDIV4,
 			16.0f / 9.0f,
 			0.1f,
 			20.0f
 		);
-		this->active = true;
+		m_active = true;
 	}
 
 	dx::XMMATRIX viewMat() {
-		this->view = dx::XMMatrixLookAtLH(
-			this->position,
-			dx::XMVectorAdd(this->position, this->forward),
-			this->up
+		m_view = dx::XMMatrixLookAtLH(
+			m_position,
+			dx::XMVectorAdd(m_position, m_forward),
+			m_up
 		);
-		return this->view;
+		return m_view;
+	}
+
+	const dx::XMMATRIX& projMat() const {
+		return m_projection;
+	}
+
+	dx::XMVECTOR getPosition() const {
+		return m_position;
+	}
+
+	dx::XMVECTOR getForwardVector() const {
+		return m_forward;
+	}
+
+	dx::XMVECTOR getRightVector() const {
+		return m_right;
+	}
+
+	float getPitch() const {
+		return m_pitch;
+	}
+
+	float getYaw() const {
+		return m_yaw;
+	}
+
+	void setPosition(dx::XMVECTOR vec) {
+		m_position = vec;
+	}
+
+	void setRotation(float roll, float pitch, float yaw) {
+		m_roll = roll;
+		m_pitch = pitch;
+		m_yaw = yaw;
+
+		m_forward = dx::XMVector3Normalize(
+			dx::XMVectorSet(
+				cosf(m_pitch) * sinf(m_yaw),
+				sinf(m_pitch),
+				cosf(m_pitch) * cosf(m_yaw),
+				0.0f
+			)
+		);
+
+		m_right = dx::XMVector3Normalize(dx::XMVector3Cross(m_up, m_forward));
 	}
 
 	~Camera() override = default;
 
+private:
+	dx::XMVECTOR m_forward;
+	dx::XMVECTOR m_right;
+	dx::XMVECTOR m_up;
+	dx::XMVECTOR m_position;
 
-	dx::XMVECTOR forward;
-	dx::XMVECTOR right;
-	dx::XMVECTOR up;
-	dx::XMVECTOR position;
+	dx::XMMATRIX m_view;
+	dx::XMMATRIX m_projection;
 
-	dx::XMMATRIX view;
-	dx::XMMATRIX projection;
+	bool m_active;
 
-	bool active;
-
-	float pitch;
-	float yaw;
+	float m_roll;
+	float m_pitch;
+	float m_yaw;
 
 
 };

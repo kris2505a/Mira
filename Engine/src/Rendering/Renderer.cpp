@@ -155,7 +155,7 @@ void Renderer::createRasterizerState() {
 	D3D11_RASTERIZER_DESC rd{};
 
 	rd.DepthClipEnable = true;
-	rd.FrontCounterClockwise = false;
+	rd.FrontCounterClockwise = true;
 	rd.FillMode = D3D11_FILL_SOLID;
 	rd.CullMode = D3D11_CULL_BACK;
 
@@ -217,7 +217,7 @@ void Renderer::renderEntity(const Entity* entity) {
 		vcbd.mvp = DirectX::XMMatrixTranspose(
 			entity->getTransform().model() *
 			p_activeCamera->viewMat() *
-			p_activeCamera->projection
+			p_activeCamera->projMat()
 		);
 	}
 
@@ -225,7 +225,7 @@ void Renderer::renderEntity(const Entity* entity) {
 		vcbd.mvp = DirectX::XMMatrixTranspose(
 			entity->getTransform().model() *
 			m_defaultCamera.viewMat() *
-			m_defaultCamera.projection
+			m_defaultCamera.projMat()
 		);
 	}
 	

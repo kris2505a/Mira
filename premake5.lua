@@ -35,26 +35,19 @@ project "Engine"
 
     includedirs {
         "%{prj.name}/src",
-        "%{prj.name}/thirdparty/GLFW/include",
         "%{prj.name}/thirdparty/stb_image/src"
     }
 
     libdirs {
-        "%{prj.name}/thirdparty/GLFW/lib"
+
     }
 
     links {
-        "glfw3.lib",
 
         "d3d11.lib",
         "dxgi.lib",
         "d3dcompiler.lib",
-        "dxguid.lib",
-
-        "user32.lib",
-        "gdi32.lib",
-        "shell32.lib",
-        "ole32.lib",
+        
         "STB_Image"
     }
 
@@ -95,17 +88,14 @@ project "Game"
     includedirs {
         "%{prj.name}/src",
         "Engine/src",
-        "Engine/thirdparty/GLFW/include",
         "%{prj.name}/thirdparty/stb_image/src"
     }
 
     libdirs {
-        "Engine/thirdparty/GLFW/lib",
     }
 
     links {
         "Engine",
-        "glfw3.lib",
         "STB_Image"
     }
 
