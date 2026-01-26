@@ -2,6 +2,7 @@
 #include "Rendering/VertexBuffer.hpp"
 #include "Rendering/IndexBuffer.hpp"
 #include <memory>
+#include <string>
 
 class Mesh {
 	friend class Renderer;
@@ -13,6 +14,7 @@ public:
 	unsigned int getIndexCount() const;
 	
 	static std::unique_ptr <Mesh> createCubeMesh();
+	static std::unique_ptr <Mesh> createCustomMesh(const std::string& path);
 
 private:
 	std::weak_ptr <class MeshSharedState> m_sharedState;

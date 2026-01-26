@@ -35,11 +35,12 @@ project "Engine"
 
     includedirs {
         "%{prj.name}/src",
-        "%{prj.name}/thirdparty/stb_image/src"
+        "%{prj.name}/thirdparty/stb_image/src",
+        "%{prj.name}/thirdparty/assimp/include"
     }
 
     libdirs {
-
+        "%{prj.name}/thirdparty/assimp/lib"
     }
 
     links {
@@ -48,7 +49,8 @@ project "Engine"
         "dxgi.lib",
         "d3dcompiler.lib",
         
-        "STB_Image"
+        "STB_Image",
+        "assimp-vc143-mt.lib"
     }
 
     defines {
