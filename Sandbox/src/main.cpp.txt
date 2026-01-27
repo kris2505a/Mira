@@ -1,0 +1,118 @@
+#include <Window/Window.h>
+#include <Renderer.h>
+#include <VertexBuffer.h>
+#include <IndexBuffer.h>
+#include <Shader.h>
+#include <InputLayout.h>
+#include <Vertex2.h>
+
+class Quad : public dxr::Drawable {
+public:
+
+	Quad() {
+		dxr::Vertex2 quadVertices[] =
+		{
+			// position           normal        uv
+			{ {-0.5f, -0.5f},    {0.0f, 1.0f},  {0.0f, 1.0f} }, // 0 bottom-left
+			{ { 0.5f, -0.5f},    {0.0f, 1.0f},  {1.0f, 1.0f} }, // 1 bottom-right
+			{ { 0.5f,  0.5f},    {0.0f, 1.0f},  {1.0f, 0.0f} }, // 2 top-right
+			{ {-0.5f,  0.5f},    {0.0f, 1.0f},  {0.0f, 0.0f} }, // 3 top-left
+		};
+
+		uint32_t quadIndices[] =
+		{
+			0, 1, 2,
+			2, 3, 0
+		};
+	
+		m_vbo = std::make_unique <dxr::VertexBuffer>(&quadVertices, std::size(quadVertices), sizeof(dxr::Vertex2));
+		m_ibo = std::make_unique <dxr::IndexBuffer>(&quadIndices, std::size(quadIndices));
+
+		m_shader = std::make_unique <dxr::Shader>(L"shader/DefVS.cso", L"shader/DefPS.cso");
+		m_ilo = std::make_unique <dxr::InputLayout>(m_shader->blobs());
+		m_ilo->addLayout({
+			"POSITION",
+			0,
+			DXGI_FORMAT_R32G32_FLOAT,
+			0,
+			0,
+			D3D11_INPUT_PER_VERTEX_DATA,
+			0
+		});
+
+		m_ilo->addLayout({
+			"NORMAL",
+			0,
+			DXGI_FORMAT_R32G32_FLOAT,
+			0,
+			D3D11_APPEND_ALIGNED_ELEMENT,
+			D3D11_INPUT_PER_VERTEX_DATA,
+			0
+		});
+
+		m_ilo->addLayout({
+			"TEXCOORD",
+			0,
+			DXGI_FORMAT_R32G32_FLOAT,
+			0,
+			D3D11_APPEND_ALIGNED_ELEMENT,
+			D3D11_INPUT_PER_VERTEX_DATA,
+			0
+		});
+		m_ilo->createLayout();
+
+	}
+
+	DirectX::XMMATRIX getModelMatrix() const override {
+		return DirectX::XMMatrixScaling(1.0f, 1.0f, 1.0f) *
+			DirectX::XMMatrixRotationRollPitchYaw(0.0f, 0.0f, 0.0f) *
+			DirectX::XMMatrixTranslation(0.0f, 0.0f, 0.0f);
+	}
+	void bind() const override {
+		m_vbo->bind();
+		m_ibo->bind();
+		m_shader->bind();
+		m_ilo->bind();
+	}
+	unsigned int getIndexCount() const override {
+		return m_ibo->indexCount();
+	}
+	bool hasTexture() const override {
+		return false;
+	}
+	DirectX::XMFLOAT4 getColor() const override {
+		return { 0.0f, 1.0f, 0.0f, 1.0f };
+	}
+
+private:
+	std::unique_ptr <dxr::VertexBuffer> m_vbo;
+	std::unique_ptr <dxr::IndexBuffer> m_ibo;
+	std::unique_ptr <dxr::Shader> m_shader;
+	std::unique_ptr <dxr::InputLayout> m_ilo;
+
+};
+
+int main() {
+	auto window = std::make_unique <Mira::Window>(1280, 720, L"Engine");
+	auto renderer = std::make_unique <dxr::Renderer>(window->getHandle());
+
+	dxr::Renderer::setBackGroundColor(0.0f, 1.0f, 1.0f, 1.0f);
+
+	dxr::Drawable* q = new Quad();
+
+	while (window->isOpen()) {
+		window->handleMessages();
+
+		dxr::Renderer::preRender();
+
+		dxr::Renderer::renderSubmit(q);
+
+		dxr::Renderer::postRender();
+	}
+	
+	if (q)
+		delete q;
+
+	return 0;
+
+}
