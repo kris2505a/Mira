@@ -15,6 +15,10 @@ struct Vec2D {
 
 	}
 
+	constexpr Vec2D(float val) : x(val), y(val) {
+	
+	}
+
 	static constexpr Vec2D zeroVec() noexcept {
 		return Vec2D(0.0f, 0.0f);
 	}
