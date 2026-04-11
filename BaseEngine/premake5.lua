@@ -1,7 +1,6 @@
-project "Game"
+project "BaseEngine"
     location "."
-
-    kind "ConsoleApp"
+    kind "SharedLib"
     language "C++"
     cppdialect "C++20"
     staticruntime "off"
@@ -12,23 +11,33 @@ project "Game"
     files
     {
         "Sources/**.cpp",
-        "Sources/**.hpp"
+        "Includes/**.hpp",
+        "Includes/**.h"
     }
 
     includedirs
     {
         "Includes",
-        "../BaseEngine/Includes/Public"
+        "../Renderer/Includes",
+        "deps/include"
     }
 
     libdirs
     {
-        "../Binaries/%{cfg.buildcfg}/BaseEngine"
+        "deps/lib",
+        "../Binaries/%{cfg.buildcfg}/Renderer"
     }
 
     links
     {
-        "BaseEngine"
+        "Renderer",
+        "SDL3"
+    }
+
+    defines
+    {
+        "MIRA_ENGINE_BUILD",
+        "SDL_MAIN_HANDLED"
     }
 
     filter "system:windows"
@@ -43,3 +52,8 @@ project "Game"
         optimize "On"
 
     filter {}
+
+    postbuildcommands
+    {
+        '{COPY} "%{cfg.buildtarget.abspath}" "../Binaries/%{cfg.buildcfg}/Game/"'
+    }

@@ -11,7 +11,8 @@ project "Renderer"
     files
     {
         "Sources/**.cpp",
-        "Includes/**.hpp"
+        "Includes/**.hpp",
+        "Includes/**.h"
     }
 
     includedirs

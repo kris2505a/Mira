@@ -1,4 +1,4 @@
-workspace "Asteroids"
+workspace "MiraEngine"
     architecture "x64"
     startproject "Game"
 
@@ -16,3 +16,4 @@ workspace "Asteroids"
     include "Game"
     group "Engine"
     include "Renderer"
+    include "BaseEngine"
