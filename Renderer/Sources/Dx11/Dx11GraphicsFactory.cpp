@@ -4,6 +4,7 @@
 #include <Private/Dx11/Dx11IndexBuffer.hpp>
 #include <Private/Dx11/Dx11Shader.hpp>
 #include <Private/Dx11/Dx11ConstantBuffer.hpp>
+#include <Private/Dx11/Dx11Texture.hpp>
 
 namespace mr {
 
@@ -29,6 +30,10 @@ std::unique_ptr<Shader> Dx11GraphicsFactory::createShader(const std::wstring& na
 
 std::unique_ptr<ConstantBuffer> Dx11GraphicsFactory::createConstantBuffer(const void* data, int size, ShaderType type, int slot) {
     return std::make_unique<Dx11ConstantBuffer>(data, size, type, p_device, p_context, slot);
+}
+
+std::unique_ptr<Texture> Dx11GraphicsFactory::createTexture(const std::string& path) {
+    return std::make_unique<Dx11Texture>(path, p_device, p_context);
 }
 
 }

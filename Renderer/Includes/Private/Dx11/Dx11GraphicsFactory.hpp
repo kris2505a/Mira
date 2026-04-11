@@ -14,7 +14,9 @@ public:
 	std::unique_ptr <Shader> createShader
 		(const std::wstring& name, const InputLayout& layout)		final override;
 	std::unique_ptr <ConstantBuffer> createConstantBuffer
-		(const void* data, int size, ShaderType type, int slot = 0)				final override;
+		(const void* data, int size, ShaderType type, int slot = 0)	final override;
+	std::unique_ptr <Texture> createTexture
+		(const std::string& path)									final override;
 
 private:
 	ID3D11Device*			p_device			= nullptr;

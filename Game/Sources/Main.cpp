@@ -39,7 +39,6 @@ int main() {
 	auto graphicsFactory = mr::GraphicsFactory::create(mr::GraphicsAPI::DirectX11);
 
 	auto api = graphicsFactory->createRenderAPI(GetHWND(window));
-	api->setClearColor(0.0f, 1.0f, 1.0f, 1.0f);
 	//api->setWireFrameMode(true);
 
 	bool running = true;
@@ -47,13 +46,14 @@ int main() {
 	SDL_Event e;
 
 	float vertices[] = {
-		-0.5f, -0.5f, 0.0f,   // bottom-left
-		 0.5f, -0.5f, 0.0f,   // bottom-right
-		 0.5f,  0.5f, 0.0f,   // top-right
-		-0.5f,  0.5f, 0.0f    // top-left
+		// x      y      z       u     v
+		-0.5f, -0.5f, 0.0f,   0.0f, 1.0f,
+		 0.5f, -0.5f, 0.0f,   1.0f, 1.0f,
+		 0.5f,  0.5f, 0.0f,   1.0f, 0.0f,
+		-0.5f,  0.5f, 0.0f,   0.0f, 0.0f
 	};
 
-	auto vbo = graphicsFactory->createVertexBuffer(vertices, 4, 3 * sizeof(float));
+	auto vbo = graphicsFactory->createVertexBuffer(vertices, 4, 5 * sizeof(float));
 
 	uint32_t indices[] = {
 		0, 1, 2,
@@ -67,6 +67,15 @@ int main() {
 			"POSITION",
 			mr::LayoutDataType::Float,
 			3,
+			0
+		}
+	);
+
+	layout.addLayout(
+		{
+			"TEXCOORD",
+			mr::LayoutDataType::Float,
+			2,
 			0
 		}
 	);
@@ -87,8 +96,18 @@ int main() {
 	
 	auto mvp = DirectX::XMMatrixTranspose(model * view * proj);
 
-	auto cbo = graphicsFactory->createConstantBuffer(&mvp, sizeof(mvp), mr::ShaderType::VertexShader);
+	auto vcbo = graphicsFactory->createConstantBuffer(&mvp, sizeof(mvp), mr::ShaderType::VertexShader);
+	
+	struct alignas(16) TextureData {
+		int texture = 1;
+		float padding[3];
+	};
+	TextureData td;
+	auto pcbo = graphicsFactory->createConstantBuffer(&td, sizeof(td), mr::ShaderType::PixelShader);
 
+	auto texture = graphicsFactory->createTexture("texture/pizza.jpg");
+
+	float angle = 0.0f;
 
 	while (running) {
 		while (SDL_PollEvent(&e)) {
@@ -97,13 +116,27 @@ int main() {
 			}
 		}
 
+		if (angle > 360.0f) {
+			angle = 0.0f;
+		}
+
+		angle += 1.0f;
+
+		model = DirectX::XMMatrixRotationZ(DirectX::XMConvertToRadians(angle));
+
+		mvp = DirectX::XMMatrixTranspose(model * view * proj);
+
+		vcbo->update(&mvp, sizeof(mvp));
+
 		api->preRenderSetup();
 		api->clear();
 
 		vbo->bind();
 		ibo->bind();
 		shader->bind();
-		cbo->bind();
+		vcbo->bind();
+		pcbo->bind();
+		texture->bind();
 
 		api->drawIndexed(6);
 

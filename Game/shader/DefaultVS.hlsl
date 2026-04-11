@@ -1,7 +1,23 @@
 cbuffer cbuf {
 	float4x4 mat;
-}
+};
 
-float4 main( float3 pos : POSITION ) : SV_POSITION {
-	return mul(mat, float4(pos, 1.0f));
+struct VSIn {
+	float3 pos : POSITION;
+	float2 uv : TEXCOORD;
+};
+
+struct VSOut
+{
+    float4 pos : SV_POSITION;
+    float2 uvCoord : TEXCOORD;
+};
+
+
+VSOut main(VSIn input) {
+	VSOut output;
+	output.pos = mul(mat, float4(input.pos, 1.0f));
+	output.uvCoord = input.uv;
+
+	return output;
 }

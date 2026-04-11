@@ -8,6 +8,7 @@
 #include "InputLayout.hpp"
 #include "ConstantBuffer.hpp"
 #include "ShaderType.hpp"
+#include "Texture.hpp"
 
 #include <string>
 
@@ -24,6 +25,8 @@ public:
 		(const std::wstring& name, const InputLayout& layout)			= 0;
 	virtual std::unique_ptr <ConstantBuffer> createConstantBuffer
 		(const void* data, int size, ShaderType type, int slot = 0)		= 0;
+	virtual std::unique_ptr <Texture> createTexture
+		(const std::string& path)										= 0;
 
 	static std::unique_ptr <GraphicsFactory> create(GraphicsAPI api);
 };
