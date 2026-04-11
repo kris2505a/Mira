@@ -1,5 +1,5 @@
 #include <Public/GraphicsFactory.hpp>
-#include <Private/Dx11GraphicsFactory.hpp>
+#include <Private/Dx11/Dx11GraphicsFactory.hpp>
 
 namespace mr {
 

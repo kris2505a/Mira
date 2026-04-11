@@ -1,9 +1,9 @@
-#include <Private/Dx11GraphicsFactory.hpp>
-#include <Private/Dx11RenderAPI.hpp>
-#include <Private/Dx11VertexBuffer.hpp>
-#include <Private/Dx11IndexBuffer.hpp>
-#include <Private/Dx11Shader.hpp>
-#include <Private/Dx11ConstantBuffer.hpp>
+#include <Private/Dx11/Dx11GraphicsFactory.hpp>
+#include <Private/Dx11/Dx11RenderAPI.hpp>
+#include <Private/Dx11/Dx11VertexBuffer.hpp>
+#include <Private/Dx11/Dx11IndexBuffer.hpp>
+#include <Private/Dx11/Dx11Shader.hpp>
+#include <Private/Dx11/Dx11ConstantBuffer.hpp>
 
 namespace mr {
 

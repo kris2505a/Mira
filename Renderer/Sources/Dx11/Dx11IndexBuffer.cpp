@@ -1,6 +1,6 @@
-#include <Private/Dx11IndexBuffer.hpp>
+#include <Private/Dx11/Dx11IndexBuffer.hpp>
 #include <cstdint>
-#include <Private/DxError.hpp>
+#include <Private/Dx11/DxError.hpp>
 
 namespace mr {
 

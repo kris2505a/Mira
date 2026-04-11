@@ -1,5 +1,5 @@
-#include <Private/Dx11ConstantBuffer.hpp>
-#include <Private/DxError.hpp>
+#include <Private/Dx11/Dx11ConstantBuffer.hpp>
+#include <Private/Dx11/DxError.hpp>
 
 namespace mr {
 
