@@ -7,6 +7,7 @@
 
 #include <SDL3/SDL_video.h>
 #include <windows.h>
+#include <DirectXMath.h>
 
 HWND GetHWND(SDL_Window* window)
 {
@@ -72,6 +73,22 @@ int main() {
 
 	auto shader = graphicsFactory->createShader(L"Default", layout);
 
+	DirectX::XMMATRIX model = DirectX::XMMatrixIdentity();
+	DirectX::XMMATRIX view = DirectX::XMMatrixLookAtLH(
+		DirectX::XMVectorSet(0.0f, 0.0f, -5.0f, 0.0f),
+		DirectX::XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f),
+		DirectX::XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f)
+	);
+	DirectX::XMMATRIX proj = DirectX::XMMatrixPerspectiveFovLH(
+		DirectX::XMConvertToRadians(45.0f),
+		1280.0f / 720.0f,
+		0.1f, 20.0f
+	);
+	
+	auto mvp = DirectX::XMMatrixTranspose(model * view * proj);
+
+	auto cbo = graphicsFactory->createConstantBuffer(&mvp, sizeof(mvp), mr::ShaderType::VertexShader);
+
 
 	while (running) {
 		while (SDL_PollEvent(&e)) {
@@ -86,6 +103,7 @@ int main() {
 		vbo->bind();
 		ibo->bind();
 		shader->bind();
+		cbo->bind();
 
 		api->drawIndexed(6);
 

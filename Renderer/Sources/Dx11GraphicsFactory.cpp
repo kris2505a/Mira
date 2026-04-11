@@ -3,6 +3,7 @@
 #include <Private/Dx11VertexBuffer.hpp>
 #include <Private/Dx11IndexBuffer.hpp>
 #include <Private/Dx11Shader.hpp>
+#include <Private/Dx11ConstantBuffer.hpp>
 
 namespace mr {
 
@@ -24,6 +25,10 @@ std::unique_ptr<IndexBuffer> Dx11GraphicsFactory::createIndexBuffer(const void* 
 
 std::unique_ptr<Shader> Dx11GraphicsFactory::createShader(const std::wstring& name, const InputLayout& layout) {
     return std::make_unique<Dx11Shader>(name, layout, p_device, p_context);
+}
+
+std::unique_ptr<ConstantBuffer> Dx11GraphicsFactory::createConstantBuffer(const void* data, int size, ShaderType type, int slot) {
+    return std::make_unique<Dx11ConstantBuffer>(data, size, type, p_device, p_context, slot);
 }
 
 }
