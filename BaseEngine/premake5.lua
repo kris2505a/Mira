@@ -37,7 +37,8 @@ project "BaseEngine"
     defines
     {
         "MIRA_ENGINE_BUILD",
-        "SDL_MAIN_HANDLED"
+        "SDL_MAIN_HANDLED",
+        "MIRA_ENGINE"
     }
 
     filter "system:windows"

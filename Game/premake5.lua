@@ -30,6 +30,11 @@ project "Game"
     {
         "BaseEngine"
     }
+    
+    defines
+    {
+        "MIRA_GAME"
+    }
 
     filter "system:windows"
         systemversion "latest"
