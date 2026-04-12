@@ -1,5 +1,6 @@
 #pragma once
 #include "Core.hpp"
+#include <Events/EventSystem.hpp>
 
 namespace Mira {
 
@@ -15,10 +16,13 @@ private:
 	void mainLoop();
 	void update();
 	void render();
+	void handleEvent();
 	
 
 private:
-	int m_test = 0;
+	int m_test					= 0;
+	EventSystem m_eventSystem	= {};
+	bool m_running				= true;
 };
 
 }

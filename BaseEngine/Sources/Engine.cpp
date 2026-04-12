@@ -35,4 +35,16 @@ void Engine::render() {
 
 }
 
+void Engine::handleEvent() {
+	while (m_eventSystem.isQueueEmpty()) {
+		auto e = m_eventSystem.getEvent();
+
+		switch (e.getEventType()) {
+		case EventType::WindowClosed:
+			m_running = false;
+			break;
+		}
+	}
+}
+
 }
