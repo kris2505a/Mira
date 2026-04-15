@@ -2,13 +2,16 @@
 #include <Core/Core.hpp>
 #include <SDL3/SDL.h>
 #include <string>
+#include <Events/EventSystem.hpp>
+#include <Windows.h>
 
 namespace Mira {
 
 class Window {
 public:
-	Window(unsigned int width = 1280u, unsigned int height = 720u, const std::string& title);
+	Window(EventSystem& es, unsigned int width = 1280u, unsigned int height = 720u, const std::string& title = "Engine");
 	~Window();
+	HWND getHandle();
 	void pollEvents();
 
 private:
@@ -17,6 +20,7 @@ private:
 	unsigned int m_width	= 1280u;
 	unsigned int m_height	= 720u;
 	std::string m_title		= "";
+	EventSystem& r_eventSystem;
 };
 
 }

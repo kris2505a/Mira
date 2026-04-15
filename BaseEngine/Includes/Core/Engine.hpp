@@ -1,6 +1,12 @@
 #pragma once
 #include "Core.hpp"
+//#include "../Events/EventSystem.hpp"
 #include <Events/EventSystem.hpp>
+//#include "../Window/Window.hpp"
+#include <Window/Window.hpp>
+#include <RenderAPI.hpp>
+#include <GraphicsFactory.hpp>
+#include <memory>
 
 namespace Mira {
 
@@ -20,9 +26,12 @@ private:
 	
 
 private:
-	int m_test					= 0;
-	EventSystem m_eventSystem	= {};
-	bool m_running				= true;
+	int m_test							= 0;
+	EventSystem m_eventSystem			= {};
+	bool m_running						= true;
+	std::unique_ptr<Window> m_window	= nullptr;
+	std::unique_ptr<mr::RenderAPI> m_renderAPI;
+	std::unique_ptr<mr::GraphicsFactory> m_graphicsFactory;
 };
 
 }
