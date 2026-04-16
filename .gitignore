@@ -1,8 +1,5 @@
 .vs/
 .vscode/
+.cache/
+out/
 Binaries/
-Intermediate/
-*.slnx
-*.vcxproj
-*.user
-*.filters

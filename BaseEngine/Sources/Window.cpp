@@ -42,12 +42,61 @@ Window::~Window() {
 void Window::pollEvents() {
 	while (SDL_PollEvent(&m_event)) {
 		switch (m_event.type) {
-		case SDL_EVENT_QUIT:
+		case SDL_EVENT_QUIT: 
+        {
 			Event e(EventType::WindowClosed);
 			r_eventSystem.pushEvent(e);
 			break;
+        }
 
-		}
+        case SDL_EVENT_KEY_DOWN: 
+        {
+            Event e(EventType::KeyPressed);
+            r_eventSystem.pushEvent(e);
+            break;
+        }
+
+        case SDL_EVENT_KEY_UP: 
+        {
+            Event e(EventType::KeyReleased);
+            r_eventSystem.pushEvent(e);
+            break;
+        }
+
+        case SDL_EVENT_MOUSE_BUTTON_DOWN: 
+        {
+            Event e(EventType::MouseButtonPressed);
+            r_eventSystem.pushEvent(e);
+            break;
+        }
+        
+        case SDL_EVENT_MOUSE_BUTTON_UP:
+        {
+            Event e(EventType::MouseButtonRelease);
+            r_eventSystem.pushEvent(e);
+            break;
+        }
+
+        case SDL_EVENT_MOUSE_MOTION:
+        {
+            Event e(EventType::MouseMoved);
+            r_eventSystem.pushEvent(e);
+            break;
+        }
+
+        case SDL_EVENT_MOUSE_WHEEL:
+        {
+            Event e(EventType::MouseScrolled);
+            r_eventSystem.pushEvent(e);
+            break;
+        }
+
+        case SDL_EVENT_WINDOW_RESIZED: {
+            Event e(EventType::WindowResized);
+            r_eventSystem.pushEvent(e);
+            break;
+            }
+        }
 
 	}
 }

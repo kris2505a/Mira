@@ -5,6 +5,7 @@ project(BaseEngine LANGUAGES CXX)
 set(BASEENGINE_SOURCES
     Sources/Engine.cpp
     Sources/Window.cpp
+    Sources/LayerManager.cpp
 )
 
 set(BASEENGINE_HEADERS
@@ -15,6 +16,9 @@ set(BASEENGINE_HEADERS
     Includes/Events/EventSystem.hpp
 
     Includes/Logging/Log.hpp
+
+    Includes/Layers/Layer.hpp
+    Includes/Layers/LayerManager.hpp
 
     Includes/Public/MiraEngine.hpp
 

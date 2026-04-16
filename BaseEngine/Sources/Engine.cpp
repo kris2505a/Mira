@@ -34,7 +34,9 @@ void Engine::mainLoop() {
 }
 
 void Engine::update() {
-
+    for (auto& layer : m_layerManager.getLayers()) {
+        layer->update(1.0f);
+    }
 }
 
 void Engine::render() {
@@ -47,12 +49,15 @@ void Engine::render() {
 void Engine::handleEvent() {
 	while (!m_eventSystem.isQueueEmpty()) {
 		auto e = m_eventSystem.getEvent();
-		switch (e.getEventType()) {
-		case EventType::WindowClosed:
-			m_running = false;
-			break;
-		}
+		
+        if(e.getEventType() == EventType::WindowClosed) {
+            m_running = false;
+        }
 	}
+}
+
+void Engine::addLayer(std::unique_ptr<Layer> layer) {
+    m_layerManager.addLayer(std::move(layer));
 }
 
 }

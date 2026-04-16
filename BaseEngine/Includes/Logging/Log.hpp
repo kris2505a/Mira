@@ -1,18 +1,11 @@
 #pragma once
 #include <chrono>
 #include <format>
-#include <string_view>
 #include <sstream>
 #include <iostream>
 #include <iomanip>
 
 namespace Mira {
-
-std::string g_errorType[] = {
-	"Info",
-	"Warning",
-	"Error"
-};
 
 enum class LogType : int {
 	Info,
@@ -48,9 +41,9 @@ public:
 private:
 	static void logMessage(const std::string& str, const std::string& logProject, LogType type) {
 		std::cout
-			<< "[" << getTimeNow() << "] ["
-			<< logProject << "] ["
-			<< g_errorType[static_cast <int>(type)] << "] >> "
+			<< "[" << getTimeNow() << "]["
+			<< logProject << "]["
+			<< typeToString(type) << "] "
 			<< str << "\n";
 	}
 
@@ -67,6 +60,19 @@ private:
 		return oss.str();
 	}
 
+    static std::string typeToString(LogType type) {
+        switch (type) {
+        case LogType::Info:
+            return "Info";
+
+        case LogType::Error:
+            return "Error";
+
+        case LogType::Warning:
+            return "Warning";
+        }
+        return "Unknown type";
+    }
 };
 
 }
