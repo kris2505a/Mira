@@ -1,7 +1,6 @@
 #pragma once
 #include "CoreAPI.hpp"
 #include <Windows.h>
-#include <memory>
 
 namespace mr { //Mira Renderer
 
@@ -17,7 +16,7 @@ public:
 	virtual void setClearColor(float r, float g, float b, float a)	= 0;
 	virtual void preRenderSetup()									= 0;
 	virtual void setWireFrameMode(bool cond)						= 0;
-
+    virtual void resize(int width, int height)                      = 0;
 
 };
 

@@ -19,6 +19,7 @@ public:
 	void setClearColor(float r, float g, float b, float a)	final override;
 	void preRenderSetup()									final override;
 	void setWireFrameMode(bool cond)						final override;
+    void resize(int width, int height)                      final override;
 
 	ID3D11Device* getDevice()										 const;
 	ID3D11DeviceContext* getContext()								 const;

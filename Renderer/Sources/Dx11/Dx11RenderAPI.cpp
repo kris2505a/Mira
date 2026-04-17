@@ -189,4 +189,29 @@ void Dx11RenderAPI::createSamplerState() {
 
 #pragma endregion
 
+void Dx11RenderAPI::resize(int width, int height) {
+    //Reset stuff
+    m_targetView.Reset();
+    m_stencilView.Reset();
+    m_stencilState.Reset();
+    
+    m_renderWidth = width;
+    m_renderHeight = height;
+
+    //Resize swap chain buffer
+    m_swapchain->ResizeBuffers(
+        0,
+        width,
+        height,
+        DXGI_FORMAT_UNKNOWN,
+        0
+    );
+    
+    createRenderTargetView();
+    createDepthStencilView();
+    createDepthStencilState();
+    createViewPort();
+
+}
+
 }
