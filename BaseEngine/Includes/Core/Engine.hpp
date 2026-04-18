@@ -1,6 +1,6 @@
 #pragma once
 #include "Core.hpp"
-#include <Events/EventSystem.hpp>
+#include <Events/Event.hpp>
 #include <Window/Window.hpp>
 #include <RenderAPI.hpp>
 #include <GraphicsFactory.hpp>
@@ -22,14 +22,11 @@ private:
 	void mainLoop();
 	void update();
 	void render();
-	void handleEvent();
-	
+	void handleEvent(Event& e);
 
 private:
-	int m_test							= 0;
-	EventSystem m_eventSystem			= {};
-	bool m_running						= true;
-	std::unique_ptr<Window> m_window	= nullptr;
+	bool m_running                      = true;
+	std::unique_ptr<Window> m_window    = nullptr;
     LayerManager m_layerManager         = {};
 
 	std::unique_ptr<mr::RenderAPI> m_renderAPI;

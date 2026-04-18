@@ -38,15 +38,16 @@ target_include_directories(BaseEngine PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/deps/include
 )
 
+
 target_link_libraries(BaseEngine PRIVATE
     Renderer
-    ${CMAKE_CURRENT_SOURCE_DIR}/deps/lib/SDL3.lib
+    ${CMAKE_CURRENT_SOURCE_DIR}/deps/lib/glfw3.lib
 )
 
 target_compile_definitions(BaseEngine PRIVATE
     MIRA_ENGINE_BUILD
-    SDL_MAIN_HANDLED
     MIRA_ENGINE
+    GLFW_STATIC
 )
 
 set_target_properties(BaseEngine PROPERTIES

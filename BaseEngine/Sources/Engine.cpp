@@ -1,5 +1,7 @@
 #include <Core/Engine.hpp>
 #include <Logging/Log.hpp>
+#include <Events/EventDispatcher.hpp>
+#include <GLFW/glfw3.h>
 
 
 namespace Mira {
@@ -14,10 +16,14 @@ void Engine::run() {
 }
 
 void Engine::init() {
-	m_window = std::make_unique<Window>(m_eventSystem, 1600, 900, "TestRig");
-	m_graphicsFactory = mr::GraphicsFactory::create(mr::GraphicsAPI::DirectX11);
+	m_window = std::make_unique<Window>(1600, 900, "TestRig");
+	m_window->setEventCallbackFn(
+        std::bind(&Engine::handleEvent, this, std::placeholders::_1)
+    );
+    m_graphicsFactory = mr::GraphicsFactory::create(mr::GraphicsAPI::DirectX11);
 	m_renderAPI = m_graphicsFactory->createRenderAPI(m_window->getHandle());
 	m_renderAPI->setClearColor(0, 1, 1, 1);
+    
 }
 
 void Engine::cleanup() {
@@ -26,11 +32,10 @@ void Engine::cleanup() {
 
 void Engine::mainLoop() {
 	while (m_running) {
-		update();
+		glfwPollEvents();
+        update();
 		render();
-		m_window->pollEvents();
-		handleEvent();
-	}
+    }
 }
 
 void Engine::update() {
@@ -42,7 +47,7 @@ void Engine::update() {
 void Engine::render() {
 	m_renderAPI->preRenderSetup();
 	m_renderAPI->clear();
-    
+
     for (auto& layer : m_layerManager.getLayers()) {
         layer->render();
     }
@@ -50,27 +55,23 @@ void Engine::render() {
 	m_renderAPI->swap();
 }
 
-void Engine::handleEvent() {
-	while (!m_eventSystem.isQueueEmpty()) {
-		auto e = m_eventSystem.getEvent();
-		
-        if(e.getEventType() == EventType::WindowClosed) {
-            m_running = false;
-        }
+void Engine::handleEvent(Event& e) {
+    Dispatcher dispatcher(e);
+    dispatcher.dispatch<WindowClosedEvent>([this](WindowClosedEvent&){
+        this->m_running = false;
+        return  true;
+    });
 
-        else if(e.getEventType() == EventType::WindowResized) {
-            Logger::Log(
-                    LogType::Info, 
-                    "WindowResized: {}x{}", 
-                    m_window->getWidth(), 
-                    m_window->getHeight()
-            );
+    dispatcher.dispatch<WindowResizedEvent>([](WindowResizedEvent& e){
+        Logger::Log(LogType::Info, "{}", e.toString());
+        return true;
+    });
 
-            for (auto& layer : m_layerManager.getLayers()) {
-                layer->event(e);
-            }
-        }
-	}
+    for (auto& layer : m_layerManager.getLayers()) {
+        layer->event(e);
+        if(e.Handled)
+            break;
+    }
 }
 
 void Engine::addLayer(std::unique_ptr<Layer> layer) {
