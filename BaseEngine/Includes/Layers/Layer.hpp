@@ -2,6 +2,7 @@
 #include <Core/Core.hpp>
 #include <string>
 #include <Logging/Log.hpp>
+#include <Events/Event.hpp>
 
 namespace Mira {
 
@@ -13,7 +14,7 @@ public:
 	virtual ~Layer() = default;
 	virtual void update(float deltaTime) {}
 	virtual void render() {}
-	virtual void event() {}
+	virtual void event(Event& e) {}
     
     inline const std::string& getLayerName() const { return m_name;}
 

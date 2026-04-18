@@ -13,6 +13,8 @@ public:
 	~Window();
 	HWND getHandle();
 	void pollEvents();
+    unsigned int getWidth() const;
+    unsigned int getHeight() const;
 
 private:
 	SDL_Window* m_window	= nullptr;

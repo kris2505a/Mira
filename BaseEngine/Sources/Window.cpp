@@ -93,12 +93,24 @@ void Window::pollEvents() {
 
         case SDL_EVENT_WINDOW_RESIZED: {
             Event e(EventType::WindowResized);
+            int w, h;
+            SDL_GetWindowSizeInPixels(m_window, &w, &h);
+            m_width = static_cast <unsigned int>(w);
+            m_height = static_cast <unsigned int>(h);
             r_eventSystem.pushEvent(e);
             break;
             }
         }
 
 	}
+}
+
+unsigned int Window::getWidth() const {
+    return m_width;
+}
+
+unsigned int Window::getHeight() const {
+    return m_height;
 }
 
 }

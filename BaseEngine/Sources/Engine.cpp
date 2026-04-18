@@ -21,7 +21,7 @@ void Engine::init() {
 }
 
 void Engine::cleanup() {
-	Logger::Log(LogType::Info, "Engine Cleanup");
+    
 }
 
 void Engine::mainLoop() {
@@ -42,6 +42,10 @@ void Engine::update() {
 void Engine::render() {
 	m_renderAPI->preRenderSetup();
 	m_renderAPI->clear();
+    
+    for (auto& layer : m_layerManager.getLayers()) {
+        layer->render();
+    }
 
 	m_renderAPI->swap();
 }
@@ -52,6 +56,19 @@ void Engine::handleEvent() {
 		
         if(e.getEventType() == EventType::WindowClosed) {
             m_running = false;
+        }
+
+        else if(e.getEventType() == EventType::WindowResized) {
+            Logger::Log(
+                    LogType::Info, 
+                    "WindowResized: {}x{}", 
+                    m_window->getWidth(), 
+                    m_window->getHeight()
+            );
+
+            for (auto& layer : m_layerManager.getLayers()) {
+                layer->event(e);
+            }
         }
 	}
 }

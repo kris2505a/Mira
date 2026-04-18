@@ -9,6 +9,7 @@
 #include "ConstantBuffer.hpp"
 #include "ShaderType.hpp"
 #include "Texture.hpp"
+#include <memory>
 
 #include <string>
 

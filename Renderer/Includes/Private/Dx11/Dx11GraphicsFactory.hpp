@@ -1,6 +1,7 @@
 #pragma once
 #include <Public/GraphicsFactory.hpp>
 #include <d3d11.h>
+#include <memory.h>
 
 namespace mr {
 
