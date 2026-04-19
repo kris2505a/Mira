@@ -21,11 +21,79 @@ Window::Window(unsigned int width, unsigned int height, const std::string& title
 
     glfwSetWindowUserPointer(m_window, this);
 
+    //Callbacks
     glfwSetWindowSizeCallback(m_window, [](GLFWwindow* window, int width, int height){
-            Window* win = static_cast<Window*>(glfwGetWindowUserPointer(window));
+        Window* win = static_cast<Window*>(glfwGetWindowUserPointer(window));
+        win->m_width = width;
+        win->m_height = height;
+
         WindowResizedEvent e(width, height);
         win->m_callback(e);
     });
+
+    glfwSetWindowCloseCallback(m_window, [](GLFWwindow* window){
+        Window* win = static_cast<Window*>(glfwGetWindowUserPointer(window));
+        WindowClosedEvent e;
+        win->m_callback(e);
+    });
+
+    glfwSetKeyCallback(m_window, [](GLFWwindow* window, int key, int scancode, int action, int mods){
+        Window* win = static_cast<Window*>(glfwGetWindowUserPointer(window));
+        switch (action) {
+        case GLFW_PRESS:
+        {
+            KeyPressedEvent e(key, 0);
+            win->m_callback(e);
+            break;
+        }
+
+        case GLFW_RELEASE:
+        {
+            KeyReleasedEvent e(key);
+            win->m_callback(e);
+            break;
+        }
+
+        case GLFW_REPEAT:
+        {
+            KeyPressedEvent e(key, 1);
+            win->m_callback(e);
+            break;
+        }
+        }
+    });
+
+    glfwSetMouseButtonCallback(m_window, [](GLFWwindow* window, int button, int action, int mods){
+        Window* win = static_cast<Window*>(glfwGetWindowUserPointer(window));
+        switch (action) {
+        case GLFW_PRESS:
+        {
+            MouseButtonPressedEvent e(button);
+            win->m_callback(e);
+            break;
+        }
+
+        case GLFW_RELEASE:
+        {
+            MouseButtonReleasedEvent e(button);
+            win->m_callback(e);
+            break;
+        }
+        }
+    });
+
+    glfwSetScrollCallback(m_window, [](GLFWwindow* window, double xOffset, double yOffset){
+        Window* win = static_cast<Window*>(glfwGetWindowUserPointer(window));
+        MouseScrolledEvent e((float)xOffset, (float)yOffset);
+        win->m_callback(e);
+    });
+
+    glfwSetCursorPosCallback(m_window, [](GLFWwindow* window, double xPos, double yPos){
+        Window* win = static_cast<Window*>(glfwGetWindowUserPointer(window));
+        MouseMovedEvent e((float)xPos, (float)yPos);
+        win->m_callback(e);
+    });
+
 }
 
 void Window::setEventCallbackFn(const EventCallBackFn& fn) {

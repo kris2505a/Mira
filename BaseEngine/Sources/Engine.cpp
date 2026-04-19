@@ -56,6 +56,8 @@ void Engine::render() {
 }
 
 void Engine::handleEvent(Event& e) {
+
+    Logger::Log(LogType::Info, "{}", e.toString());
     Dispatcher dispatcher(e);
     dispatcher.dispatch<WindowClosedEvent>([this](WindowClosedEvent&){
         this->m_running = false;
