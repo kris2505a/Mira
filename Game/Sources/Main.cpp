@@ -1,4 +1,5 @@
 #include <MiraEngine.hpp>
+#include <exception>
 
 class Sandbox : public Mira::Engine {
 public:
@@ -11,6 +12,12 @@ public:
 
 int main() {
 	Mira::Engine* game = new Sandbox();
-	game->run();
+
+    try {
+	    game->run();
+    }
+    catch(std::exception& e) {
+        std::cerr << e.what() << std::endl;
+    }
     delete game;
 }

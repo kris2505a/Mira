@@ -1,7 +1,6 @@
 #include <Core/Engine.hpp>
 #include <Logging/Log.hpp>
 #include <Events/EventDispatcher.hpp>
-#include <GLFW/glfw3.h>
 
 
 namespace Mira {
