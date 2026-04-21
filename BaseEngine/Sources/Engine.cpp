@@ -16,14 +16,13 @@ void Engine::run() {
 }
 
 void Engine::init() {
-	m_window = std::make_unique<Window>(1600, 900, "TestRig");
+	m_window = std::make_unique<Window>(1600, 900, L"TestRig");
 	m_window->setEventCallbackFn(
         std::bind(&Engine::handleEvent, this, std::placeholders::_1)
     );
     m_graphicsFactory = mr::GraphicsFactory::create(mr::GraphicsAPI::DirectX11);
 	m_renderAPI = m_graphicsFactory->createRenderAPI(m_window->getHandle());
 	m_renderAPI->setClearColor(0, 1, 1, 1);
-    
 }
 
 void Engine::cleanup() {
@@ -32,7 +31,7 @@ void Engine::cleanup() {
 
 void Engine::mainLoop() {
 	while (m_running) {
-		glfwPollEvents();
+        m_window->pollEvents();
         update();
 		render();
     }

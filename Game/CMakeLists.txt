@@ -2,8 +2,10 @@ cmake_minimum_required(VERSION 3.20)
 
 project(Game LANGUAGES CXX)
 
-set(GAME_SOURCES
-    Sources/Main.cpp
+file(GLOB_RECURSE GAME_SOURCES
+    CONFIGURE_DEPENDS
+    ${CMAKE_CURRENT_SOURCE_DIR}/Sources/*.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Sources/*.hpp
 )
 
 add_executable(Game

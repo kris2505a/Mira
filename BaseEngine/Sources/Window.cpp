@@ -1,99 +1,76 @@
 #include <Window/Window.hpp>
 #include <stdexcept>
 #include <Events/Event.hpp>
-#include <GLFW/glfw3.h>
-
-#define GLFW_EXPOSE_NATIVE_WIN32
-#include <GLFW/glfw3native.h>
 
 
 namespace Mira {
 
-Window::Window(unsigned int width, unsigned int height, const std::string& title) 
-	    : m_width(width), m_height(height), m_title(title) {
+#include <windows.h>
+#include <string>
 
-    if (!glfwInit())
-        throw std::runtime_error("Unable to init GLFW!");
-    glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-    m_window = glfwCreateWindow(m_width, m_height, m_title.c_str(), nullptr, nullptr);
-    if(!m_window)
-        throw std::runtime_error("Unable to create glfw Window!");
+std::string Window::getWin32ErrorMessage(DWORD err) {
+    LPWSTR buffer = nullptr;
 
-    glfwSetWindowUserPointer(m_window, this);
+    FormatMessageW(
+        FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
+        nullptr,
+        err,
+        0,
+        (LPWSTR)&buffer,
+        0,
+        nullptr
+    );
 
-    //Callbacks
-    glfwSetWindowSizeCallback(m_window, [](GLFWwindow* window, int width, int height){
-        Window* win = static_cast<Window*>(glfwGetWindowUserPointer(window));
-        win->m_width = width;
-        win->m_height = height;
+    if (!buffer) return "Unknown Win32 error";
 
-        WindowResizedEvent e(width, height);
-        win->m_callback(e);
-    });
+    // convert wide ? narrow
+    int size = WideCharToMultiByte(CP_UTF8, 0, buffer, -1, nullptr, 0, nullptr, nullptr);
+    std::string result(size, 0);
+    WideCharToMultiByte(CP_UTF8, 0, buffer, -1, result.data(), size, nullptr, nullptr);
 
-    glfwSetWindowCloseCallback(m_window, [](GLFWwindow* window){
-        Window* win = static_cast<Window*>(glfwGetWindowUserPointer(window));
-        WindowClosedEvent e;
-        win->m_callback(e);
-    });
+    LocalFree(buffer);
+    return result;
+}
 
-    glfwSetKeyCallback(m_window, [](GLFWwindow* window, int key, int scancode, int action, int mods){
-        Window* win = static_cast<Window*>(glfwGetWindowUserPointer(window));
-        switch (action) {
-        case GLFW_PRESS:
-        {
-            KeyPressedEvent e(key, 0);
-            win->m_callback(e);
-            break;
-        }
+Window::Window(unsigned int width, unsigned int height, const std::wstring& title) 
+	    : m_width(width), m_height(height), m_title(title), m_instance(GetModuleHandle(nullptr)) {
 
-        case GLFW_RELEASE:
-        {
-            KeyReleasedEvent e(key);
-            win->m_callback(e);
-            break;
-        }
+    initWndClassEx();
+    createWindowHandle();
+    ShowWindow(m_handle, SW_SHOW);
+}
 
-        case GLFW_REPEAT:
-        {
-            KeyPressedEvent e(key, 1);
-            win->m_callback(e);
-            break;
-        }
-        }
-    });
+void Window::initWndClassEx() {
+    m_windowClass.cbSize = sizeof(WNDCLASSEXW);
+    m_windowClass.style = CS_OWNDC | CS_HREDRAW | CS_VREDRAW;
+    m_windowClass.lpfnWndProc = Window::windowProcedure;
+    m_windowClass.hInstance = m_instance;
+    m_windowClass.lpszClassName = m_className;
 
-    glfwSetMouseButtonCallback(m_window, [](GLFWwindow* window, int button, int action, int mods){
-        Window* win = static_cast<Window*>(glfwGetWindowUserPointer(window));
-        switch (action) {
-        case GLFW_PRESS:
-        {
-            MouseButtonPressedEvent e(button);
-            win->m_callback(e);
-            break;
-        }
+    if (!RegisterClassExW(&m_windowClass)) {
+        DWORD err = GetLastError();
+        throw std::runtime_error("Error Registering Window Class: " + getWin32ErrorMessage(err));
+    }
+}
 
-        case GLFW_RELEASE:
-        {
-            MouseButtonReleasedEvent e(button);
-            win->m_callback(e);
-            break;
-        }
-        }
-    });
+void Window::createWindowHandle() {
+    m_handle = CreateWindowExW(
+        0,
+        m_className,
+        m_title.c_str(),
+        WS_OVERLAPPEDWINDOW,
+        CW_USEDEFAULT, CW_USEDEFAULT,
+        m_width, m_height,
+        nullptr,
+        nullptr,
+        m_instance,
+        this
+    );
 
-    glfwSetScrollCallback(m_window, [](GLFWwindow* window, double xOffset, double yOffset){
-        Window* win = static_cast<Window*>(glfwGetWindowUserPointer(window));
-        MouseScrolledEvent e((float)xOffset, (float)yOffset);
-        win->m_callback(e);
-    });
-
-    glfwSetCursorPosCallback(m_window, [](GLFWwindow* window, double xPos, double yPos){
-        Window* win = static_cast<Window*>(glfwGetWindowUserPointer(window));
-        MouseMovedEvent e((float)xPos, (float)yPos);
-        win->m_callback(e);
-    });
-
+    if (!m_handle) {
+        DWORD err = GetLastError();
+        throw std::runtime_error("CreateWindowExW Failed: " + getWin32ErrorMessage(err));
+    }
 }
 
 void Window::setEventCallbackFn(const EventCallBackFn& fn) {
@@ -101,16 +78,19 @@ void Window::setEventCallbackFn(const EventCallBackFn& fn) {
 }
 
 HWND Window::getHandle() {
-    return glfwGetWin32Window(m_window);
+    return m_handle;
 }
 
 Window::~Window() {
-    glfwDestroyWindow(m_window);
-    glfwTerminate();
+    DestroyWindow(m_handle);
 }
 
 void Window::pollEvents() {
-    glfwPollEvents();
+    MSG msg;
+    while (PeekMessageW(&msg, nullptr, 0, 0, PM_REMOVE)) {
+        TranslateMessage(&msg);
+        DispatchMessageW(&msg);
+    }
 }
 
 unsigned int Window::getWidth() const {
@@ -119,6 +99,41 @@ unsigned int Window::getWidth() const {
 
 unsigned int Window::getHeight() const {
     return m_height;
+}
+
+LRESULT CALLBACK Window::windowProcedure(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
+    Window* window = nullptr;
+
+    if (msg == WM_NCCREATE) {
+        auto* cs = reinterpret_cast<CREATESTRUCT*>(lparam);
+        window = reinterpret_cast<Window*>(cs->lpCreateParams);
+
+        SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)window);
+
+        // (optional but nice)
+        window->m_handle = hwnd;
+    }
+    else {
+        window = reinterpret_cast<Window*>(
+            GetWindowLongPtr(hwnd, GWLP_USERDATA)
+        );
+    }
+
+    switch (msg)
+    {
+    case WM_DESTROY:
+    case WM_QUIT:
+    {
+        PostQuitMessage(0);
+        WindowClosedEvent e;
+        window->m_callback(e);
+        break;
+    }
+
+    }
+
+    
+    return DefWindowProc(hwnd, msg, wparam, lparam);
 }
 
 }

@@ -2,27 +2,14 @@
 
 project(BaseEngine LANGUAGES CXX)
 
-set(BASEENGINE_SOURCES
-    Sources/Engine.cpp
-    Sources/Window.cpp
-    Sources/LayerManager.cpp
+file(GLOB_RECURSE BASEENGINE_SOURCES
+    CONFIGURE_DEPENDS
+    ${CMAKE_CURRENT_SOURCE_DIR}/Sources/*.cpp
 )
 
-set(BASEENGINE_HEADERS
-    Includes/Core/Core.hpp
-    Includes/Core/Engine.hpp
-
-    Includes/Events/Event.hpp
-    Includes/Events/EventSystem.hpp
-
-    Includes/Logging/Log.hpp
-
-    Includes/Layers/Layer.hpp
-    Includes/Layers/LayerManager.hpp
-
-    Includes/Public/MiraEngine.hpp
-
-    Includes/Window/Window.hpp
+file(GLOB_RECURSE BASEENGINE_HEADERS
+    CONFIGURE_DEPENDS
+    ${CMAKE_CURRENT_SOURCE_DIR}/Includes/*.hpp
 )
 
 add_library(BaseEngine SHARED
