@@ -15,6 +15,14 @@ enum class LogType : int {
 
 class Logger {
 public:
+    Logger() = delete;
+    ~Logger() = delete;
+    Logger(const Logger&) = delete;
+    Logger& operator=(const Logger&) = delete;
+    Logger(Logger&&) = delete;
+    Logger& operator=(Logger&&) = delete;
+
+public:
 	template <typename... Args>
 	static void Log(
 		LogType type,

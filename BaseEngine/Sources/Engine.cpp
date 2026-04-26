@@ -15,7 +15,7 @@ void Engine::run() {
 }
 
 void Engine::init() {
-	m_window = std::make_unique<Window>(1600, 900, L"TestRig");
+    m_window = Window::createWindow(1280, 720, "Test Rig");
 	m_window->setEventCallbackFn(
         std::bind(&Engine::handleEvent, this, std::placeholders::_1)
     );

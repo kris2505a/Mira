@@ -1,8 +1,7 @@
 #include <Window/Window.hpp>
-#include <stdexcept>
 #include <Events/Event.hpp>
 #include <Input/KeyBoard.hpp>
-#include <Logging/Log.hpp>
+#include <Window/SDLWindow.hpp>
 
 namespace Mira {
 
@@ -26,4 +25,9 @@ unsigned int Window::getWidth() const {
 unsigned int Window::getHeight() const {
     return m_height;
 }
+
+std::unique_ptr<Window> Window::createWindow(int width, int height, const std::string& title) {
+    return std::make_unique<SDLWindow>(width, height, title);
+}
+
 }

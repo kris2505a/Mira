@@ -19,14 +19,14 @@ public:
     unsigned int getWidth() const;
     unsigned int getHeight() const;
     void setEventCallbackFn(const EventCallBackFn& fn);
+    
+    static std::unique_ptr<Window> createWindow(int width, int height, const std::string& title);
 
-private:
-    //Window stuff
+protected:
+    //Windowsow stuff
 	unsigned int m_width;
 	unsigned int m_height;
 	std::string m_title;
-
-protected:
     EventCallBackFn callback;
 
 };
