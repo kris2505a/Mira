@@ -62,8 +62,9 @@ void Engine::handleEvent(Event& e) {
         return  true;
     });
 
-    dispatcher.dispatch<WindowResizedEvent>([](WindowResizedEvent& e){
+    dispatcher.dispatch<WindowResizedEvent>([this](WindowResizedEvent& e){
         Logger::Log(LogType::Info, "{}", e.toString());
+        this->m_renderAPI->resize(e.getWidth(), e.getHeight());
         return true;
     });
 

@@ -158,6 +158,14 @@ public:
         return std::format("WindowResizedEvent: {}x{}", m_width, m_height);
     }
 
+    inline int getWidth() const {
+        return  m_width;
+    }
+
+    inline int getHeight() const {
+        return m_height;
+    }
+
     EVENT_CLASS_TYPE(WindowResized);
 private:
     int m_width;

@@ -16,6 +16,7 @@ SDLWindow::SDLWindow(unsigned int width, unsigned int height, const std::string&
         static_cast<int>(m_width),
         static_cast<int>(m_height),
         SDL_WINDOW_RESIZABLE
+
     );
     Logger::Log(LogType::Info, "Window Created! {}x{}", m_width, m_height);
     Logger::Log(LogType::Info, "Window Handler: SDL3 - Version: {}", SDL_MAJOR_VERSION);
@@ -94,9 +95,9 @@ void SDLWindow::pollEvents() {
 
 HWND SDLWindow::getHandle() {
     void* handle = SDL_GetPointerProperty(
-                SDL_GetWindowProperties(m_window),
-                SDL_PROP_WINDOW_WIN32_HWND_POINTER,
-                NULL
+        SDL_GetWindowProperties(m_window),
+        SDL_PROP_WINDOW_WIN32_HWND_POINTER,
+        NULL
     );
 
     return (HWND) handle;
