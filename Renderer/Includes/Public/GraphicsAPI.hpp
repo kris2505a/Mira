@@ -1,9 +1,8 @@
 #pragma once
-#include "CoreAPI.hpp"
 
 namespace mr {
 
-enum class RENDER_API GraphicsAPI : int {
+enum class GraphicsAPI : int {
 	DirectX11
 };
 

@@ -1,5 +1,7 @@
 #include <Private/Dx11/Dx11RenderAPI.hpp>
 #include <Private/Dx11/DxError.hpp>
+#include <dxgi.h>
+#include <iostream>
 
 namespace mr {
 
@@ -212,6 +214,27 @@ void Dx11RenderAPI::resize(int width, int height) {
     createDepthStencilState();
     createViewPort();
 
+}
+
+GPUInfo Dx11RenderAPI::getGPUInfo() const {
+    IDXGIDevice* dxgiDevice = nullptr;
+    HRUN(m_device->QueryInterface(__uuidof(IDXGIDevice), (void**)&dxgiDevice));
+
+    IDXGIAdapter* adapter = nullptr;
+    dxgiDevice->GetAdapter(&adapter);
+    DXGI_ADAPTER_DESC desc;
+    adapter->GetDesc(&desc);
+
+    GPUInfo info {};
+
+    std::wstring wName(desc.Description);
+    info.name = std::string(wName.begin(), wName.end());
+    info.vendorId = desc.VendorId;
+    info.deviceId = desc.DeviceId;
+    info.dedicatedVRAM = (desc.DedicatedVideoMemory / (1024 * 1024));
+    info.sharedRam = (desc.SharedSystemMemory / (1024 * 1024));
+
+    return info;
 }
 
 }

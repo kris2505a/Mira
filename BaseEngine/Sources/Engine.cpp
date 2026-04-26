@@ -21,11 +21,41 @@ void Engine::init() {
     );
     m_graphicsFactory = mr::GraphicsFactory::create(mr::GraphicsAPI::DirectX11);
 	m_renderAPI = m_graphicsFactory->createRenderAPI(m_window->getHandle());
-	m_renderAPI->setClearColor(0, 1, 1, 1);
+
+    mr::GPUInfo info = m_renderAPI->getGPUInfo();
+
+    std::string vendor;
+
+    switch (info.vendorId) {
+    case 0x10DE: 
+        vendor = "NVIDIA";
+        break;
+
+    case 0x1002:
+        vendor = "AMD";
+        break;
+
+    case 0x8086:
+        vendor = "Intel";
+        break;
+
+    default:
+        vendor = "Unknown";
+        break;
+    }
+
+    Logger::Log(LogType::Info, "GPU: {}", info.name);
+    Logger::Log(LogType::Info, "Vendor: {} ({})", vendor, info.vendorId);
+    Logger::Log(LogType::Info, "Device Id: {}", info.deviceId);
+    Logger::Log(LogType::Info, "VRAM: {} MB", info.dedicatedVRAM);
+    Logger::Log(LogType::Info, "Shared RAM: {} MB", info.sharedRam);
+
 }
 
 void Engine::cleanup() {
-    
+    //////////////////////////////////
+    ///so far nothing to clean up////
+    /////////////////////////////////
 }
 
 void Engine::mainLoop() {
@@ -55,9 +85,9 @@ void Engine::render() {
 
 void Engine::handleEvent(Event& e) {
 
-    Logger::Log(LogType::Info, "{}", e.toString());
     Dispatcher dispatcher(e);
-    dispatcher.dispatch<WindowClosedEvent>([this](WindowClosedEvent&){
+    dispatcher.dispatch<WindowClosedEvent>([this](WindowClosedEvent& e){
+        Logger::Log(LogType::Info, "{}", e.toString());
         this->m_running = false;
         return  true;
     });

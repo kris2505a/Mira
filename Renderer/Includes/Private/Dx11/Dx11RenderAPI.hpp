@@ -24,6 +24,8 @@ public:
 	ID3D11Device* getDevice()										 const;
 	ID3D11DeviceContext* getContext()								 const;
 
+    GPUInfo getGPUInfo()                            const   final override;
+
 
 private:
 	void createDeviceSwapChain();
