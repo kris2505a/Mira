@@ -1,3 +1,6 @@
 [submodule "BaseEngine/deps/SDL"]
 	path = BaseEngine/deps/SDL
 	url = https://github.com/libsdl-org/SDL.git
+[submodule "BaseEngine/deps/glm"]
+	path = BaseEngine/deps/glm
+	url = https://github.com/g-truc/glm.git
