@@ -25,6 +25,7 @@ target_include_directories(BaseEngine PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/Includes
     ${CMAKE_SOURCE_DIR}/Renderer/Includes/Public
     ${CMAKE_CURRENT_SOURCE_DIR}/deps/SDL/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/deps/glm/glm/
 )
 
 target_link_libraries(BaseEngine PRIVATE
