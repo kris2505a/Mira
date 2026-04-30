@@ -1,6 +1,6 @@
 #pragma once
 #include "CoreAPI.hpp"
-#include <Windows.h>
+#include "WindowHandle.hpp"
 #include "GPUInfo.hpp"
 
 namespace mr { //Mira Renderer
@@ -10,7 +10,7 @@ class RENDER_API RenderAPI {
 public:
 	RenderAPI() = default;
 	virtual ~RenderAPI() = default;
-	virtual void init(HWND handle)                                  = 0;
+	virtual void init(WindowHandle handle)                          = 0;
 	virtual void clear()                                            = 0;
 	virtual void swap()                                             = 0;
 	virtual void drawIndexed(int count)                             = 0;

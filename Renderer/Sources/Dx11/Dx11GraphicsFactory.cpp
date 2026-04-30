@@ -5,10 +5,11 @@
 #include <Private/Dx11/Dx11Shader.hpp>
 #include <Private/Dx11/Dx11ConstantBuffer.hpp>
 #include <Private/Dx11/Dx11Texture.hpp>
+#include <Windows.h>
 
 namespace mr {
 
-std::unique_ptr<RenderAPI> Dx11GraphicsFactory::createRenderAPI(HWND handle) {
+std::unique_ptr<RenderAPI> Dx11GraphicsFactory::createRenderAPI(WindowHandle handle) {
     auto api = std::make_unique <Dx11RenderAPI>();
     api->init(handle);
     p_device    = api->getDevice();

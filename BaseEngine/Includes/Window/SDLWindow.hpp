@@ -9,7 +9,7 @@ public:
     SDLWindow(unsigned int width, unsigned int height, const std::string& title);
     ~SDLWindow();
     void pollEvents()   override;
-    HWND getHandle()    override;
+    mr::WindowHandle getHandle()    override;
 
 private:
     SDL_Window* m_window = nullptr;

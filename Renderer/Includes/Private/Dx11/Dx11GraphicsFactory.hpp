@@ -7,7 +7,7 @@ namespace mr {
 
 class Dx11GraphicsFactory : public GraphicsFactory {
 public:
-	std::unique_ptr <RenderAPI> createRenderAPI(HWND handle)		final override;
+	std::unique_ptr <RenderAPI> createRenderAPI(WindowHandle handle)		final override;
 	std::unique_ptr <VertexBuffer> createVertexBuffer
 		(const void* data, int count, int stride, int offset = 0)	final override;
 	std::unique_ptr <IndexBuffer> createIndexBuffer

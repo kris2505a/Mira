@@ -93,14 +93,18 @@ void SDLWindow::pollEvents() {
     }
 }
 
-HWND SDLWindow::getHandle() {
-    void* handle = SDL_GetPointerProperty(
+mr::WindowHandle SDLWindow::getHandle() {
+    mr::WindowHandle handle;
+#ifdef PLATFORM_WINDOWS
+    void* winHandle = SDL_GetPointerProperty(
         SDL_GetWindowProperties(m_window),
         SDL_PROP_WINDOW_WIN32_HWND_POINTER,
         NULL
     );
+    handle.hwnd = (HWND) winHandle;
+#endif
 
-    return (HWND) handle;
+    return handle;
 }
 
 SDLWindow::~SDLWindow() {

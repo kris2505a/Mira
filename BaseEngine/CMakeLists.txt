@@ -32,6 +32,11 @@ target_link_libraries(BaseEngine PRIVATE
     SDL3::SDL3
 )
 
+if (WIN32)
+    target_compile_definitions(BaseEngine PUBLIC PLATFORM_WINDOWS)
+elseif(UNIX)
+    target_compile_definitions(BaseEngine PUBLIC PLATFORM_LINUX)
+endif()
 
 target_compile_definitions(BaseEngine PRIVATE
     MIRA_ENGINE_BUILD

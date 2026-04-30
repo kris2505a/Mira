@@ -9,6 +9,7 @@
 #include "ConstantBuffer.hpp"
 #include "ShaderType.hpp"
 #include "Texture.hpp"
+#include "WindowHandle.hpp"
 #include <memory>
 
 #include <string>
@@ -17,7 +18,7 @@ namespace mr {
 
 class RENDER_API GraphicsFactory {
 public:
-	virtual std::unique_ptr <RenderAPI> createRenderAPI(HWND handle)	= 0;
+	virtual std::unique_ptr <RenderAPI> createRenderAPI(WindowHandle handle) = 0;
 	virtual std::unique_ptr <VertexBuffer> createVertexBuffer
 		(const void* data, int count, int stride, int offset = 0)		= 0;
 	virtual std::unique_ptr <IndexBuffer> createIndexBuffer

@@ -12,7 +12,7 @@ public:
 	Dx11RenderAPI()		= default;
 	~Dx11RenderAPI()	= default;
 
-	void init(HWND handle)									final override;
+	void init(WindowHandle handle)									final override;
 	void clear()											final override;
 	void swap()												final override;
 	void drawIndexed(int count)								final override;

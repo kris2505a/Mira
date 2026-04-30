@@ -1,12 +1,12 @@
 #include <Private/Dx11/Dx11RenderAPI.hpp>
 #include <Private/Dx11/DxError.hpp>
 #include <dxgi.h>
-#include <iostream>
+#include <Windows.h>
 
 namespace mr {
 
-void Dx11RenderAPI::init(HWND handle) {
-	p_handle = handle;
+void Dx11RenderAPI::init(WindowHandle handle) {
+	p_handle = handle.hwnd;
 	createDeviceSwapChain();
 	createRenderTargetView();
 	createDepthStencilState();

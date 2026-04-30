@@ -5,6 +5,7 @@
 #include <functional>
 #include <Events/Event.hpp>
 #include <Windows.h>
+#include <WindowHandle.hpp>
 
 namespace Mira {
 
@@ -14,7 +15,7 @@ class Window {
 public:
 	Window(unsigned int width = 1280u, unsigned int height = 720u, const std::string& title = "Test Rig");
 	~Window();
-	virtual HWND getHandle() = 0;
+	virtual mr::WindowHandle getHandle() = 0;
 	virtual void pollEvents() = 0;
     unsigned int getWidth() const;
     unsigned int getHeight() const;
