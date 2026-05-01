@@ -1,7 +1,7 @@
 #include <Core/Engine.hpp>
 #include <Logging/Log.hpp>
 #include <Events/EventDispatcher.hpp>
-
+#include <Input/Input.hpp>
 
 namespace Mira {
 

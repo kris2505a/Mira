@@ -1,7 +1,7 @@
 #include <Window/Window.hpp>
 #include <Events/Event.hpp>
-#include <Input/KeyBoard.hpp>
 #include <Window/SDLWindow.hpp>
+#include <memory>
 
 namespace Mira {
 

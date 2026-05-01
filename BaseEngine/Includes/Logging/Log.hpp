@@ -9,6 +9,7 @@ namespace Mira {
 
 enum class LogType : int {
 	Info,
+    Debug,
 	Warning,
 	Error
 };
@@ -78,6 +79,10 @@ private:
 
         case LogType::Warning:
             return "Warning";
+
+        case LogType::Debug:
+            return "Debug";
+
         }
         return "Unknown type";
     }

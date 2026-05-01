@@ -1,5 +1,6 @@
 #include <Window/SDLWindow.hpp>
 #include <Logging/Log.hpp>
+#include <Input/InputState.hpp>
 
 namespace Mira {
 
@@ -24,6 +25,7 @@ SDLWindow::SDLWindow(unsigned int width, unsigned int height, const std::string&
 
 void SDLWindow::pollEvents() {
     SDL_Event event;
+    InputState::beginFrame();
     while (SDL_PollEvent(&event)) {
         switch (event.type) {
         case SDL_EVENT_QUIT:
@@ -51,20 +53,27 @@ void SDLWindow::pollEvents() {
                 repeated = true;
             }
 
-            KeyPressedEvent e(event.key.key, repeated);
+            auto key = InputState::SDLScanToKey(event.key.scancode);
+
+            InputState::keyDown(key, repeated);
+
+            KeyPressedEvent e(key, repeated);
             callback(e);
             break;
         }
 
         case SDL_EVENT_KEY_UP:
         {
-            KeyReleasedEvent e(event.key.key);
+            auto key = InputState::SDLScanToKey(event.key.scancode);
+            InputState::keyUp(key);
+            KeyReleasedEvent e(key);
             callback(e);
             break;
         }
 
         case SDL_EVENT_MOUSE_BUTTON_DOWN:
         {
+            InputState::mouseButtonDown(event.button.button);
             MouseButtonPressedEvent e(event.button.button);
             callback(e);
             break;
@@ -72,13 +81,15 @@ void SDLWindow::pollEvents() {
 
         case SDL_EVENT_MOUSE_BUTTON_UP:
         {
-            MouseButtonReleasedEvent e(event.key.key);
+            InputState::mouseButtonUp(event.button.button);
+                MouseButtonReleasedEvent e(event.button.button);
             callback(e);
             break;
         }
 
         case SDL_EVENT_MOUSE_MOTION:
         {
+            InputState::mouseMove(event.motion.x, event.motion.y);
             MouseMovedEvent e(event.motion.x, event.motion.y);
             callback(e);
             break;
@@ -86,6 +97,7 @@ void SDLWindow::pollEvents() {
 
         case SDL_EVENT_MOUSE_WHEEL:
         {
+            InputState::mouseScroll(event.wheel.x, event.wheel.y);
             MouseScrolledEvent e(event.wheel.x, event.wheel.y);
         }
 
