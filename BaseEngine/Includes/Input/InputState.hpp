@@ -1,6 +1,6 @@
 #pragma once
 #include <array>
-#include <vec2.hpp>
+#include <glm/vec2.hpp>
 #include "ScanCodes.hpp"
 
 namespace Mira {

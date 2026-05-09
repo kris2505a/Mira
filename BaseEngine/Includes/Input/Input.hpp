@@ -1,10 +1,9 @@
 #pragma once
 #include <Core/Core.hpp>
 #include "ScanCodes.hpp"
-#include <vec2.hpp>
+#include <glm/vec2.hpp>
 
 namespace Mira {
-
 class MIRA_API Input {
 public:
     static bool isKeyDown(Key key);
