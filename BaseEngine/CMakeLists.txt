@@ -1,48 +1,44 @@
-﻿cmake_minimum_required(VERSION 3.20)
+cmake_minimum_required(VERSION 3.20)
 
-project(BaseEngine LANGUAGES CXX)
+project(BaseEngine LANGUAGES C CXX)
 
-add_subdirectory(deps/SDL)
-
-file(GLOB_RECURSE BASEENGINE_SOURCES
+file(GLOB_RECURSE BASE_ENGINE_SOURCES
     CONFIGURE_DEPENDS
-    ${CMAKE_CURRENT_SOURCE_DIR}/Sources/*.cpp
-)
-
-file(GLOB_RECURSE BASEENGINE_HEADERS
-    CONFIGURE_DEPENDS
-    ${CMAKE_CURRENT_SOURCE_DIR}/Includes/*.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/*.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp
 )
 
 add_library(BaseEngine SHARED
-    ${BASEENGINE_SOURCES}
-    ${BASEENGINE_HEADERS}
+    ${BASE_ENGINE_SOURCES}
+ "src/Mira/Renderer/Renderer.h")
+
+target_precompile_headers(BaseEngine PRIVATE
+    src/MiraPch.h
 )
 
-target_compile_features(BaseEngine PUBLIC cxx_std_20)
-
 target_include_directories(BaseEngine PUBLIC
-    ${CMAKE_CURRENT_SOURCE_DIR}/Includes
-    ${CMAKE_SOURCE_DIR}/Renderer/Includes/Public
-    ${CMAKE_CURRENT_SOURCE_DIR}/deps/SDL/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/deps/glm
+    ${CMAKE_CURRENT_SOURCE_DIR}/src
+    ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/SDL3/include
+)
+
+target_compile_definitions(BaseEngine PRIVATE
+    BUILD_DLL
+    MIRA_ENGINE
+    SDL_MAIN_HANDLED
 )
 
 target_link_libraries(BaseEngine PRIVATE
-    Renderer
-    SDL3::SDL3
+    d3d11
+    dxgi
+    d3dcompiler
+    "${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/SDL3/lib/SDL3.lib"
 )
 
-if (WIN32)
-    target_compile_definitions(BaseEngine PUBLIC PLATFORM_WINDOWS)
-elseif(UNIX)
-    target_compile_definitions(BaseEngine PUBLIC PLATFORM_LINUX)
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    target_compile_definitions(BaseEngine PRIVATE
+            MIRA_DEBUG
+    )
 endif()
-
-target_compile_definitions(BaseEngine PRIVATE
-    MIRA_ENGINE_BUILD
-    MIRA_ENGINE
-)
 
 set_target_properties(BaseEngine PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY_DEBUG   ${CMAKE_SOURCE_DIR}/Binaries/Debug/BaseEngine
@@ -52,7 +48,17 @@ set_target_properties(BaseEngine PROPERTIES
 )
 
 add_custom_command(TARGET BaseEngine POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        $<TARGET_FILE:BaseEngine>
+        $<TARGET_FILE_DIR:Sandbox>
+)
+
+add_custom_command(TARGET BaseEngine POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
         $<TARGET_FILE:BaseEngine>
-        ${CMAKE_SOURCE_DIR}/Binaries/$<CONFIG>/Game
+        $<TARGET_FILE_DIR:Sandbox>
+
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        "${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/SDL3/lib/SDL3.dll"
+        $<TARGET_FILE_DIR:Sandbox>
 )

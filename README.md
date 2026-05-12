@@ -1,2 +1,0 @@
-# Mira
-game engine
