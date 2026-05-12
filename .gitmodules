@@ -1,0 +1,3 @@
+[submodule "BaseEngine/thirdparty/SDL3"]
+	path = BaseEngine/thirdparty/SDL3
+	url = https://github.com/libsdl-org/SDL.git

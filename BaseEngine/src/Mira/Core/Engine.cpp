@@ -1,6 +1,7 @@
 #include "MiraPch.h"
-#include "Engine.h"
 #include "Mira/Logger/Logger.h"
+#include "Engine.h"
+
 
 namespace Mira {
 
@@ -30,6 +31,8 @@ void Engine::run() {
 
 void Engine::initialize() {
 
+    Logger::log(LogType::Info, "Engine Initializing...");
+
     HWND hwnd = (HWND)SDL_GetPointerProperty(
     SDL_GetWindowProperties(m_window),
     SDL_PROP_WINDOW_WIN32_HWND_POINTER,
@@ -37,6 +40,8 @@ void Engine::initialize() {
     );
 
     Renderer::initialize(hwnd);
+
+    Renderer::clearColor(0.02f, 0.04f, 0.10f, 1.0f);
 
     float vertices[] = {
         -0.5f, -0.5f, 0.0f,
@@ -64,8 +69,10 @@ void Engine::initialize() {
 }
 
 void Engine::shutDown() {
+    Renderer::shutDown();
     SDL_DestroyWindow(m_window);
     SDL_Quit();
+    Logger::log(LogType::Info, "Engine Shutting Down...");
 }
 
 void Engine::mainLoop() {

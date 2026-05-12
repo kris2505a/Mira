@@ -47,7 +47,7 @@ void Renderer::clearColor(float r, float g, float b, float a) {
         throw std::runtime_error("Instance of renderer already exists!");
     }
 
-    s_instance->m_rhi->swap();
+    s_instance->m_rhi->clearColor(r, g, b, a);
 }
 
 RHI* Renderer::getRHI() {
@@ -55,6 +55,12 @@ RHI* Renderer::getRHI() {
 }
 
 void Renderer::shutDown() {
+    if (!s_instance) {
+        throw std::runtime_error("Instance of renderer already exists!");
+    }
+
+    s_instance->m_rhi->shutdown();
+
     //RAII. NOTHING TO DO.
 }
 
