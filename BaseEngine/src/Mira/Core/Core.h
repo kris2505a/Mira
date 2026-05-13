@@ -5,3 +5,6 @@
 #else
     #define MIRA_API __declspec(dllimport) 
 #endif
+
+
+#define BIT(x) (1 << x)
