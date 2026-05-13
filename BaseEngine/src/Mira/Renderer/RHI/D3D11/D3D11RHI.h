@@ -21,7 +21,7 @@ public:
     void clear()                        override;
     void swap()                         override;
     void drawIndexed(uint32_t indices)  override;
-    void resize(int width, int height)  override;
+    void resize(unsigned int width, unsigned int height)  override;
     void logGPUInfo()                   override;
 
     void clearColor(float r, float g, float b, float a) override;

@@ -60,7 +60,14 @@ void D3D11RHI::swap() {
     RUN(m_swapChain->Present(1, 0), m_device);
 }
 
-void D3D11RHI::resize(int width, int height) {
+void D3D11RHI::resize(unsigned int width, unsigned int height) {
+
+	if (width == 0 || height == 0) {
+		return;
+	}
+
+	m_context->OMSetRenderTargets(0, nullptr, nullptr);
+
     //Reset stuff
     m_targetView.Reset();
     m_stencilView.Reset();
@@ -82,6 +89,7 @@ void D3D11RHI::resize(int width, int height) {
     createDepthStencilView();
     createDepthStencilState();
     createViewPort();
+
 }
 
 void D3D11RHI::drawIndexed(uint32_t indices) {

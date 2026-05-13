@@ -7,7 +7,7 @@
 #include "Mira/Renderer/RHI/IndexBuffer.h"
 #include "Mira/Renderer/RHI/Shader.h"
 #include "Mira/Renderer/RHI/VertexBuffer.h"
-
+#include "Mira/Event/Event.h"
 
 namespace Mira {
 
@@ -23,6 +23,7 @@ private:
     
     void update();
     void render();
+    void handleEvent(Event& e);
     void pollEvent();
     
 private:

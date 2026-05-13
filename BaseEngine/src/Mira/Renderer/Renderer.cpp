@@ -20,46 +20,44 @@ void Renderer::initialize(WindowHandle handle, unsigned int width, unsigned int 
         throw std::runtime_error("Instance of renderer already exists!");
     }
 
-    s_instance->m_rhi->initialize(handle, width, height);
+    getRHI()->initialize(handle, width, height);
 }
 
 void Renderer::preSetup() {
     if (!s_instance) {
         throw std::runtime_error("Instance of renderer already exists!");
     }
-    s_instance->m_rhi->bindRenderTarget();
-    s_instance->m_rhi->bindDepthStencil();
-    s_instance->m_rhi->setViewPort();
-    s_instance->m_rhi->bindRasterizer();
-    s_instance->m_rhi->setTopology();
-    s_instance->m_rhi->clear();
+    getRHI()->bindRenderTarget();
+    getRHI()->bindDepthStencil();
+    getRHI()->setViewPort();
+    getRHI()->bindRasterizer();
+    getRHI()->setTopology();
+    getRHI()->clear();
 }
 
 void Renderer::postSetup() {
-    if (!s_instance) {
-        throw std::runtime_error("Instance of renderer already exists!");
-    }
-    s_instance->m_rhi->swap();
+    getRHI()->swap();
 }
 
 void Renderer::clearColor(float r, float g, float b, float a) {
+    getRHI()->clearColor(r, g, b, a);
+}
+
+void Renderer::resize(unsigned int width, unsigned int height) {
+    getRHI()->resize(width, height);
+}
+
+RHI* Renderer::getRHI() {
     if (!s_instance) {
         throw std::runtime_error("Instance of renderer already exists!");
     }
 
-    s_instance->m_rhi->clearColor(r, g, b, a);
-}
-
-RHI* Renderer::getRHI() {
     return s_instance->m_rhi.get();
 }
 
 void Renderer::shutDown() {
-    if (!s_instance) {
-        throw std::runtime_error("Instance of renderer already exists!");
-    }
 
-    s_instance->m_rhi->shutdown();
+    getRHI()->shutdown();
 
     //RAII. NOTHING TO DO.
 }

@@ -1,10 +1,12 @@
 #include "MiraPch.h"
 #include "Mira/Logger/Logger.h"
 #include "Engine.h"
+#include "Mira/Event/WindowEvent.h"
 
 namespace Mira {
 
-    WindowAttributes attribs;
+Engine::Engine() {
+    WindowAttributes attribs(1280, 720, "Mira", [this](Event& e){ handleEvent(e); });
     attribs.width = 1280;
     attribs.height = 720;
     attribs.title = "Mira";
@@ -60,7 +62,7 @@ void Engine::shutDown() {
 
 void Engine::mainLoop() {
     Logger::log(LogType::Info, "Engine Running...");
-    while (m_window->open) {
+    while (m_running) {
         pollEvent();
         update();
         render();
@@ -79,6 +81,22 @@ void Engine::render() {
     Renderer::getRHI()->drawIndexed(m_ibo->getCount());
 
     Renderer::postSetup();
+}
+
+void Engine::handleEvent(Event& e) {
+    EventDispatcher dispatcher(e);
+
+    dispatcher.dispatch<WindowCloseEvent>([this](WindowCloseEvent& event) {
+        m_running = false;
+        return true;
+    });
+
+    dispatcher.dispatch<WindowResizeEvent>([this](WindowResizeEvent& event) {
+        Renderer::resize(event.getWidth(), event.getHeight());
+        return true;
+    });
+
+    Logger::log(LogType::Debug, "{}", e.getEventInfoString());
 }
 
 void Engine::pollEvent() {

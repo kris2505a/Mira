@@ -2,7 +2,6 @@ cmake_minimum_required(VERSION 3.20)
 
 project(BaseEngine LANGUAGES C CXX)
 
-add_subdirectory(thirdparty/SDL3)
 
 file(GLOB_RECURSE BASE_ENGINE_SOURCES
     CONFIGURE_DEPENDS
@@ -20,20 +19,17 @@ target_precompile_headers(BaseEngine PRIVATE
 
 target_include_directories(BaseEngine PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/src
-    ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/SDL3/include
 )
 
 target_compile_definitions(BaseEngine PRIVATE
     BUILD_DLL
     MIRA_ENGINE
-    SDL_MAIN_HANDLED
 )
 
 target_link_libraries(BaseEngine PRIVATE
     d3d11
     dxgi
     d3dcompiler
-    SDL3::SDL3
 )
 
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
@@ -58,9 +54,5 @@ add_custom_command(TARGET BaseEngine POST_BUILD
 add_custom_command(TARGET BaseEngine POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
         $<TARGET_FILE:BaseEngine>
-        $<TARGET_FILE_DIR:Sandbox>
-
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different
-        $<TARGET_FILE:SDL3::SDL3>
         $<TARGET_FILE_DIR:Sandbox>
 )

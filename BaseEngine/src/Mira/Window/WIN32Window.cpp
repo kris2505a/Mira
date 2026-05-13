@@ -1,5 +1,12 @@
 #include "WIN32Window.h"
 
+#include <windowsx.h>
+
+#include "Mira/Event/WindowEvent.h"
+#include "Mira/Event/KeyboardEvent.h"
+#include "Mira/Event/MouseEvent.h"
+
+#include "Mira/Input/InputCodes.h"
 
 namespace Mira {
 
@@ -84,24 +91,133 @@ WindowHandle WIN32Window::getHandle() const {
 
 LRESULT WIN32Window::WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 
-    WIN32Window* pWindow = reinterpret_cast<WIN32Window*>(GetWindowLongPtrW(hwnd, GWLP_USERDATA));
+    auto* pWindow = reinterpret_cast<WIN32Window*>(GetWindowLongPtrW(hwnd, GWLP_USERDATA));
 
     if (!pWindow) {
-        return DefWindowProc(hwnd, msg, wParam, lParam);
+        return DefWindowProcW(hwnd, msg, wParam, lParam);
     }
 
     switch (msg) {
     case WM_DESTROY:
     case WM_QUIT: {
-        pWindow->open = false;
+        WindowCloseEvent e;
+        pWindow->m_attributes.callback(e);
         PostQuitMessage(0);
         break;
     }
+
+	case WM_SIZE: {
+		unsigned int width = LOWORD(lParam);
+		unsigned int height = HIWORD(lParam);
+
+		WindowResizeEvent e(width, height);
+		pWindow->setSize(width, height);
+		pWindow->m_attributes.callback(e);
+		break;
+	}
+    
+    case WM_KEYDOWN:
+    case WM_SYSKEYDOWN: {
+        bool repeat = (lParam & (1 << 30)) != 0;
+        
+        //TODO - Modify keyboard state
+        
+        KeyPressEvent e(static_cast<int>(wParam), repeat);
+        pWindow->m_attributes.callback(e);
+        break;
+    }
+
+    case WM_KEYUP:
+    case WM_SYSKEYUP: {
+        
+        //TODO - Modify keyboard state
+
+        KeyReleaseEvent e(static_cast<int>(wParam));
+        pWindow->m_attributes.callback(e);
+        break;
+    }
+
+    case WM_LBUTTONDOWN:
+    case WM_RBUTTONDOWN:
+    case WM_MBUTTONDOWN: {
+        
+        Mouse button;
+
+        if (msg == WM_LBUTTONDOWN) {
+            button = Mouse::Left;
+        }
+        else if (msg == WM_MBUTTONDOWN) {
+            button = Mouse::Middle;
+        }
+        else if (msg == WM_RBUTTONDOWN) {
+            button = Mouse::Right;
+        }
+        else {
+            button = Mouse::X1;
+        }
+
+        //TODO - Modify Mouse state
+        
+        MouseButtonPressEvent e(static_cast<int>(button));
+        pWindow->m_attributes.callback(e);
+        break;
+    }
+
+    case WM_LBUTTONUP:
+    case WM_RBUTTONUP:
+    case WM_MBUTTONUP: {
+        
+        Mouse button;
+
+        if (msg == WM_LBUTTONUP) {
+            button = Mouse::Left;
+        }
+        else if (msg == WM_RBUTTONUP) {
+            button = Mouse::Right;
+        }
+        else if (msg == WM_MBUTTONUP) {
+            button = Mouse::Middle;
+        }
+        else {
+            button = Mouse::X1;
+        }
+
+        //TODO - Modify mouse state
+        
+        MouseButtonReleaseEvent e(static_cast<int>(button));
+        pWindow->m_attributes.callback(e);
+        break;
+    }
+
+    case WM_MOUSEMOVE: {
+        
+        int x = GET_X_LPARAM(lParam);
+        int y = GET_Y_LPARAM(lParam);
+
+        //TODO - Modify mouse state
+        
+        MouseMoveEvent e(static_cast<float>(x), static_cast<float>(y));
+        pWindow->m_attributes.callback(e);
+        break;
+    }
+
+    case WM_MOUSEWHEEL: {
+        
+        int delta = GET_WHEEL_DELTA_WPARAM(wParam);
+        
+        //TODO - Modify mouse state
+
+        MouseScrollEvent e(static_cast<float>(delta) / WHEEL_DELTA);
+        pWindow->m_attributes.callback(e);
+        break;
+    }
+
+
     default:
         break;
     }
 
-	return DefWindowProc(hwnd, msg, wParam, lParam);
+	return DefWindowProcW(hwnd, msg, wParam, lParam);
 }
 
 }

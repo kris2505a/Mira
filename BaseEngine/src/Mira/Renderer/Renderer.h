@@ -15,6 +15,8 @@ public:
 
     static void clearColor(float r, float g, float b, float a);
 
+    static void resize(unsigned int width, unsigned int height);
+
     static RHI* getRHI();
 
 public:

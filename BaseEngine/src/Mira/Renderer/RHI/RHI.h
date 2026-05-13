@@ -28,7 +28,7 @@ public:
     virtual void clear()                        = 0;
     virtual void swap()                         = 0;
     virtual void drawIndexed(uint32_t indices)  = 0;
-    virtual void resize(int width, int height)  = 0;
+    virtual void resize(unsigned int width, unsigned int height)  = 0;
     virtual void logGPUInfo()                   = 0;
 
     virtual void clearColor(float r, float g, float b, float a) = 0;
