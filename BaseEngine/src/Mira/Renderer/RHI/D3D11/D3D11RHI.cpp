@@ -6,11 +6,13 @@
 #include "D3D11Resource.h"
 
 namespace Mira {
-void D3D11RHI::initialize(HWND handle) {
+void D3D11RHI::initialize(WindowHandle handle, int width, int height) {
 
     Logger::log(LogType::Info, "Initializing D3D11RHI...");
-    p_handle = handle;
-    createDeviceSwapChain();
+    p_handle = handle.handle;
+	m_renderWidth = width;
+	m_renderHeight = height;
+	createDeviceSwapChain();
     createRenderTargetView();
     createDepthStencilState();
     createDepthStencilView();

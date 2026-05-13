@@ -11,7 +11,7 @@ public:
     D3D11RHI() = default;
     ~D3D11RHI() override = default;
 
-    void initialize(HWND handle)        override;
+    void initialize(WindowHandle handle, int width, int height) override;
     void shutdown()                     override;
     void bindRenderTarget()             override;
     void bindRasterizer()               override;

@@ -1,6 +1,6 @@
 #pragma once
 #include "Core.h"
-#include <SDL3/SDL.h>
+#include "Mira/Window/WIN32Window.h"
 #include "Mira/Renderer/Renderer.h"
 
 //Temp
@@ -26,7 +26,7 @@ private:
     void pollEvent();
     
 private:
-    SDL_Window* m_window{ nullptr };
+    Scope<Window> m_window;
     bool m_running{ true };
     Scope<Renderer> m_renderer;
 

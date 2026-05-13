@@ -6,6 +6,7 @@
 namespace Mira {
 
 Engine::Engine() {
+    /*
     if (!SDL_Init(SDL_INIT_VIDEO)) {
         Logger::log(LogType::Error, "Failed to init SDL: {}", std::string(SDL_GetError()));
         throw std::runtime_error("Initialization failed!");
@@ -17,7 +18,13 @@ Engine::Engine() {
         Logger::log(LogType::Error, "Failed to create window: {}", std::string(SDL_GetError()));
         throw std::runtime_error("window creation failed");
     }
+    */
 
+    WindowAttributes attribs;
+    attribs.width = 1280;
+    attribs.height = 720;
+    attribs.title = "Mira";
+    m_window = createScope<WIN32Window>(attribs);
 
 
     m_renderer = createScope<Renderer>();
@@ -33,13 +40,15 @@ void Engine::initialize() {
 
     Logger::log(LogType::Info, "Engine Initializing...");
 
+    /*
     HWND hwnd = (HWND)SDL_GetPointerProperty(
     SDL_GetWindowProperties(m_window),
     SDL_PROP_WINDOW_WIN32_HWND_POINTER,
         nullptr
     );
+    */
 
-    Renderer::initialize(hwnd);
+    Renderer::initialize(m_window->getHandle(), m_window->getWidth(), m_window->getHeight());
 
     Renderer::clearColor(0.02f, 0.04f, 0.10f, 1.0f);
 
@@ -70,14 +79,14 @@ void Engine::initialize() {
 
 void Engine::shutDown() {
     Renderer::shutDown();
-    SDL_DestroyWindow(m_window);
-    SDL_Quit();
+//    SDL_DestroyWindow(m_window);
+//    SDL_Quit();
     Logger::log(LogType::Info, "Engine Shutting Down...");
 }
 
 void Engine::mainLoop() {
     Logger::log(LogType::Info, "Engine Running...");
-    while (m_running) {
+    while (m_window->open) {
         pollEvent();
         update();
         render();
@@ -99,6 +108,8 @@ void Engine::render() {
 }
 
 void Engine::pollEvent() {
+    m_window->pollEvents();
+    /*
     SDL_Event e;
 
     while (SDL_PollEvent(&e)) {
@@ -118,7 +129,7 @@ void Engine::pollEvent() {
             break;
         }
     }
+    */
 }
-
 
 }

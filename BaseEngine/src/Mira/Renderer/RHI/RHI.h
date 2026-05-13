@@ -3,7 +3,7 @@
 #include <Windows.h>
 
 #include "Mira/Core/MemoryType.h"
-
+#include "Mira/Window/WindowTools.h"
 
 namespace Mira {
 
@@ -17,7 +17,7 @@ public:
     RHI() = default;
     virtual ~RHI() = default;
 
-    virtual void initialize(HWND handle)        = 0;
+    virtual void initialize(WindowHandle handle, int width, int height) = 0;
     virtual void shutdown()                     = 0;
 
     virtual void bindRenderTarget()             = 0;

@@ -1,12 +1,13 @@
 #pragma once
 #include "RHI/RHI.h"
+#include "Mira/Window/WindowTools.h"
 
 namespace Mira {
 
 class Renderer {
 public:
     //static methods
-    static void initialize(HWND handle);
+    static void initialize(WindowHandle handle, unsigned int width, unsigned int height);
     static void shutDown();
 
     static void preSetup();

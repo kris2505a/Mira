@@ -15,12 +15,12 @@ Renderer::Renderer() {
 
 }
 
-void Renderer::initialize(HWND handle) {
+void Renderer::initialize(WindowHandle handle, unsigned int width, unsigned int height) {
     if (!s_instance) {
         throw std::runtime_error("Instance of renderer already exists!");
     }
 
-    s_instance->m_rhi->initialize(handle);
+    s_instance->m_rhi->initialize(handle, width, height);
 }
 
 void Renderer::preSetup() {
