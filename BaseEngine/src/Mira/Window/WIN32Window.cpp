@@ -141,19 +141,19 @@ LRESULT WIN32Window::WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
     case WM_RBUTTONDOWN:
     case WM_MBUTTONDOWN: {
         
-        Mouse button;
+        Button button;
 
         if (msg == WM_LBUTTONDOWN) {
-            button = Mouse::Left;
+            button = Button::Left;
         }
         else if (msg == WM_MBUTTONDOWN) {
-            button = Mouse::Middle;
+            button = Button::Middle;
         }
         else if (msg == WM_RBUTTONDOWN) {
-            button = Mouse::Right;
+            button = Button::Right;
         }
         else {
-            button = Mouse::X1;
+            button = Button::X1;
         }
 
         //TODO - Modify Mouse state
@@ -167,19 +167,19 @@ LRESULT WIN32Window::WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
     case WM_RBUTTONUP:
     case WM_MBUTTONUP: {
         
-        Mouse button;
+        Button button;
 
         if (msg == WM_LBUTTONUP) {
-            button = Mouse::Left;
+            button = Button::Left;
         }
         else if (msg == WM_RBUTTONUP) {
-            button = Mouse::Right;
+            button = Button::Right;
         }
         else if (msg == WM_MBUTTONUP) {
-            button = Mouse::Middle;
+            button = Button::Middle;
         }
         else {
-            button = Mouse::X1;
+            button = Button::X1;
         }
 
         //TODO - Modify mouse state

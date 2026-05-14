@@ -37,6 +37,17 @@ public:
     inline std::string getEventInfoString() const override {
          return "WindowClosed";
     }
+};
+
+class WindowLostFocusEvent : public Event {
+public:
+    WindowLostFocusEvent() = default;
+    CREATE_BODY(EventType::WindowLostFocus, EventCategory::WindowEvent | EventCategory::SystemEvent)
+
+    [[nodiscard]]
+    inline std::string getEventInfoString() const override {
+         return "WindowLostFocus";
+    }
 
 };
 

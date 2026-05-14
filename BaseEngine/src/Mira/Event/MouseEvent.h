@@ -52,6 +52,16 @@ public:
     inline std::string getEventInfoString() const override {
         return std::format("MouseMoved: {}, {}", m_xPosition, m_yPosition);
     }
+    [[nodiscard]]
+    inline float getX() const {
+        return m_xPosition;
+    }
+
+    [[nodiscard]]
+    inline float getY() const {
+        return m_yPosition;
+    }
+
 
 private:
     float m_xPosition;

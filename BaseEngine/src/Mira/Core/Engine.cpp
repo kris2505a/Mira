@@ -2,6 +2,10 @@
 #include "Mira/Logger/Logger.h"
 #include "Engine.h"
 #include "Mira/Event/WindowEvent.h"
+#include "Mira/Event/KeyboardEvent.h"
+#include "Mira/Event/MouseEvent.h"
+
+#include "Mira/Input/Input.h"
 
 namespace Mira {
 
@@ -66,6 +70,7 @@ void Engine::mainLoop() {
         pollEvent();
         update();
         render();
+        Input::endState();
     }
 }
 
@@ -73,6 +78,11 @@ void Engine::update() {
     m_vbo->bind();
     m_ibo->bind();
     m_shader->bind();
+
+    if (Input::isKeyHeld(Key::Space)) {
+        Logger::log(LogType::Debug, "Space Bar Pressed");
+    }
+
 }
 
 void Engine::render() {
@@ -91,12 +101,46 @@ void Engine::handleEvent(Event& e) {
         return true;
     });
 
-    dispatcher.dispatch<WindowResizeEvent>([this](WindowResizeEvent& event) {
+    dispatcher.dispatch<WindowResizeEvent>([](WindowResizeEvent& event) {
         Renderer::resize(event.getWidth(), event.getHeight());
         return true;
     });
 
-    Logger::log(LogType::Debug, "{}", e.getEventInfoString());
+    dispatcher.dispatch<KeyPressEvent>([](KeyPressEvent& event) {
+        Input::setKeyState(static_cast<Key>(event.getKey()), Input::State::Down);
+        return true;
+    });
+
+    dispatcher.dispatch<KeyReleaseEvent>([](KeyReleaseEvent& event) {
+        Input::setKeyState(static_cast<Key>(event.getKey()), Input::State::Up);
+        return true;
+    });
+
+    dispatcher.dispatch<MouseButtonPressEvent>([](MouseButtonPressEvent& event) {
+        Input::setButtonState(static_cast<Button>(event.getButton()), Input::State::Down);
+        return true;
+    });
+
+    dispatcher.dispatch<MouseButtonReleaseEvent>([](MouseButtonReleaseEvent& event) {
+        Input::setButtonState(static_cast<Button>(event.getButton()), Input::State::Up);
+        return true;
+    });
+
+    dispatcher.dispatch<MouseMoveEvent>([](const MouseMoveEvent& event) {
+        Input::mouseMove({event.getX(), event.getY()});
+        return true;
+    });
+
+    dispatcher.dispatch<MouseScrollEvent>([](MouseScrollEvent& event) {
+        Input::mouseScroll(event.getOffset());
+        return true;
+    });
+
+    dispatcher.dispatch<WindowLostFocusEvent>([](WindowLostFocusEvent& e) {
+        Input::resetState();
+        return true;
+    });
+
 }
 
 void Engine::pollEvent() {

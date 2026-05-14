@@ -29,7 +29,8 @@ enum class EventType {
 
     //WindowEvents
     WindowClosed,
-    WindowResized
+    WindowResized,
+    WindowLostFocus
 };
 
 #define CREATE_BODY(type, category) \
