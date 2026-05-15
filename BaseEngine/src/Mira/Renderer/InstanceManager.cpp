@@ -73,5 +73,39 @@ Ref<Mesh> InstanceManager::createCubeMesh() {
     return cubeMesh;
 }
 
+Ref<Material> InstanceManager::createMaterial(const std::string& name) {
+    if (get().m_materialMap.count(name)) {
+        return get().m_materialMap[name];
+    }
+
+    InputLayout layout;
+    layout.addLayout({
+        "POSITION",
+        LayoutDataType::Float,
+        3
+    });
+
+    layout.addLayout({
+        "NORMAL",
+        LayoutDataType::Float,
+        3
+    });
+
+    layout.addLayout({
+        "TEXCOORD",
+        LayoutDataType::Float,
+        2
+    });
+
+    auto mat = createRef<Material>();
+
+    auto wName = std::wstring(name.begin(), name.end());
+    mat->m_shader = Shader::create(wName, layout);
+    mat->m_hasTexture = false;
+
+    get().m_materialMap[name] = mat;
+    return mat;
+}
+
 
 }

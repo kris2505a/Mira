@@ -61,7 +61,7 @@ void Engine::initialize() {
         2
     });
 
-    m_shader = Shader::create(L"Def", layout);
+    m_cubeMaterial = InstanceManager::createMaterial("Def");
 
     struct VertexCBOData {
         dx::XMMATRIX mvp;
@@ -91,7 +91,11 @@ void Engine::initialize() {
     data.mvp = dx::XMMatrixTranspose(model * view * proj);
     data.model = dx::XMMatrixTranspose(model);
 
-    m_cbo = ConstantBuffer::create(&data, sizeof(data), ShaderType::VertexShader);
+    m_vcbo = ConstantBuffer::create(&data, sizeof(data), ShaderType::VertexShader);
+
+    DirectX::XMFLOAT4 color = { 0.0f, 1.0f, 1.0f, 1.0f };
+
+    m_pcbo = ConstantBuffer::create(&color, sizeof(color), ShaderType::PixelShader);
 
 }
 
@@ -111,9 +115,10 @@ void Engine::mainLoop() {
 }
 
 void Engine::update() {
-    m_shader->bind();
     m_cubeMesh->bindMesh();
-    m_cbo->bind();
+    m_vcbo->bind();
+    m_cubeMaterial->bindMaterial();
+    m_pcbo->bind();
 
     if (Input::isKeyHeld(Key::Space)) {
         Logger::log(LogType::Debug, "Space Bar Pressed");

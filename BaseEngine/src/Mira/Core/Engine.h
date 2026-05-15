@@ -2,10 +2,9 @@
 #include "Core.h"
 #include "Mira/Window/WIN32Window.h"
 #include "Mira/Renderer/Renderer.h"
+#include "Mira/Event/Event.h"
 
 //Temp
-#include "Mira/Renderer/RHI/Shader.h"
-#include "Mira/Event/Event.h"
 #include "Mira/Renderer/InstanceManager.h"
 #include "Mira/Renderer/RHI/ConstantBuffer.h"
 
@@ -33,8 +32,9 @@ private:
 
     //tmp
     Ref<Mesh> m_cubeMesh;
-    Scope<Shader> m_shader;
-    Scope<ConstantBuffer> m_cbo;
+    Ref<Material> m_cubeMaterial;
+    Scope<ConstantBuffer> m_vcbo;
+    Scope<ConstantBuffer> m_pcbo;
 };
 
 Engine* createApp();

@@ -44,7 +44,7 @@ struct Vec2D {
         return *this;
     }
 
-    Vec2D& operator*=(float scale) {
+    Vec2D& operator/=(float scale) {
         this->x /= scale;
         this->y /= scale;
         return *this;
@@ -57,12 +57,6 @@ struct Vec2D {
     bool operator!=(const Vec2D& other) const {
         return !(*this == other);
     }
-
-    Vec2D operator-(const Vec2D& other) const {
-        return Vec2D(this->x - other.x, this->y - other.y);
-    }
-
-
 
 };
 
