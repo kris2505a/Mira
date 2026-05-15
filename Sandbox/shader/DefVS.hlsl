@@ -1,5 +1,25 @@
+struct VSIn {
+    float3 pos : POSITION;
+    float3 normal : NORMAL;
+    float2 uv : TEXCOORD;
+};
 
-float4 main(float3 pos : POSITION) : SV_POSITION 
-{
-    return float4(pos, 1.0f);
+struct VSOut {
+    float4 position: SV_POSITION;
+    float3 normal : NORMAL;
+    float2 uv : TEXCOORD;
+};
+
+cbuffer cbuf {
+    float4x4 mvp;
+    float4x4 model;
+}
+
+VSOut main(VSIn input) {
+    VSOut output;
+    output.position = mul(float4(input.pos, 1.0f), mvp);
+    output.normal = input.normal;
+    output.uv = input.uv;
+
+    return output;
 }

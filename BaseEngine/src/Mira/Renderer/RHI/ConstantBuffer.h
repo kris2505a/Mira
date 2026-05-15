@@ -11,7 +11,7 @@ public:
     virtual void bind() const = 0;
     virtual void update(const void* data, int size) = 0;
 
-    static Ref<ConstantBuffer> create(const void* data, int size, ShaderType type);
+    static Scope<ConstantBuffer> create(const void* data, int size, ShaderType type);
 };
 
 }

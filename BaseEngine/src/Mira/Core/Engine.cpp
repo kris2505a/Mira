@@ -7,7 +7,13 @@
 
 #include "Mira/Input/Input.h"
 
+#include <DirectXMath.h>
+#define TO_RAD(x) DirectX::XMConvertToRadians(x)
+
 namespace Mira {
+
+
+namespace dx = DirectX;
 
 Engine::Engine() {
     WindowAttributes attribs(1280, 720, "Mira", [this](Event& e){ handleEvent(e); });
@@ -34,29 +40,59 @@ void Engine::initialize() {
 
     Renderer::clearColor(0.02f, 0.04f, 0.10f, 1.0f);
 
-    float vertices[] = {
-        -0.5f, -0.5f, 0.0f,
-         0.0f,  0.5f, 0.0f,
-         0.5f, -0.5f, 0.0f
-    };
-
-    m_vbo = VertexBuffer::create(vertices, 3, 3 * sizeof(float));
-
-    uint32_t indices[] = {
-        0, 2, 1
-    };
-
-    m_ibo = IndexBuffer::create(indices, 3);
-
+    m_cubeMesh = InstanceManager::createCubeMesh();
+    
     InputLayout layout;
     layout.addLayout({
         "POSITION",
         LayoutDataType::Float,
-        3,
-        0
+        3
+    });
+
+    layout.addLayout({
+        "NORMAL",
+        LayoutDataType::Float,
+        3
+    });
+
+    layout.addLayout({
+        "TEXCOORD",
+        LayoutDataType::Float,
+        2
     });
 
     m_shader = Shader::create(L"Def", layout);
+
+    struct VertexCBOData {
+        dx::XMMATRIX mvp;
+        dx::XMMATRIX model;
+    };
+
+
+    auto model = dx::XMMatrixScaling(1.0f, 1.0f, 1.0f) *
+                 dx::XMMatrixRotationY(TO_RAD(45.0f)) *
+                 dx::XMMatrixTranslation(0.0f, 0.0f, 0.0f);
+
+    auto view = dx::XMMatrixLookAtLH(
+        dx::XMVectorSet(0.0f, 0.0f, -3.0f, 0.0f),
+        dx::XMVectorSet(0.0f, 0.0f, 0.0f, 1.0f),
+        dx::XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f)
+    );
+
+    auto proj = dx::XMMatrixPerspectiveFovLH(
+        TO_RAD(45.0F),
+        1280.0f / 720.0f,
+        0.1f,
+        100.0f
+    );
+
+    VertexCBOData data;
+
+    data.mvp = dx::XMMatrixTranspose(model * view * proj);
+    data.model = dx::XMMatrixTranspose(model);
+
+    m_cbo = ConstantBuffer::create(&data, sizeof(data), ShaderType::VertexShader);
+
 }
 
 void Engine::shutDown() {
@@ -75,9 +111,9 @@ void Engine::mainLoop() {
 }
 
 void Engine::update() {
-    m_vbo->bind();
-    m_ibo->bind();
     m_shader->bind();
+    m_cubeMesh->bindMesh();
+    m_cbo->bind();
 
     if (Input::isKeyHeld(Key::Space)) {
         Logger::log(LogType::Debug, "Space Bar Pressed");
@@ -87,8 +123,8 @@ void Engine::update() {
 
 void Engine::render() {
     Renderer::preSetup();
-
-    Renderer::getRHI()->drawIndexed(m_ibo->getCount());
+    
+    Renderer::getRHI()->drawIndexed(m_cubeMesh->getIndexCount());
 
     Renderer::postSetup();
 }

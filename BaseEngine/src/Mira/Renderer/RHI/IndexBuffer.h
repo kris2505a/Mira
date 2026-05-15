@@ -10,7 +10,7 @@ public:
     virtual void bind() const = 0;
     virtual unsigned int getCount() const = 0;
 
-    static Ref<IndexBuffer> create(const void* indices, int count, int offset = 0);
+    static Scope<IndexBuffer> create(const void* indices, int count, int offset = 0);
 };
 
 }

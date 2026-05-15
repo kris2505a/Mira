@@ -13,7 +13,6 @@ struct Layout {
     std::string semanticName;
     LayoutDataType type;
     unsigned int count;
-    unsigned int offset;
 };
 
 class InputLayout {

@@ -4,10 +4,10 @@
 #include "Mira/Renderer/Renderer.h"
 
 //Temp
-#include "Mira/Renderer/RHI/IndexBuffer.h"
 #include "Mira/Renderer/RHI/Shader.h"
-#include "Mira/Renderer/RHI/VertexBuffer.h"
 #include "Mira/Event/Event.h"
+#include "Mira/Renderer/InstanceManager.h"
+#include "Mira/Renderer/RHI/ConstantBuffer.h"
 
 namespace Mira {
 
@@ -32,9 +32,9 @@ private:
     Scope<Renderer> m_renderer;
 
     //tmp
-    Ref<VertexBuffer> m_vbo;
-    Ref<IndexBuffer> m_ibo;
-    Ref<Shader> m_shader;
+    Ref<Mesh> m_cubeMesh;
+    Scope<Shader> m_shader;
+    Scope<ConstantBuffer> m_cbo;
 };
 
 Engine* createApp();

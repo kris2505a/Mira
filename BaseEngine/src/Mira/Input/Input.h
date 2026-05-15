@@ -1,6 +1,7 @@
 #pragma once
 #include <bitset>
-#include <glm/vec2.hpp>
+
+#include "Mira/Math/Vec2D.h"
 
 #include "InputCodes.h"
 
@@ -31,11 +32,11 @@ private:
     static void setKeyState(Key key, State state);
 
     static void setButtonState(Button button, State state);
-    static void mouseMove(glm::vec2 pos);
+    static void mouseMove(Vec2D pos);
     static void mouseScroll(float offset);
 
-    static glm::vec2 getMousePosition();
-    static glm::vec2 getMouseDelta();
+    static Vec2D getMousePosition();
+    static Vec2D getMouseDelta();
     static float getMouseWheelOffset();
 
     static void endState();
@@ -51,11 +52,11 @@ private:
     float xPosition = 0.0f;
     float yPosition = 0.0f;
 
-    glm::vec2 mousePosition = { 0.0f, 0.0f };
+    Vec2D mousePosition = { 0.0f, 0.0f };
 
     float dx = 0.0f;
     float dy = 0.0f;
-    glm::vec2 mouseDelta = { 0.0f, 0.0f };
+    Vec2D mouseDelta = { 0.0f, 0.0f };
 
     bool firstMove = true;
 
