@@ -10,7 +10,7 @@ public:
     Material() = default;
     ~Material() = default;
     
-    void bindMaterial(int textureSlot = 0) const;
+    void bind(int textureSlot = 0) const;
     bool hasTexture() const;
 
 private:

@@ -3,7 +3,7 @@
 
 namespace Mira {
 
-void Mesh::bindMesh() const {
+void Mesh::bind() const {
     m_vertexBuffer->bind();
     m_indexBuffer->bind();
 }

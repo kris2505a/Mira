@@ -40,62 +40,16 @@ void Engine::initialize() {
 
     Renderer::clearColor(0.02f, 0.04f, 0.10f, 1.0f);
 
-    m_cubeMesh = InstanceManager::createCubeMesh();
-    
-    InputLayout layout;
-    layout.addLayout({
-        "POSITION",
-        LayoutDataType::Float,
-        3
-    });
+    component.mesh = InstanceManager::createCubeMesh();
 
-    layout.addLayout({
-        "NORMAL",
-        LayoutDataType::Float,
-        3
-    });
+    component.material = InstanceManager::createMaterial("Def");
 
-    layout.addLayout({
-        "TEXCOORD",
-        LayoutDataType::Float,
-        2
-    });
+    component.modelMatrix = dx::XMMatrixScaling(1.0f, 1.0f, 1.0f) *
+                            dx::XMMatrixRotationY(dx::XMConvertToRadians(45.0f)) *
+                            dx::XMMatrixTranslation(0.0f, 0.0f, 0.0f);
 
-    m_cubeMaterial = InstanceManager::createMaterial("Def");
-
-    struct VertexCBOData {
-        dx::XMMATRIX mvp;
-        dx::XMMATRIX model;
-    };
-
-
-    auto model = dx::XMMatrixScaling(1.0f, 1.0f, 1.0f) *
-                 dx::XMMatrixRotationY(TO_RAD(45.0f)) *
-                 dx::XMMatrixTranslation(0.0f, 0.0f, 0.0f);
-
-    auto view = dx::XMMatrixLookAtLH(
-        dx::XMVectorSet(0.0f, 0.0f, -3.0f, 0.0f),
-        dx::XMVectorSet(0.0f, 0.0f, 0.0f, 1.0f),
-        dx::XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f)
-    );
-
-    auto proj = dx::XMMatrixPerspectiveFovLH(
-        TO_RAD(45.0F),
-        1280.0f / 720.0f,
-        0.1f,
-        100.0f
-    );
-
-    VertexCBOData data;
-
-    data.mvp = dx::XMMatrixTranspose(model * view * proj);
-    data.model = dx::XMMatrixTranspose(model);
-
-    m_vcbo = ConstantBuffer::create(&data, sizeof(data), ShaderType::VertexShader);
-
-    DirectX::XMFLOAT4 color = { 0.0f, 1.0f, 1.0f, 1.0f };
-
-    m_pcbo = ConstantBuffer::create(&color, sizeof(color), ShaderType::PixelShader);
+    component.color = { 1.0f, 0.0f, 0.0f, 1.0f };
+                            
 
 }
 
@@ -115,10 +69,6 @@ void Engine::mainLoop() {
 }
 
 void Engine::update() {
-    m_cubeMesh->bindMesh();
-    m_vcbo->bind();
-    m_cubeMaterial->bindMaterial();
-    m_pcbo->bind();
 
     if (Input::isKeyHeld(Key::Space)) {
         Logger::log(LogType::Debug, "Space Bar Pressed");
@@ -129,7 +79,7 @@ void Engine::update() {
 void Engine::render() {
     Renderer::preSetup();
     
-    Renderer::getRHI()->drawIndexed(m_cubeMesh->getIndexCount());
+    Renderer::submit(component);
 
     Renderer::postSetup();
 }

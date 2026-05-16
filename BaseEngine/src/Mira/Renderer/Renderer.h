@@ -1,6 +1,8 @@
 #pragma once
 #include "RHI/RHI.h"
 #include "Mira/Window/WindowTools.h"
+#include "Mira/Components/RenderComponent.h"
+#include "Mira/Renderer/RHI/ConstantBuffer.h"
 
 namespace Mira {
 
@@ -17,7 +19,10 @@ public:
 
     static void resize(unsigned int width, unsigned int height);
 
+    static void submit(RenderComponent& component);
+
     static RHI* getRHI();
+    static Renderer* get();
 
 public:
     Renderer();
@@ -26,7 +31,17 @@ public:
 private:
     Scope<RHI> m_rhi;
 
+    Scope<ConstantBuffer> m_vertexConstantBuffer;
+    Scope<ConstantBuffer> m_pixelConstantBuffer;
+
     static Renderer* s_instance;
+
+
+    //Temp Data
+    DirectX::XMMATRIX m_view;
+    DirectX::XMMATRIX m_proj;
+
+
 };
 
 }

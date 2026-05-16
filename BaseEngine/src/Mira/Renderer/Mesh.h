@@ -11,7 +11,7 @@ public:
     Mesh() = default;
     ~Mesh() = default;
 
-    void bindMesh() const;
+    void bind() const;
     uint32_t getIndexCount() const;
 
 private:

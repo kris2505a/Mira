@@ -3,7 +3,7 @@
 
 namespace Mira {
 
-void Material::bindMaterial(int textureSlot) const {
+void Material::bind(int textureSlot) const {
     m_shader->bind();
 
     if (m_hasTexture) {

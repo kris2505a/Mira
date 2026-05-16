@@ -4,9 +4,8 @@
 #include "Mira/Renderer/Renderer.h"
 #include "Mira/Event/Event.h"
 
-//Temp
 #include "Mira/Renderer/InstanceManager.h"
-#include "Mira/Renderer/RHI/ConstantBuffer.h"
+#include "Mira/Components/RenderComponent.h"
 
 namespace Mira {
 
@@ -31,10 +30,7 @@ private:
     Scope<Renderer> m_renderer;
 
     //tmp
-    Ref<Mesh> m_cubeMesh;
-    Ref<Material> m_cubeMaterial;
-    Scope<ConstantBuffer> m_vcbo;
-    Scope<ConstantBuffer> m_pcbo;
+    RenderComponent component;
 };
 
 Engine* createApp();

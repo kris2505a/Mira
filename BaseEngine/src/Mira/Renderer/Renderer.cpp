@@ -4,6 +4,16 @@
 
 namespace Mira {
 
+struct VertexShaderData {
+    DirectX::XMMATRIX mvp;
+    DirectX::XMMATRIX model;
+};
+
+struct alignas(16) PixelShaderData {
+    DirectX::XMFLOAT4 color;
+    int useTexture = 0;
+};
+
 Renderer* Renderer::s_instance = nullptr;
 
 Renderer::Renderer() {
@@ -13,7 +23,7 @@ Renderer::Renderer() {
 
     s_instance = this;
     m_rhi = RHI::createRHI(API::D3D11);
-
+    
 }
 
 void Renderer::initialize(WindowHandle handle, unsigned int width, unsigned int height) {
@@ -22,6 +32,31 @@ void Renderer::initialize(WindowHandle handle, unsigned int width, unsigned int 
     }
 
     getRHI()->initialize(handle, width, height);
+
+
+    VertexShaderData nullVertexData;
+    nullVertexData.model = DirectX::XMMatrixIdentity();
+    nullVertexData.mvp = DirectX::XMMatrixIdentity();
+    
+    PixelShaderData nullPixelData;
+    nullPixelData.color = { 0.0f, 0.0f, 0.0f, 0.0f };
+    nullPixelData.useTexture = 0;
+    
+    get()->m_vertexConstantBuffer = ConstantBuffer::create(&nullVertexData, sizeof(nullVertexData), ShaderType::VertexShader);
+    get()->m_pixelConstantBuffer = ConstantBuffer::create(&nullPixelData, sizeof(nullPixelData), ShaderType::PixelShader);
+
+    get()->m_view = DirectX::XMMatrixLookAtLH(
+        DirectX::XMVectorSet(0.0f, 0.0f, -3.0f, 0.0f),
+        DirectX::XMVectorSet(0.0f, 0.0f, 0.0f, 1.0f),
+        DirectX::XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f)
+    );
+
+    get()->m_proj = DirectX::XMMatrixPerspectiveFovLH(
+        DirectX::XMConvertToRadians(45.0F),
+        1280.0f / 720.0f,
+        0.1f,
+        100.0f
+    );
 }
 
 void Renderer::preSetup() {
@@ -56,11 +91,42 @@ RHI* Renderer::getRHI() {
     return s_instance->m_rhi.get();
 }
 
+Renderer* Renderer::get() {
+    return s_instance;
+}
+
 void Renderer::shutDown() {
 
     getRHI()->shutdown();
 
     //RAII. NOTHING TO DO.
+}
+
+void Renderer::submit(RenderComponent& component) {
+    component.mesh->bind();
+    component.material->bind();
+
+    VertexShaderData vertexData;
+    vertexData.model = DirectX::XMMatrixTranspose(component.modelMatrix);
+    vertexData.mvp = DirectX::XMMatrixTranspose(
+        component.modelMatrix *
+        get()->m_view *
+        get()->m_proj
+    );
+    get()->m_vertexConstantBuffer->update(&vertexData, sizeof(vertexData));
+
+    PixelShaderData pixelData;
+    pixelData.color = component.color;
+    pixelData.useTexture = component.material->hasTexture();
+    get()->m_pixelConstantBuffer->update(&pixelData, sizeof(pixelData));
+
+    component.mesh->bind();
+    get()->m_vertexConstantBuffer->bind();
+    component.material->bind();
+    get()->m_pixelConstantBuffer->bind();
+
+    getRHI()->drawIndexed(component.mesh->getIndexCount());
+
 }
 
 
