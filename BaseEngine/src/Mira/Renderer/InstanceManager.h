@@ -9,6 +9,8 @@ namespace Mira {
 class InstanceManager {
 public:
     static Ref<Mesh> createCubeMesh();
+    static Ref<Mesh> createQuadMesh();
+
     //static Ref<Mesh> creteSphereMesh();
     //static Ref<Mesh> createCustomMesh(const std::string& name);
 

@@ -2,10 +2,11 @@
 #include "Mira/Renderer/Mesh.h"
 #include "Mira/Renderer/Material.h"
 #include <DirectXMath.h>
+#include "Mira/Core/Core.h"
 
 namespace Mira {
 
-struct RenderComponent {
+struct MIRA_API RenderComponent {
     Ref<Mesh> mesh;
     Ref<Material> material;
 

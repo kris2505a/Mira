@@ -22,7 +22,6 @@ Engine::Engine() {
     attribs.title = "Mira";
     m_window = createScope<WIN32Window>(attribs);
 
-
     m_renderer = createScope<Renderer>();
 }
 
@@ -40,17 +39,16 @@ void Engine::initialize() {
 
     Renderer::clearColor(0.02f, 0.04f, 0.10f, 1.0f);
 
-    component.mesh = InstanceManager::createCubeMesh();
+    component.mesh = InstanceManager::createQuadMesh();
 
     component.material = InstanceManager::createMaterial("Def");
 
-    component.modelMatrix = dx::XMMatrixScaling(1.0f, 1.0f, 1.0f) *
-                            dx::XMMatrixRotationY(dx::XMConvertToRadians(45.0f)) *
+    component.modelMatrix = dx::XMMatrixScaling(200.0f, 100.0f, 1.0f) *
                             dx::XMMatrixTranslation(0.0f, 0.0f, 0.0f);
 
     component.color = { 1.0f, 0.0f, 0.0f, 1.0f };
-                            
-
+    
+    camera.setViewWidthHeight(static_cast<float>(m_window->getWidth()), static_cast<float>(m_window->getHeight()));
 }
 
 void Engine::shutDown() {
@@ -70,15 +68,33 @@ void Engine::mainLoop() {
 
 void Engine::update() {
 
-    if (Input::isKeyHeld(Key::Space)) {
-        Logger::log(LogType::Debug, "Space Bar Pressed");
+    auto cameraPos = camera.getPosition();
+    float speed = 5.0f;
+
+    if (Input::isKeyDown(Key::Left) || Input::isKeyHeld(Key::Left)) {
+        cameraPos.x -= speed;
     }
+
+    if (Input::isKeyDown(Key::Right) || Input::isKeyHeld(Key::Right)) {
+        cameraPos.x += speed;
+    }
+
+    if (Input::isKeyDown(Key::Up) || Input::isKeyHeld(Key::Up)) {
+        cameraPos.y += speed;
+    }
+
+    if (Input::isKeyDown(Key::Down) || Input::isKeyHeld(Key::Down)) {
+        cameraPos.y -= speed;
+    }
+
+    camera.setPosition(cameraPos);
 
 }
 
 void Engine::render() {
     Renderer::preSetup();
-    
+    Renderer::useCamera(camera);
+
     Renderer::submit(component);
 
     Renderer::postSetup();

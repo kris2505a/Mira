@@ -11,7 +11,7 @@ file(GLOB_RECURSE BASE_ENGINE_SOURCES
 
 add_library(BaseEngine SHARED
     ${BASE_ENGINE_SOURCES}
- "src/Mira/Renderer/Renderer.h")
+)
 
 target_precompile_headers(BaseEngine PRIVATE
     src/MiraPch.h

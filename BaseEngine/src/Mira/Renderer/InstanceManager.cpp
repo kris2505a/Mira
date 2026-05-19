@@ -73,6 +73,33 @@ Ref<Mesh> InstanceManager::createCubeMesh() {
     return cubeMesh;
 }
 
+Ref<Mesh> InstanceManager::createQuadMesh() {
+    if (get().m_meshMap.contains("Quad")) {
+        return get().m_meshMap["Quad"];
+    }
+
+    auto quadMesh = createRef<Mesh>();
+    
+    std::vector<Vertex> vertices = {
+        {{-0.5f, -0.5f,  0.0f}, { 0.0f,  0.0f,  1.0f}, {0.0f, 1.0f}},
+        {{ 0.5f, -0.5f,  0.0f}, { 0.0f,  0.0f,  1.0f}, {1.0f, 1.0f}},
+        {{ 0.5f,  0.5f,  0.0f}, { 0.0f,  0.0f,  1.0f}, {1.0f, 0.0f}},
+        {{-0.5f,  0.5f,  0.0f}, { 0.0f,  0.0f,  1.0f}, {0.0f, 0.0f}}
+    };
+
+    std::vector<uint32_t> indices = {
+        0, 1, 2,
+        2, 3, 0
+    };
+
+    quadMesh->m_vertexBuffer = VertexBuffer::create(vertices.data(), static_cast<int>(vertices.size()), sizeof(Vertex));
+    quadMesh->m_indexBuffer = IndexBuffer::create(indices.data(), static_cast<int>(indices.size()));
+
+    get().m_meshMap["Quad"] = quadMesh;
+
+    return quadMesh;
+}
+
 Ref<Material> InstanceManager::createMaterial(const std::string& name) {
     if (get().m_materialMap.count(name)) {
         return get().m_materialMap[name];

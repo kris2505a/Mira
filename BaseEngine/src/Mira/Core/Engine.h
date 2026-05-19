@@ -7,6 +7,8 @@
 #include "Mira/Renderer/InstanceManager.h"
 #include "Mira/Components/RenderComponent.h"
 
+#include "Mira/Camera/OrthographicCamera.h"
+
 namespace Mira {
 
 class MIRA_API Engine {
@@ -23,6 +25,7 @@ private:
     void render();
     void handleEvent(Event& e);
     void pollEvent();
+
     
 private:
     Scope<Window> m_window;
@@ -31,6 +34,7 @@ private:
 
     //tmp
     RenderComponent component;
+    OrthographicCamera camera;
 };
 
 Engine* createApp();

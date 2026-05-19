@@ -45,19 +45,9 @@ void Renderer::initialize(WindowHandle handle, unsigned int width, unsigned int 
     get()->m_vertexConstantBuffer = ConstantBuffer::create(&nullVertexData, sizeof(nullVertexData), ShaderType::VertexShader);
     get()->m_pixelConstantBuffer = ConstantBuffer::create(&nullPixelData, sizeof(nullPixelData), ShaderType::PixelShader);
 
-    get()->m_view = DirectX::XMMatrixLookAtLH(
-        DirectX::XMVectorSet(0.0f, 0.0f, -3.0f, 0.0f),
-        DirectX::XMVectorSet(0.0f, 0.0f, 0.0f, 1.0f),
-        DirectX::XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f)
-    );
+    get()->m_viewProjectionMatrix = DirectX::XMMatrixIdentity();
 
-    get()->m_proj = DirectX::XMMatrixPerspectiveFovLH(
-        DirectX::XMConvertToRadians(45.0F),
-        1280.0f / 720.0f,
-        0.1f,
-        100.0f
-    );
-}
+ }
 
 void Renderer::preSetup() {
     if (!s_instance) {
@@ -102,6 +92,10 @@ void Renderer::shutDown() {
     //RAII. NOTHING TO DO.
 }
 
+void Renderer::useCamera(Camera& camera) {
+    get()->m_viewProjectionMatrix = camera.getViewProjection();
+}
+
 void Renderer::submit(RenderComponent& component) {
     component.mesh->bind();
     component.material->bind();
@@ -110,8 +104,7 @@ void Renderer::submit(RenderComponent& component) {
     vertexData.model = DirectX::XMMatrixTranspose(component.modelMatrix);
     vertexData.mvp = DirectX::XMMatrixTranspose(
         component.modelMatrix *
-        get()->m_view *
-        get()->m_proj
+        get()->m_viewProjectionMatrix
     );
     get()->m_vertexConstantBuffer->update(&vertexData, sizeof(vertexData));
 

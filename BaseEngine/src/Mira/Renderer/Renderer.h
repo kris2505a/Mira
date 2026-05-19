@@ -3,6 +3,7 @@
 #include "Mira/Window/WindowTools.h"
 #include "Mira/Components/RenderComponent.h"
 #include "Mira/Renderer/RHI/ConstantBuffer.h"
+#include "Mira/Camera/Camera.h"
 
 namespace Mira {
 
@@ -21,6 +22,8 @@ public:
 
     static void submit(RenderComponent& component);
 
+    static void useCamera(Camera& camera);
+
     static RHI* getRHI();
     static Renderer* get();
 
@@ -33,13 +36,10 @@ private:
 
     Scope<ConstantBuffer> m_vertexConstantBuffer;
     Scope<ConstantBuffer> m_pixelConstantBuffer;
+    DirectX::XMMATRIX m_viewProjectionMatrix;
 
+    
     static Renderer* s_instance;
-
-
-    //Temp Data
-    DirectX::XMMATRIX m_view;
-    DirectX::XMMATRIX m_proj;
 
 
 };
