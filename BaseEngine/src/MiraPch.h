@@ -13,6 +13,8 @@
 #include <iomanip>
 #include <sstream>
 #include <cstdint>
+#include <cmath>
+
 
 #include <d3dcompiler.h>
 #include <DirectXMath.h>

@@ -1,7 +1,7 @@
 #include "MiraPch.h"
 #include "OrthographicCamera.h"
 #include "Mira/Math/Vec3D.h"
-#include <cmath>
+
 
 namespace Mira {
 
@@ -50,7 +50,7 @@ void OrthographicCamera::setZoom(float zoom) {
 }
 
 void OrthographicCamera::reCalculateView() {
-    auto theta =dx::XMConvertToRadians(m_rotation);
+    auto theta = dx::XMConvertToRadians(m_rotation);
 
     Vec3D up(
         -std::sinf(theta),
