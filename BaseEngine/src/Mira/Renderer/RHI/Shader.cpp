@@ -1,7 +1,7 @@
-#include "MiraPch.h"
-#include "Shader.h"
-#include "RHI.h"
-#include "D3D11/D3D11Shader.h"
+#include "MiraPch.hpp"
+#include "Shader.hpp"
+#include "RHI.hpp"
+#include "D3D11/D3D11Shader.hpp"
 
 namespace Mira {
 Scope<Shader> Shader::create(const std::wstring &path, InputLayout layout) {

@@ -1,5 +1,5 @@
 #include "Window.h"
-#include "Mira/Logger/Logger.h"
+#include "Mira/Logger/Logger.hpp"
 
 namespace Mira {
 

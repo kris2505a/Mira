@@ -1,7 +1,7 @@
-#include "MiraPch.h"
-#include "Texture.h"
-#include "RHI.h"
-#include "D3D11/D3D11Texture.h"
+#include "MiraPch.hpp"
+#include "Texture.hpp"
+#include "RHI.hpp"
+#include "D3D11/D3D11Texture.hpp"
 
 namespace Mira {
 Scope<Texture> Texture::create(const std::string &path) {

@@ -1,9 +1,9 @@
 #pragma once
 #include <bitset>
 
-#include "Mira/Math/Vec2D.h"
+#include "Mira/Math/Vec2D.hpp"
 
-#include "InputCodes.h"
+#include "InputCodes.hpp"
 
 namespace Mira {
 

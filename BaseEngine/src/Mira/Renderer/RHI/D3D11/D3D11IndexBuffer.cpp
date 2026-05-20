@@ -1,7 +1,7 @@
-#include "MiraPch.h"
-#include "D3D11IndexBuffer.h"
-#include "D3D11Resource.h"
-#include "D3DError.h"
+#include "MiraPch.hpp"
+#include "D3D11IndexBuffer.hpp"
+#include "D3D11Resource.hpp"
+#include "D3DError.hpp"
 
 namespace Mira {
 

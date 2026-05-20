@@ -2,7 +2,7 @@
 #include <format>
 #include <string>
 
-#include "Mira/Core/Core.h"
+#include "Mira/Core/Core.hpp"
 
 namespace Mira {
 

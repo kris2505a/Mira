@@ -1,11 +1,11 @@
-#include "MiraPch.h"
-#include "Mira/Logger/Logger.h"
+#include "MiraPch.hpp"
+#include "Mira/Logger/Logger.hpp"
 #include "Engine.h"
-#include "Mira/Event/WindowEvent.h"
-#include "Mira/Event/KeyboardEvent.h"
-#include "Mira/Event/MouseEvent.h"
+#include "Mira/Event/WindowEvent.hpp"
+#include "Mira/Event/KeyboardEvent.hpp"
+#include "Mira/Event/MouseEvent.hpp"
 
-#include "Mira/Input/Input.h"
+#include "Mira/Input/Input.hpp"
 
 #include <DirectXMath.h>
 #define TO_RAD(x) DirectX::XMConvertToRadians(x)
@@ -43,7 +43,7 @@ void Engine::initialize() {
 
     component.material = InstanceManager::createMaterial("Def");
 
-    component.modelMatrix = dx::XMMatrixScaling(200.0f, 100.0f, 1.0f) *
+    component.modelMatrix = dx::XMMatrixScaling(200.0f, 200.0f, 1.0f) *
                             dx::XMMatrixTranslation(0.0f, 0.0f, 0.0f);
 
     component.color = { 1.0f, 0.0f, 0.0f, 1.0f };

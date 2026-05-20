@@ -1,8 +1,8 @@
-#include "MiraPch.h"
-#include "D3D11Shader.h"
-#include "D3DError.h"
-#include "Mira/Logger/Logger.h"
-#include "D3D11Resource.h"
+#include "MiraPch.hpp"
+#include "D3D11Shader.hpp"
+#include "D3DError.hpp"
+#include "Mira/Logger/Logger.hpp"
+#include "D3D11Resource.hpp"
 
 namespace Mira {
 

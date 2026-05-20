@@ -1,7 +1,7 @@
-#include "MiraPch.h"
-#include "ConstantBuffer.h"
-#include "RHI.h"
-#include "D3D11/D3D11ConstantBuffer.h"
+#include "MiraPch.hpp"
+#include "ConstantBuffer.hpp"
+#include "RHI.hpp"
+#include "D3D11/D3D11ConstantBuffer.hpp"
 
 namespace Mira {
 Scope<ConstantBuffer> ConstantBuffer::create(const void *data, int size, ShaderType type) {

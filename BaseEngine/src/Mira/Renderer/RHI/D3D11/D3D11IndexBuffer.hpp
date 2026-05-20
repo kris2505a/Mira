@@ -1,5 +1,5 @@
 #pragma once
-#include "Mira/Renderer/RHI/IndexBuffer.h"
+#include "Mira/Renderer/RHI/IndexBuffer.hpp"
 #include <wrl/client.h>
 #include <d3d11.h>
 

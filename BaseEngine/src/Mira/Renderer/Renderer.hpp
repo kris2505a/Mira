@@ -1,9 +1,9 @@
 #pragma once
-#include "RHI/RHI.h"
+#include "RHI/RHI.hpp"
 #include "Mira/Window/WindowTools.h"
-#include "Mira/Components/RenderComponent.h"
-#include "Mira/Renderer/RHI/ConstantBuffer.h"
-#include "Mira/Camera/Camera.h"
+#include "Mira/EngineComponents/Component.hpp"
+#include "Mira/Renderer/RHI/ConstantBuffer.hpp"
+#include "Mira/Camera/Camera.hpp"
 
 namespace Mira {
 

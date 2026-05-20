@@ -1,6 +1,6 @@
-#include "MiraPch.h"
-#include "OrthographicCamera.h"
-#include "Mira/Math/Vec3D.h"
+#include "MiraPch.hpp"
+#include "OrthographicCamera.hpp"
+#include "Mira/Math/Vec3D.hpp"
 
 
 namespace Mira {

@@ -1,8 +1,8 @@
-#include "MiraPch.h"
-#include "D3D11Texture.h"
-#include "D3DError.h"
-#include "Mira/Renderer/RHI/stb_image.h"
-#include "D3D11Resource.h"
+#include "MiraPch.hpp"
+#include "D3D11Texture.hpp"
+#include "D3DError.hpp"
+#include "Mira/Renderer/RHI/stb_image.hpp"
+#include "D3D11Resource.hpp"
 
 namespace Mira {
 

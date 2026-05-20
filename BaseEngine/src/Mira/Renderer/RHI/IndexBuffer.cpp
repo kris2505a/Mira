@@ -1,7 +1,7 @@
-#include "MiraPch.h"
-#include "IndexBuffer.h"
-#include "RHI.h"
-#include "D3D11/D3D11IndexBuffer.h"
+#include "MiraPch.hpp"
+#include "IndexBuffer.hpp"
+#include "RHI.hpp"
+#include "D3D11/D3D11IndexBuffer.hpp"
 
 namespace Mira {
 Scope<IndexBuffer> IndexBuffer::create(const void *indices, int count, int offset) {

@@ -1,5 +1,5 @@
 #pragma once
-#include "Mira/Renderer/RHI/Texture.h"
+#include "Mira/Renderer/RHI/Texture.hpp"
 #include <string>
 
 #include <d3d11.h>

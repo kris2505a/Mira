@@ -2,7 +2,7 @@
 #include <cstdint>
 #include <Windows.h>
 
-#include "Mira/Core/MemoryType.h"
+#include "Mira/Core/MemoryType.hpp"
 #include "Mira/Window/WindowTools.h"
 
 namespace Mira {

@@ -1,5 +1,5 @@
 #pragma once
-#include "Mira/Core/MemoryType.h"
+#include "Mira/Core/MemoryType.hpp"
 
 namespace Mira {
 

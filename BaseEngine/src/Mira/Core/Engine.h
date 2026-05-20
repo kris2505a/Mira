@@ -1,13 +1,13 @@
 #pragma once
-#include "Core.h"
+#include "Core.hpp"
 #include "Mira/Window/WIN32Window.h"
-#include "Mira/Renderer/Renderer.h"
-#include "Mira/Event/Event.h"
+#include "Mira/Renderer/Renderer.hpp"
+#include "Mira/Event/Event.hpp"
 
-#include "Mira/Renderer/InstanceManager.h"
-#include "Mira/Components/RenderComponent.h"
+#include "Mira/Renderer/InstanceManager.hpp"
+#include "Mira/EngineComponents/Component.hpp"
 
-#include "Mira/Camera/OrthographicCamera.h"
+#include "Mira/Camera/OrthographicCamera.hpp"
 
 namespace Mira {
 

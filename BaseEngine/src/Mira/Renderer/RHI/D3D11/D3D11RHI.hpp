@@ -1,5 +1,5 @@
 #pragma once
-#include "Mira/Renderer/RHI/RHI.h"
+#include "Mira/Renderer/RHI/RHI.hpp"
 #include <array>
 #include <wrl/client.h>
 #include <d3d11.h>

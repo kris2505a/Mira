@@ -1,6 +1,6 @@
 #pragma once
 #include <d3d11.h>
-#include "Mira/Logger/Logger.h"
+#include "Mira/Logger/Logger.hpp"
 #include <stdexcept>
 
 namespace Mira {

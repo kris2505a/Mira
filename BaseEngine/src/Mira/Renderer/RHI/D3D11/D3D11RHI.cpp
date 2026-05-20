@@ -1,9 +1,9 @@
-#include "MiraPch.h"
-#include "D3D11RHI.h"
-#include "D3DError.h"
-#include "Mira/Logger/Logger.h"
+#include "MiraPch.hpp"
+#include "D3D11RHI.hpp"
+#include "D3DError.hpp"
+#include "Mira/Logger/Logger.hpp"
 
-#include "D3D11Resource.h"
+#include "D3D11Resource.hpp"
 
 namespace Mira {
 void D3D11RHI::initialize(WindowHandle handle, int width, int height) {

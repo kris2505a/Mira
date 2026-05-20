@@ -1,6 +1,6 @@
-#include "MiraPch.h"
-#include "Mira/Logger/Logger.h"
-#include "Renderer.h"
+#include "MiraPch.hpp"
+#include "Mira/Logger/Logger.hpp"
+#include "Renderer.hpp"
 
 namespace Mira {
 
@@ -110,7 +110,7 @@ void Renderer::submit(RenderComponent& component) {
 
     PixelShaderData pixelData;
     pixelData.color = component.color;
-    pixelData.useTexture = component.material->hasTexture();
+    pixelData.useTexture = component.material->hasTexture() ? 1 : 0;
     get()->m_pixelConstantBuffer->update(&pixelData, sizeof(pixelData));
 
     component.mesh->bind();

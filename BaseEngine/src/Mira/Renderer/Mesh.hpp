@@ -1,7 +1,7 @@
 #pragma once
-#include "RHI/VertexBuffer.h"
-#include "RHI/IndexBuffer.h"
-#include "Mira/Core/MemoryType.h"
+#include "RHI/VertexBuffer.hpp"
+#include "RHI/IndexBuffer.hpp"
+#include "Mira/Core/MemoryType.hpp"
 
 namespace Mira {
 

@@ -1,5 +1,5 @@
-#include "MiraPch.h"
-#include "Mesh.h"
+#include "MiraPch.hpp"
+#include "Mesh.hpp"
 
 namespace Mira {
 

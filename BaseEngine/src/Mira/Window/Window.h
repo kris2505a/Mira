@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 #include "WindowTools.h"
-#include "Mira/Core/MemoryType.h"
+#include "Mira/Core/MemoryType.hpp"
 
 namespace Mira {
 

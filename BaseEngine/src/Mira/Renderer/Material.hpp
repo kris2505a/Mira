@@ -1,6 +1,6 @@
 #pragma once
-#include "RHI/Shader.h"
-#include "RHI/Texture.h"
+#include "RHI/Shader.hpp"
+#include "RHI/Texture.hpp"
 
 namespace Mira {
 

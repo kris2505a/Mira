@@ -5,7 +5,7 @@ project(BaseEngine LANGUAGES C CXX)
 
 file(GLOB_RECURSE BASE_ENGINE_SOURCES
     CONFIGURE_DEPENDS
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/*.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/*.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp
 )
 
@@ -14,7 +14,7 @@ add_library(BaseEngine SHARED
 )
 
 target_precompile_headers(BaseEngine PRIVATE
-    src/MiraPch.h
+        src/MiraPch.hpp
 )
 
 target_include_directories(BaseEngine PUBLIC

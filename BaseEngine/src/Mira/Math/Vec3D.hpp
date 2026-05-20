@@ -1,5 +1,5 @@
 #pragma once
-#include "Vec2D.h"
+#include "Vec2D.hpp"
 
 namespace Mira {
 

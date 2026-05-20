@@ -3,7 +3,7 @@
 #include <string>
 #include <functional>
 #include <utility>
-#include "Mira/Event/Event.h"
+#include "Mira/Event/Event.hpp"
 
 namespace Mira {
 

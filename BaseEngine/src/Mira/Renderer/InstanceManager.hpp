@@ -1,6 +1,6 @@
 #pragma once
-#include "Mesh.h"
-#include "Material.h"
+#include "Mesh.hpp"
+#include "Material.hpp"
 #include <unordered_map>
 #include <string>
 

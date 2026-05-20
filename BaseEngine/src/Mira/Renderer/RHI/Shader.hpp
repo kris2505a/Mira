@@ -1,6 +1,6 @@
 #pragma once
-#include "Mira/Core/MemoryType.h"
-#include "InputLayout.h"
+#include "Mira/Core/MemoryType.hpp"
+#include "InputLayout.hpp"
 
 namespace Mira {
 

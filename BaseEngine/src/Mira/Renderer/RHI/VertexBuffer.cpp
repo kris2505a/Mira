@@ -1,7 +1,7 @@
-#include "MiraPch.h"
-#include "VertexBuffer.h"
-#include "RHI.h"
-#include "D3D11/D3D11VertexBuffer.h"
+#include "MiraPch.hpp"
+#include "VertexBuffer.hpp"
+#include "RHI.hpp"
+#include "D3D11/D3D11VertexBuffer.hpp"
 
 namespace Mira {
 

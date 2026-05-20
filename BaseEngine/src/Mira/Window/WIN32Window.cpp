@@ -2,11 +2,11 @@
 
 #include <windowsx.h>
 
-#include "Mira/Event/WindowEvent.h"
-#include "Mira/Event/KeyboardEvent.h"
-#include "Mira/Event/MouseEvent.h"
+#include "Mira/Event/WindowEvent.hpp"
+#include "Mira/Event/KeyboardEvent.hpp"
+#include "Mira/Event/MouseEvent.hpp"
 
-#include "Mira/Input/InputCodes.h"
+#include "Mira/Input/InputCodes.hpp"
 
 namespace Mira {
 

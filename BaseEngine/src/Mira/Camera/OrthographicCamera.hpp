@@ -1,8 +1,8 @@
 #pragma once
-#include "Mira/Core/Core.h"
-#include "Camera.h"
+#include "Mira/Core/Core.hpp"
+#include "Camera.hpp"
 
-#include "Mira/Math/Vec2D.h"
+#include "Mira/Math/Vec2D.hpp"
 
 namespace Mira {
 

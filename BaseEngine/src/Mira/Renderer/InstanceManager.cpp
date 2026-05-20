@@ -1,6 +1,6 @@
-#include "MiraPch.h"
-#include "InstanceManager.h"
-#include "Vertex.h"
+#include "MiraPch.hpp"
+#include "InstanceManager.hpp"
+#include "Vertex.hpp"
 
 namespace Mira {
 InstanceManager InstanceManager::s_instance;

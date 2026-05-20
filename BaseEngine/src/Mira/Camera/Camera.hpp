@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Mira/Core/Core.h"
-#include "Mira/Math/Vec3D.h"
+#include "Mira/Core/Core.hpp"
+#include "Mira/Math/Vec3D.hpp"
 
 #include <DirectXMath.h>
 

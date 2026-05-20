@@ -1,8 +1,8 @@
 #pragma once
-#include "Mira/Renderer/RHI/ConstantBuffer.h"
+#include "Mira/Renderer/RHI/ConstantBuffer.hpp"
 #include <d3d11.h>
 #include <wrl/client.h>
-#include "Mira/Renderer/RHI/ShaderType.h"
+#include "Mira/Renderer/RHI/ShaderType.hpp"
 
 namespace Mira {
 

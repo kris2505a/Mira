@@ -1,7 +1,7 @@
 #pragma once
 #include "Engine.h"
 #include <exception>
-#include "Mira/Logger/Logger.h"
+#include "Mira/Logger/Logger.hpp"
 
 extern Mira::Engine* Mira::createApp();
 

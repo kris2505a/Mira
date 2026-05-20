@@ -1,6 +1,6 @@
 #pragma once
-#include "Mira/Core/MemoryType.h"
-#include "ShaderType.h"
+#include "Mira/Core/MemoryType.hpp"
+#include "ShaderType.hpp"
 
 namespace Mira {
 

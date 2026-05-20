@@ -1,5 +1,5 @@
 #pragma once
-#include "Mira/Core/Core.h"
+#include "Mira/Core/Core.hpp"
 #include <string>
 
 namespace Mira {

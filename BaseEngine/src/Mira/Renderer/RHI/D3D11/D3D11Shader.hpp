@@ -1,5 +1,5 @@
 #pragma once
-#include "Mira/Renderer/RHI/Shader.h"
+#include "Mira/Renderer/RHI/Shader.hpp"
 #include <wrl/client.h>
 #include <d3d11.h>
 

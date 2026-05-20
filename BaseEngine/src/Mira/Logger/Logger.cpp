@@ -1,5 +1,5 @@
-#include "MiraPch.h"
-#include "Logger.h"
+#include "MiraPch.hpp"
+#include "Logger.hpp"
 
 
 namespace Mira {
