@@ -4,10 +4,14 @@
 #include "Mira/Renderer/Renderer.hpp"
 #include "Mira/Event/Event.hpp"
 
+#include "Mira/EngineComponents/LayerManager.hpp"
+
 #include "Mira/Renderer/InstanceManager.hpp"
 #include "Mira/EngineComponents/Component.hpp"
 
 #include "Mira/Camera/OrthographicCamera.hpp"
+
+#include <chrono>
 
 namespace Mira {
 
@@ -20,17 +24,18 @@ private:
     void initialize();
     void shutDown();
     void mainLoop();
-    
+
     void update();
     void render();
     void handleEvent(Event& e);
     void pollEvent();
 
-    
+
 private:
     Scope<Window> m_window;
     bool m_running{ true };
     Scope<Renderer> m_renderer;
+
 
     //tmp
     RenderComponent component;

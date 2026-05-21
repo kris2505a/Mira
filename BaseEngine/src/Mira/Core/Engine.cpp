@@ -1,11 +1,15 @@
 #include "MiraPch.hpp"
 #include "Mira/Logger/Logger.hpp"
-#include "Engine.h"
+#include "Engine.hpp"
 #include "Mira/Event/WindowEvent.hpp"
 #include "Mira/Event/KeyboardEvent.hpp"
 #include "Mira/Event/MouseEvent.hpp"
 
 #include "Mira/Input/Input.hpp"
+
+#include "Mira/EngineComponents/Clock.hpp"
+#include "Mira/Stats/EngineStats.hpp"
+
 
 #include <DirectXMath.h>
 #define TO_RAD(x) DirectX::XMConvertToRadians(x)
@@ -36,6 +40,8 @@ void Engine::initialize() {
     Logger::log(LogType::Info, "Engine Initializing...");
 
     Renderer::initialize(m_window->getHandle(), m_window->getWidth(), m_window->getHeight());
+    
+    EngineStats::DeltaTime::initialize();
 
     Renderer::clearColor(0.02f, 0.04f, 0.10f, 1.0f);
 
@@ -67,6 +73,9 @@ void Engine::mainLoop() {
 }
 
 void Engine::update() {
+
+    EngineStats::DeltaTime::updateDeltaTime();
+
 
     auto cameraPos = camera.getPosition();
     float speed = 5.0f;
@@ -153,5 +162,6 @@ void Engine::handleEvent(Event& e) {
 void Engine::pollEvent() {
     m_window->pollEvents();
 }
+
 
 }

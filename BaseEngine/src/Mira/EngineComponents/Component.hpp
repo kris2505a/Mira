@@ -17,8 +17,8 @@ struct MIRA_API RenderComponent : public Component {
     Ref<Mesh> mesh;
     Ref<Material> material;
 
-    DirectX::XMMATRIX modelMatrix;
-    DirectX::XMFLOAT4 color;
+    DirectX::XMMATRIX modelMatrix{ DirectX::XMMatrixIdentity() };
+    DirectX::XMFLOAT4 color{ 0.0f, 0.0f, 0.0f, 0.0f };
 
 };
 
