@@ -14,9 +14,10 @@ class MIRA_API Layer {
 public:
 	Layer(const std::string& name) : m_name(name) {}
 	virtual ~Layer() = default;
-	virtual void begin() {}
-	virtual void end() {}
-	virtual void update(float deltaTime) {}
+	virtual void attach() {}
+	virtual void detach() {}
+	virtual void update() {}
+	virtual void render() {}
 	virtual void handleEvent(Event& e) {}
 
 	[[nodiscard]]

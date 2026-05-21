@@ -38,7 +38,7 @@ set(IMGUI_SOURCES
 add_library(BaseEngine SHARED
     ${BASE_ENGINE_SOURCES}
     ${IMGUI_SOURCES}
-)
+ )
 
 # =========================
 # Precompiled Headers

@@ -2,7 +2,10 @@
 
 class Sandbox : public Mira::Engine {
 public:
-	Sandbox() = default;
+	Sandbox() {
+		getLayerManager().addLayer(Mira::Layer::createLayer<Mira::ImGuiLayer>());
+	}
+
 	~Sandbox() = default;
 };
 

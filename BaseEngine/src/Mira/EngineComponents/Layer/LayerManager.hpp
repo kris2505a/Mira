@@ -1,14 +1,15 @@
 #pragma once
 #include <vector>
 #include "Mira/Core/MemoryType.hpp"
+#include "Mira/Core/Core.hpp"
 #include "Layer.hpp"
 
 namespace Mira {
 
-class LayerManager {
+class MIRA_API LayerManager {
 public:
 	LayerManager() = default;
-	~LayerManager() = default;
+	~LayerManager();
 
 	void addLayer(Layer* layer);
 	void addOverlay(Layer* overlay);

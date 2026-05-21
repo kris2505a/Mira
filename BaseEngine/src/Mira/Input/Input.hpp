@@ -19,8 +19,6 @@ public:
     static bool isButtonUp(Button button);
     static bool isButtonHeld(Button button);
 
-
-
     enum State {
         Down,
         Up

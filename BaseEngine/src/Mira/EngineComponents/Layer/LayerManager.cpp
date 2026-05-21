@@ -18,6 +18,8 @@ void LayerManager::removeLayer(const std::string& name) {
 	});
 
 	if (iter != m_layers.end()) {
+		(*iter)->detach();
+		delete* iter;
 		m_layers.erase(iter);
 		m_layerIndex--;
 	}
@@ -29,12 +31,24 @@ void LayerManager::removeOverlay(const std::string& name) {
 	});
 
 	if (iter != m_layers.end()) {
+		(*iter)->detach();
+		delete *iter;
 		m_layers.erase(iter);
 	}
 }
 
 const std::vector<Layer*>& LayerManager::getLayers() const {
 	return m_layers;
+}
+
+LayerManager::~LayerManager() {
+	for (auto* layer : m_layers) {
+		if (layer) {
+			delete layer;
+		}
+	}
+
+	m_layers.clear();
 }
 
 }

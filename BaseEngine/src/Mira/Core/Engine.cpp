@@ -11,17 +11,21 @@
 #include "Mira/Stats/EngineStats.hpp"
 
 
-#include <imgui.h>
-
 #include <DirectXMath.h>
 #define TO_RAD(x) DirectX::XMConvertToRadians(x)
 
 namespace Mira {
 
+Engine* Engine::s_instance = nullptr;
 
 namespace dx = DirectX;
 
 Engine::Engine() {
+
+    if (s_instance) {
+        throw std::runtime_error("Instance of engine already exists!");
+    }
+    s_instance = this;
 
     WindowAttributes attribs(1280, 720, "Mira", [this](Event& e){ handleEvent(e); });
     attribs.width = 1280;
@@ -59,15 +63,20 @@ void Engine::initialize() {
     
     camera.setViewWidthHeight(static_cast<float>(m_window->getWidth()), static_cast<float>(m_window->getHeight()));
 
-    IMGUI_CHECKVERSION();
-    ImGui::CreateContext();
+    const auto& layers = m_layerManager.getLayers();
 
-    Renderer::getRHI()->setupImGui();
+    for (const auto& layer : layers) {
+        layer->attach();
+    }
+
 }
 
 void Engine::shutDown() {
-    Renderer::getRHI()->shutDownImGui();
-    ImGui::DestroyContext();
+    const auto& layers = m_layerManager.getLayers();
+
+    for (const auto& layer : layers) {
+        layer->detach();
+    }
     Renderer::shutDown();
     Logger::log(LogType::Info, "Engine Shutting Down...");
 }
@@ -108,26 +117,32 @@ void Engine::update() {
 
     camera.setPosition(cameraPos);
 
+    const auto& layers = m_layerManager.getLayers();
+
+    for (auto it = layers.rbegin(); it != layers.rend(); it++) {
+        (*it)->update();
+    }
+
 }
 
 void Engine::render() {
+
     Renderer::preSetup();
     Renderer::useCamera(camera);
 
     Renderer::submit(component);
+    
+    const auto& layers = m_layerManager.getLayers();
 
-    Renderer::getRHI()->beginImGuiFrame();
-    ImGui::NewFrame();
-
-    ImGui::Begin("Greetings");
-    ImGui::Text("Vanakkam da mapla, Engine lerunthu...");
-    ImGui::End();
-
-    ImGui::Render();
-    Renderer::getRHI()->endImGuiFrame();
-
+    for (auto it = layers.rbegin(); it != layers.rend(); it++) {
+        (*it)->render();
+    }
 
     Renderer::postSetup();
+}
+
+LayerManager& Engine::getLayerManager() {
+    return m_layerManager;
 }
 
 void Engine::handleEvent(Event& e) {
@@ -140,7 +155,7 @@ void Engine::handleEvent(Event& e) {
 
     dispatcher.dispatch<WindowResizeEvent>([](WindowResizeEvent& event) {
         Renderer::resize(event.getWidth(), event.getHeight());
-        return true;
+        return false;
     });
 
     dispatcher.dispatch<KeyPressEvent>([](KeyPressEvent& event) {
@@ -186,8 +201,14 @@ void Engine::handleEvent(Event& e) {
             break;
         }
     }
+}
 
+Engine& Engine::get() {
+    return (*s_instance);
+}
 
+Window& Engine::getWindow() const {
+    return *m_window.get();
 }
 
 void Engine::pollEvent() {
