@@ -21,4 +21,5 @@ void Window::setSize(unsigned int width, unsigned int height) {
 	m_attributes.height = height;
 }
 
+
 }

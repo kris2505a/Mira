@@ -5,11 +5,13 @@
 
 namespace Mira {
 
+
 class Window {
 public:
 	Window(WindowAttributes attribs);
 	Window() = default;
 	virtual ~Window() = default;
+
 
 	virtual void pollEvents() = 0;
 	virtual void setWindowTitle(const std::string& title) = 0;
@@ -18,6 +20,7 @@ public:
 	unsigned int getHeight() const;
 	void setSize(unsigned int width, unsigned int height);
 	virtual WindowHandle getHandle() const = 0;
+
 
 public:
     bool open = true;

@@ -31,11 +31,13 @@ private:
     void pollEvent();
 
 
+
+
 private:
     Scope<Window> m_window;
     bool m_running{ true };
     Scope<Renderer> m_renderer;
-
+    LayerManager m_layerManager;
 
     //tmp
     RenderComponent component;

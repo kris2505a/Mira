@@ -3,17 +3,17 @@
 
 namespace Mira {
 
-void LayerManager::addLayer(Scope<Layer> layer) {
-	m_layers.emplace(m_layers.begin() + m_layerIndex, std::move(layer));
+void LayerManager::addLayer(Layer* layer) {
+	m_layers.emplace(m_layers.begin() + m_layerIndex, layer);
 	m_layerIndex++;
 }
 
-void LayerManager::addOverlay(Scope<Layer> overlay) {
-	m_layers.emplace_back(std::move(overlay));
+void LayerManager::addOverlay(Layer* overlay) {
+	m_layers.emplace_back(overlay);
 }
 
 void LayerManager::removeLayer(const std::string& name) {
-	auto iter = std::find_if(m_layers.begin(), m_layers.end(), [name](const Scope<Layer>& layer) {
+	auto iter = std::find_if(m_layers.begin(), m_layers.end(), [name](const auto& layer) {
 		return name == layer->getLayerName();
 	});
 
@@ -24,7 +24,7 @@ void LayerManager::removeLayer(const std::string& name) {
 }
 
 void LayerManager::removeOverlay(const std::string& name) {
-	auto iter = std::find_if(m_layers.begin(), m_layers.end(), [name](const Scope<Layer>& layer) {
+	auto iter = std::find_if(m_layers.begin(), m_layers.end(), [name](const auto& layer) {
 		return name == layer->getLayerName();
 	});
 
@@ -33,7 +33,7 @@ void LayerManager::removeOverlay(const std::string& name) {
 	}
 }
 
-const std::vector<Scope<Layer>>& LayerManager::getLayers() const {
+const std::vector<Layer*>& LayerManager::getLayers() const {
 	return m_layers;
 }
 

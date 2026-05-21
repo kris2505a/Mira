@@ -5,6 +5,9 @@
 
 #include "D3D11Resource.hpp"
 
+#include "imgui_impl_win32.h"
+#include "imgui_impl_dx11.h"
+
 namespace Mira {
 void D3D11RHI::initialize(WindowHandle handle, int width, int height) {
 
@@ -19,11 +22,32 @@ void D3D11RHI::initialize(WindowHandle handle, int width, int height) {
     createViewPort();
     createRasterizerState();
     createSamplerState();
+
 }
 
 void D3D11RHI::shutdown() {
     Logger::log(LogType::Info, "Shutting Down D3D11RHI...");
-    //Nothing to do
+}
+
+void D3D11RHI::setupImGui() {
+
+	ImGui_ImplWin32_Init(p_handle);
+	ImGui_ImplDX11_Init(m_device.Get(), m_context.Get());
+
+}
+
+void D3D11RHI::beginImGuiFrame() {
+	ImGui_ImplDX11_NewFrame();
+	ImGui_ImplWin32_NewFrame();
+}
+
+void D3D11RHI::endImGuiFrame() {
+	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+}
+
+void D3D11RHI::shutDownImGui() {
+	ImGui_ImplWin32_Shutdown();
+	ImGui_ImplDX11_Shutdown();
 }
 
 void D3D11RHI::bindRenderTarget() {
@@ -141,6 +165,7 @@ void D3D11RHI::clearColor(float r, float g, float b, float a) {
 void D3D11RHI::setWireFrameMode(bool cond) {
     m_wireFrame = cond;
 }
+
 
 #pragma region Initializations
 

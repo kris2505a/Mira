@@ -25,7 +25,11 @@ public:
     void logGPUInfo()                   override;
 
     void clearColor(float r, float g, float b, float a) override;
-    void setWireFrameMode(bool cond) override;
+    void setWireFrameMode(bool cond)    override;
+    void setupImGui()                   override;
+    void beginImGuiFrame()              override;
+    void endImGuiFrame()                override;
+    void shutDownImGui()                override;
 
 
 private:

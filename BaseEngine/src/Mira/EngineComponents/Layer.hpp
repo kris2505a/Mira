@@ -25,8 +25,8 @@ public:
 	}
 
 	template<std::derived_from<Layer> T, typename... Args>
-	static Scope<Layer> createLayer(Args&... args) {
-		return createScope<T>(args...);
+	static Layer* createLayer(Args&&... args) {
+		return new T(std::forward<Args>(args)...);
 	}
 
 private:
