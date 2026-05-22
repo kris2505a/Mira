@@ -50,8 +50,8 @@ void D3D11RHI::shutDownImGui() {
 	ImGui_ImplDX11_Shutdown();
 }
 
-Vec2D D3D11RHI::getRenderDimensions() {
-	return Vec2D(static_cast<float>(m_renderWidth), static_cast<float>(m_renderHeight));
+Vec2 D3D11RHI::getRenderDimensions() {
+	return Vec2(static_cast<float>(m_renderWidth), static_cast<float>(m_renderHeight));
 }
 
 void D3D11RHI::bindRenderTarget() {

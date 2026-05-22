@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Mira/Core/Core.hpp"
-#include "Mira/Math/Vec3D.hpp"
+#include "Mira/Math/Vec3.hpp"
 
 #include <DirectXMath.h>
 
@@ -12,9 +12,9 @@ class MIRA_API Camera {
 
 public:
     Camera() = default;
-    ~Camera() = default;
+    virtual ~Camera() = default;
 
-    inline void setView(Vec3D eye, Vec3D target, Vec3D up) {
+    inline void setView(Vec3 eye, Vec3 target, Vec3 up) {
         auto view = DirectX::XMMatrixLookAtLH(
             DirectX::XMVectorSet(eye.x, eye.y, eye.z, 1.0f),
             DirectX::XMVectorSet(target.x, target.y, target.z, 1.0f),
@@ -25,19 +25,26 @@ public:
         m_view = view;
     }
 
+    inline void setViewMat(DirectX::XMMATRIX view) {
+        m_view = view;
+    }
+
     inline void setProjection(DirectX::XMMATRIX projection) {
         m_projection = projection;
     }
 
+    [[nodiscard]]
     DirectX::XMMATRIX getViewProjection() const {
         return m_view * m_projection;
     }
 
-    virtual void setViewWidthHeight(float width, float height) = 0;
+    virtual void reCalculateView() = 0;
+    virtual void reCalculateProjection() = 0;
+
 
 private:
-    DirectX::XMMATRIX m_view;
-    DirectX::XMMATRIX m_projection;
+    DirectX::XMMATRIX m_view{};
+    DirectX::XMMATRIX m_projection{};
 
 };
 

@@ -1,16 +1,18 @@
 #include "MiraEngine.hpp"
 
-class Quad {
+#include <algorithm>
+
+class Cube {
 public:
 	
-	Quad() {
-		m_renderComponent.mesh = Mira::InstanceManager::createQuadMesh();
+	Cube() {
+		m_renderComponent.mesh = Mira::InstanceManager::createCubeMesh();
 		m_renderComponent.material = Mira::InstanceManager::createMaterial("Def");
 		m_renderComponent.color = { 0.0f, 1.0f, 1.0f, 1.0f };
 
-		m_transformComponent.position = Mira::Vec3D(0.0f);
+		m_transformComponent.position = Mira::Vec3(0.0f);
 		m_transformComponent.rotation = 0;
-		m_transformComponent.scale = Mira::Vec3D(m_width * 1.0f, m_height * 1.0f, 1.0f);
+		m_transformComponent.scale = Mira::Vec3(1.0f, 1.0f, 1.0f);
 	}
 	
 	Mira::RenderComponent& getRenderComponent() {
@@ -24,35 +26,65 @@ public:
 private:
 	Mira::RenderComponent m_renderComponent;
 	Mira::TransformComponent m_transformComponent;
-	float m_width{ 200.0f };
-	float m_height{ 200.0f };
 };
 
 class Sandbox : public Mira::Engine {
 public:
 	Sandbox() : Mira::Engine() {
 
-		float width = static_cast<float>(Mira::EngineStats::WindowProperties::getWidth());
-		float height = static_cast<float>(Mira::EngineStats::WindowProperties::getHeight());
 
-		m_camera.setViewWidthHeight(width, height);
-		m_quad = new Quad();
+		m_cube = new Cube();
 		getLayerManager().addLayer(Mira::Layer::createLayer<Mira::ImGuiLayer>());
+		m_camera.setPosition({ 0.0f, 0.0f, -5.0f });
 	}
 
 	~Sandbox() {
-		if (m_quad)
-			delete m_quad;
+		if (m_cube)
+			delete m_cube;
 	}
 
 	void update() {
+
+		auto pos = m_camera.getPosition();
+
+		if (Mira::Input::isKeyHeld(Mira::Key::S)) {
+			pos -= m_camera.getForwardVector() * 0.9f * Mira::EngineStats::DeltaTime::inSeconds();
+		}
+
+		if (Mira::Input::isKeyHeld(Mira::Key::W)) {
+			pos += m_camera.getForwardVector() * 0.9f * Mira::EngineStats::DeltaTime::inSeconds();
+		}
+
+		if (Mira::Input::isKeyHeld(Mira::Key::A)) {
+			pos -= m_camera.getRightVector() * 0.9f * Mira::EngineStats::DeltaTime::inSeconds();
+		}
+
+		if (Mira::Input::isKeyHeld(Mira::Key::D)) {
+			pos += m_camera.getRightVector() * 0.9f * Mira::EngineStats::DeltaTime::inSeconds();
+		}
+
+		auto rot = m_camera.getRotation();
+
+		rot.pitch -= Mira::Input::getMouseDelta().y * sensitivity * Mira::EngineStats::DeltaTime::inMilliseconds();
+		rot.yaw += Mira::Input::getMouseDelta().x * sensitivity * Mira::EngineStats::DeltaTime::inMilliseconds();
+
+		rot.pitch = std::clamp(
+			rot.pitch,
+			-DirectX::XM_PIDIV2 + 0.01f,
+			DirectX::XM_PIDIV2 - 0.01f
+		);
+
+		m_camera.setRotation(rot);
+		m_camera.setPosition(pos);
+
 		Mira::Renderer::useCamera(m_camera);
-		Mira::Renderer::submit(m_quad->getRenderComponent(), m_quad->getTransformComponent());
+		Mira::Renderer::submit(m_cube->getRenderComponent(), m_cube->getTransformComponent());
 	}
 
 private:
-	Mira::OrthographicCamera m_camera;
-	Quad* m_quad;
+	Mira::PerspectiveCamera m_camera;
+	Cube* m_cube;
+	float sensitivity{ 0.002f };
 
 };
 

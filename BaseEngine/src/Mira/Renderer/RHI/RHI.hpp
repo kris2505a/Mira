@@ -4,7 +4,7 @@
 
 #include "Mira/Core/MemoryType.hpp"
 #include "Mira/Window/WindowTools.h"
-#include "Mira/Math/Vec2D.hpp"
+#include "Mira/Math/Vec2.hpp"
 
 namespace Mira {
 
@@ -40,7 +40,7 @@ public:
     virtual void clearColor(float r, float g, float b, float a)         = 0;
     virtual void setWireFrameMode(bool cond)                            = 0;
     
-    virtual Vec2D getRenderDimensions()                                 = 0;
+    virtual Vec2 getRenderDimensions()                                 = 0;
 
     static Scope<RHI> createRHI(API api);
 

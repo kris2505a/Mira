@@ -54,7 +54,7 @@ bool Input::isButtonHeld(Button button) {
 
 
 //MOUSE ACTIONS
-void Input::mouseMove(Vec2D pos) {
+void Input::mouseMove(Vec2 pos) {
 
     if (get().firstMove) {
         get().firstMove = false;
@@ -71,11 +71,11 @@ void Input::mouseScroll(float offset) {
     get().wheelOffset += offset;
 }
 
-Vec2D Input::getMousePosition() {
+Vec2 Input::getMousePosition() {
     return get().mousePosition;
 }
 
-Vec2D Input::getMouseDelta() {
+Vec2 Input::getMouseDelta() {
     return get().mouseDelta;
 }
 

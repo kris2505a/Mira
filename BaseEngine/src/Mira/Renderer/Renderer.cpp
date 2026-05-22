@@ -90,7 +90,7 @@ Renderer* Renderer::get() {
 }
 
 void Renderer::useCamera(Camera& camera) {
-    camera.setViewWidthHeight(get()->m_rhi->getRenderDimensions().x, get()->m_rhi->getRenderDimensions().y);
+    camera.reCalculateProjection();
     get()->m_viewProjectionMatrix = camera.getViewProjection();
 }
 
@@ -98,7 +98,7 @@ void Renderer::submit(RenderComponent& renderComponent, TransformComponent& tran
     VertexShaderData vertexData;
 
     auto model = DirectX::XMMatrixScaling(transformComponent.scale.x, transformComponent.scale.y, transformComponent.scale.z) *
-        DirectX::XMMatrixRotationRollPitchYaw(transformComponent.rotation.x, transformComponent.rotation.y, transformComponent.rotation.z) *
+        DirectX::XMMatrixRotationRollPitchYaw(transformComponent.rotation.roll, transformComponent.rotation.pitch, transformComponent.rotation.yaw) *
         DirectX::XMMatrixTranslation(transformComponent.position.x, transformComponent.position.y, transformComponent.position.z);
 
     vertexData.model = DirectX::XMMatrixTranspose(model);

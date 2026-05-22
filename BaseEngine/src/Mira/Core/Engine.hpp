@@ -9,7 +9,6 @@
 #include "Mira/Renderer/InstanceManager.hpp"
 #include "Mira/EngineComponents/Component.hpp"
 
-#include "Mira/Camera/OrthographicCamera.hpp"
 
 #include <chrono>
 

@@ -69,6 +69,8 @@ void Engine::mainLoop() {
     Logger::log(LogType::Info, "Engine Running...");
     while (m_running) {
         pollEvent();
+        EngineStats::DeltaTime::updateDeltaTime();
+
         Renderer::preSetup();
 
         const auto& layers = m_layerManager.getLayers();

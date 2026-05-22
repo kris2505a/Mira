@@ -14,12 +14,12 @@
 #include "Mira/EngineComponents/Component.hpp"
 
 #include "Mira/Renderer/InstanceManager.hpp"
-#include "Mira/Camera/OrthographicCamera.hpp"
+#include "Mira/Camera/PerspectiveCamera.hpp"
 
 #include "Mira/Stats/EngineStats.hpp"
 
 
-#include "Mira/Math/Vec2D.hpp"
-#include "Mira/Math/Vec3D.hpp"
+#include "Mira/Math/Vec2.hpp"
+#include "Mira/Math/Vec3.hpp"
 
 

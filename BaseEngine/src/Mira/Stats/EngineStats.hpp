@@ -1,6 +1,7 @@
 #pragma once
 #include "Mira/Core/Core.hpp"
 #include "Mira/EngineComponents/Clock.hpp"
+#include "Mira/Window/WindowTools.h"
 
 namespace Mira {
 
