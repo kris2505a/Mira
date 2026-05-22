@@ -5,14 +5,13 @@
 #include "Mira/Renderer/RHI/ConstantBuffer.hpp"
 #include "Mira/Camera/Camera.hpp"
 
+#include "Mira/Core/Core.hpp"
+
 namespace Mira {
 
-class Renderer {
+class MIRA_API Renderer {
 public:
     //static methods
-    static void initialize(WindowHandle handle, unsigned int width, unsigned int height);
-    static void shutDown();
-
     static void preSetup();
     static void postSetup();
 
@@ -20,7 +19,7 @@ public:
 
     static void resize(unsigned int width, unsigned int height);
 
-    static void submit(RenderComponent& component);
+    static void submit(RenderComponent& renderComponent, TransformComponent& transformComponent);
 
     static void useCamera(Camera& camera);
 
@@ -29,7 +28,7 @@ public:
 
 public:
     Renderer();
-    ~Renderer() = default;
+    ~Renderer();
 
 private:
     Scope<RHI> m_rhi;

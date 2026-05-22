@@ -50,6 +50,10 @@ void D3D11RHI::shutDownImGui() {
 	ImGui_ImplDX11_Shutdown();
 }
 
+Vec2D D3D11RHI::getRenderDimensions() {
+	return Vec2D(static_cast<float>(m_renderWidth), static_cast<float>(m_renderHeight));
+}
+
 void D3D11RHI::bindRenderTarget() {
     RUN(m_context->OMSetRenderTargets(1, m_targetView.GetAddressOf(), m_stencilView.Get()), m_device);
 }

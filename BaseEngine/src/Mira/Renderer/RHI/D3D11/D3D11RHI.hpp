@@ -3,6 +3,7 @@
 #include <array>
 #include <wrl/client.h>
 #include <d3d11.h>
+#include "Mira/Math/Vec2D.hpp"
 
 namespace Mira {
 
@@ -30,6 +31,7 @@ public:
     void beginImGuiFrame()              override;
     void endImGuiFrame()                override;
     void shutDownImGui()                override;
+    Vec2D getRenderDimensions()         override;
 
 
 private:

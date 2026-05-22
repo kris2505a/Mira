@@ -5,11 +5,13 @@ namespace Mira {
 
 void LayerManager::addLayer(Layer* layer) {
 	m_layers.emplace(m_layers.begin() + m_layerIndex, layer);
+	layer->attach();
 	m_layerIndex++;
 }
 
 void LayerManager::addOverlay(Layer* overlay) {
 	m_layers.emplace_back(overlay);
+	overlay->attach();
 }
 
 void LayerManager::removeLayer(const std::string& name) {
@@ -44,6 +46,8 @@ const std::vector<Layer*>& LayerManager::getLayers() const {
 LayerManager::~LayerManager() {
 	for (auto* layer : m_layers) {
 		if (layer) {
+			if (layer->isAttached())
+				layer->detach();
 			delete layer;
 		}
 	}

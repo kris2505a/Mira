@@ -10,7 +10,7 @@ class MIRA_API OrthographicCamera : public Camera {
 public:
     OrthographicCamera();
     
-    void setViewWidthHeight(float width, float height);
+    void setViewWidthHeight(float width, float height) override;
 
     void setPosition(Vec2D pos);
     void setRotation(float theta);

@@ -1,8 +1,11 @@
 #pragma once
 
+#include "Mira/Core/Core.hpp"
+
+
 namespace Mira {
 
-struct Vec2D {
+struct MIRA_API Vec2D {
     float x = 0.0f;
     float y = 0.0f;
 

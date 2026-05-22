@@ -1,6 +1,7 @@
 #include "MiraPch.hpp"
 #include "Mira/Logger/Logger.hpp"
 #include "Renderer.hpp"
+#include "Mira/Stats/EngineStats.hpp"
 
 namespace Mira {
 
@@ -23,31 +24,34 @@ Renderer::Renderer() {
 
     s_instance = this;
     m_rhi = RHI::createRHI(API::D3D11);
-    
-}
 
-void Renderer::initialize(WindowHandle handle, unsigned int width, unsigned int height) {
-    if (!s_instance) {
-        throw std::runtime_error("Instance of renderer already exists!");
-    }
-
-    getRHI()->initialize(handle, width, height);
+    getRHI()->initialize(
+        EngineStats::WindowProperties::getHandle(), 
+        EngineStats::WindowProperties::getWidth(), 
+        EngineStats::WindowProperties::getHeight()
+    );
 
 
     VertexShaderData nullVertexData;
     nullVertexData.model = DirectX::XMMatrixIdentity();
     nullVertexData.mvp = DirectX::XMMatrixIdentity();
-    
+
     PixelShaderData nullPixelData;
     nullPixelData.color = { 0.0f, 0.0f, 0.0f, 0.0f };
     nullPixelData.useTexture = 0;
-    
+
     get()->m_vertexConstantBuffer = ConstantBuffer::create(&nullVertexData, sizeof(nullVertexData), ShaderType::VertexShader);
     get()->m_pixelConstantBuffer = ConstantBuffer::create(&nullPixelData, sizeof(nullPixelData), ShaderType::PixelShader);
 
     get()->m_viewProjectionMatrix = DirectX::XMMatrixIdentity();
 
- }
+
+    
+}
+
+Renderer::~Renderer() {
+    getRHI()->shutdown();
+}
 
 void Renderer::preSetup() {
     if (!s_instance) {
@@ -85,40 +89,36 @@ Renderer* Renderer::get() {
     return s_instance;
 }
 
-void Renderer::shutDown() {
-
-    getRHI()->shutdown();
-
-    //RAII. NOTHING TO DO.
-}
-
 void Renderer::useCamera(Camera& camera) {
+    camera.setViewWidthHeight(get()->m_rhi->getRenderDimensions().x, get()->m_rhi->getRenderDimensions().y);
     get()->m_viewProjectionMatrix = camera.getViewProjection();
 }
 
-void Renderer::submit(RenderComponent& component) {
-    component.mesh->bind();
-    component.material->bind();
-
+void Renderer::submit(RenderComponent& renderComponent, TransformComponent& transformComponent) {
     VertexShaderData vertexData;
-    vertexData.model = DirectX::XMMatrixTranspose(component.modelMatrix);
+
+    auto model = DirectX::XMMatrixScaling(transformComponent.scale.x, transformComponent.scale.y, transformComponent.scale.z) *
+        DirectX::XMMatrixRotationRollPitchYaw(transformComponent.rotation.x, transformComponent.rotation.y, transformComponent.rotation.z) *
+        DirectX::XMMatrixTranslation(transformComponent.position.x, transformComponent.position.y, transformComponent.position.z);
+
+    vertexData.model = DirectX::XMMatrixTranspose(model);
     vertexData.mvp = DirectX::XMMatrixTranspose(
-        component.modelMatrix *
+        model *
         get()->m_viewProjectionMatrix
     );
     get()->m_vertexConstantBuffer->update(&vertexData, sizeof(vertexData));
 
     PixelShaderData pixelData;
-    pixelData.color = component.color;
-    pixelData.useTexture = component.material->hasTexture() ? 1 : 0;
+    pixelData.color = renderComponent.color;
+    pixelData.useTexture = renderComponent.material->hasTexture() ? 1 : 0;
     get()->m_pixelConstantBuffer->update(&pixelData, sizeof(pixelData));
 
-    component.mesh->bind();
+    renderComponent.mesh->bind();
     get()->m_vertexConstantBuffer->bind();
-    component.material->bind();
+    renderComponent.material->bind();
     get()->m_pixelConstantBuffer->bind();
 
-    getRHI()->drawIndexed(component.mesh->getIndexCount());
+    getRHI()->drawIndexed(renderComponent.mesh->getIndexCount());
 
 }
 

@@ -4,9 +4,11 @@
 #include <unordered_map>
 #include <string>
 
+#include "Mira/Core/Core.hpp"
+
 namespace Mira {
 
-class InstanceManager {
+class MIRA_API InstanceManager {
 public:
     static Ref<Mesh> createCubeMesh();
     static Ref<Mesh> createQuadMesh();

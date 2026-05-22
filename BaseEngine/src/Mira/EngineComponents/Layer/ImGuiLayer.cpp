@@ -19,7 +19,10 @@
 namespace Mira {
 
 ImGuiLayer::ImGuiLayer() 
-		: Layer("ImGuiLayer") {}
+		: Layer("ImGuiLayer") {
+    
+    m_attached = true;
+}
 
 
 void ImGuiLayer::attach() {
@@ -65,7 +68,6 @@ void ImGuiLayer::handleEvent(Event& e) {
 
     dispatcher.dispatch<KeyPressEvent>([this](KeyPressEvent& event) {
 		ImGuiIO& io = ImGui::GetIO();
-		
         io.AddKeyEvent(
             static_cast<ImGuiKey>(toImGuiKey(static_cast<Key>(event.getKey()))),
             true
@@ -76,7 +78,6 @@ void ImGuiLayer::handleEvent(Event& e) {
 
     dispatcher.dispatch<KeyReleaseEvent>([this](KeyReleaseEvent& event) {
         ImGuiIO& io = ImGui::GetIO();
-
         io.AddKeyEvent(
             static_cast<ImGuiKey>(toImGuiKey(static_cast<Key>(event.getKey()))),
             false
@@ -87,7 +88,6 @@ void ImGuiLayer::handleEvent(Event& e) {
 
     dispatcher.dispatch<MouseButtonPressEvent>([this](MouseButtonPressEvent& event) {
         ImGuiIO& io = ImGui::GetIO();
-
         io.AddMouseButtonEvent(
             toImGuiMouseButton(static_cast<Button>(event.getButton())),
             true
@@ -98,7 +98,6 @@ void ImGuiLayer::handleEvent(Event& e) {
 
     dispatcher.dispatch<MouseButtonReleaseEvent>([this](MouseButtonReleaseEvent& event) {
         ImGuiIO& io = ImGui::GetIO();
-
         io.AddMouseButtonEvent(
             toImGuiMouseButton(static_cast<Button>(event.getButton())),
             false
@@ -108,7 +107,6 @@ void ImGuiLayer::handleEvent(Event& e) {
 
     dispatcher.dispatch<MouseMoveEvent>([](const MouseMoveEvent& event) {
         ImGuiIO& io = ImGui::GetIO();
-
         io.AddMousePosEvent(event.getX(), event.getY());
 
         return false;

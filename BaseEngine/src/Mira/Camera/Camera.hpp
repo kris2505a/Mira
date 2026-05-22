@@ -33,6 +33,8 @@ public:
         return m_view * m_projection;
     }
 
+    virtual void setViewWidthHeight(float width, float height) = 0;
+
 private:
     DirectX::XMMATRIX m_view;
     DirectX::XMMATRIX m_projection;

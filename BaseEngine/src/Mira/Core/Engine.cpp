@@ -18,7 +18,6 @@ namespace Mira {
 
 Engine* Engine::s_instance = nullptr;
 
-namespace dx = DirectX;
 
 Engine::Engine() {
 
@@ -27,119 +26,72 @@ Engine::Engine() {
     }
     s_instance = this;
 
+    Logger::log(LogType::Info, "Engine Initializing...");
+
+
     WindowAttributes attribs(1280, 720, "Mira", [this](Event& e){ handleEvent(e); });
     attribs.width = 1280;
     attribs.height = 720;
     attribs.title = "Mira";
     m_window = createScope<WIN32Window>(attribs);
 
+    EngineStats::WindowProperties::setWindowHandle(m_window->getHandle());
+    EngineStats::WindowProperties::setSize(m_window->getWidth(), m_window->getHeight());
+
+
     m_renderer = createScope<Renderer>();
+    
+    EngineStats::DeltaTime::initialize();
+    
+    Renderer::clearColor(0.02f, 0.04f, 0.10f, 1.0f);
+
+
+}
+
+Engine::~Engine() {
+
+
+    Logger::log(LogType::Info, "Engine Shutting Down...");
 }
 
 void Engine::run() {
-    initialize();
+
     mainLoop();
-    shutDown();
-}
-
-void Engine::initialize() {
-
-    Logger::log(LogType::Info, "Engine Initializing...");
-
-    Renderer::initialize(m_window->getHandle(), m_window->getWidth(), m_window->getHeight());
-    
-    EngineStats::DeltaTime::initialize();
-
-    Renderer::clearColor(0.02f, 0.04f, 0.10f, 1.0f);
-
-    component.mesh = InstanceManager::createQuadMesh();
-
-    component.material = InstanceManager::createMaterial("Def");
-
-    component.modelMatrix = dx::XMMatrixScaling(200.0f, 200.0f, 1.0f) *
-                            dx::XMMatrixTranslation(0.0f, 0.0f, 0.0f);
-
-    component.color = { 1.0f, 0.0f, 0.0f, 1.0f };
-    
-    camera.setViewWidthHeight(static_cast<float>(m_window->getWidth()), static_cast<float>(m_window->getHeight()));
-
-    const auto& layers = m_layerManager.getLayers();
-
-    for (const auto& layer : layers) {
-        layer->attach();
-    }
 
 }
 
-void Engine::shutDown() {
-    const auto& layers = m_layerManager.getLayers();
+void Engine::update() {
 
-    for (const auto& layer : layers) {
-        layer->detach();
-    }
-    Renderer::shutDown();
-    Logger::log(LogType::Info, "Engine Shutting Down...");
 }
+
 
 void Engine::mainLoop() {
     Logger::log(LogType::Info, "Engine Running...");
     while (m_running) {
         pollEvent();
+        Renderer::preSetup();
+
+        const auto& layers = m_layerManager.getLayers();
+
+        for (auto it = m_layerManager.getLayers().rbegin(); it != layers.rend(); it++) {
+            (*it)->update();
+        }
+
+
         update();
-        render();
+
+
+        for (auto it = m_layerManager.getLayers().rbegin(); it != layers.rend(); it++) {
+            (*it)->render();
+        }
+
+        Renderer::postSetup();
+
+
         Input::endState();
     }
 }
 
-void Engine::update() {
-
-    EngineStats::DeltaTime::updateDeltaTime();
-
-
-    auto cameraPos = camera.getPosition();
-    float speed = 5.0f;
-
-    if (Input::isKeyDown(Key::Left) || Input::isKeyHeld(Key::Left)) {
-        cameraPos.x -= speed;
-    }
-
-    if (Input::isKeyDown(Key::Right) || Input::isKeyHeld(Key::Right)) {
-        cameraPos.x += speed;
-    }
-
-    if (Input::isKeyDown(Key::Up) || Input::isKeyHeld(Key::Up)) {
-        cameraPos.y += speed;
-    }
-
-    if (Input::isKeyDown(Key::Down) || Input::isKeyHeld(Key::Down)) {
-        cameraPos.y -= speed;
-    }
-
-    camera.setPosition(cameraPos);
-
-    const auto& layers = m_layerManager.getLayers();
-
-    for (auto it = layers.rbegin(); it != layers.rend(); it++) {
-        (*it)->update();
-    }
-
-}
-
-void Engine::render() {
-
-    Renderer::preSetup();
-    Renderer::useCamera(camera);
-
-    Renderer::submit(component);
-    
-    const auto& layers = m_layerManager.getLayers();
-
-    for (auto it = layers.rbegin(); it != layers.rend(); it++) {
-        (*it)->render();
-    }
-
-    Renderer::postSetup();
-}
 
 LayerManager& Engine::getLayerManager() {
     return m_layerManager;
@@ -155,6 +107,7 @@ void Engine::handleEvent(Event& e) {
 
     dispatcher.dispatch<WindowResizeEvent>([](WindowResizeEvent& event) {
         Renderer::resize(event.getWidth(), event.getHeight());
+        EngineStats::WindowProperties::setSize(event.getWidth(), event.getHeight());
         return false;
     });
 

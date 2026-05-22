@@ -1,9 +1,10 @@
 #pragma once
 #include "Vec2D.hpp"
+#include "Mira/Core/Core.hpp"
 
 namespace Mira {
 
-struct Vec3D {
+struct MIRA_API Vec3D {
     float x = 0.0f;
     float y = 0.0f;
     float z = 0.0f;

@@ -20,6 +20,10 @@ public:
 	virtual void render() {}
 	virtual void handleEvent(Event& e) {}
 
+	inline bool isAttached() const {
+		return m_attached;
+	}
+
 	[[nodiscard]]
 	inline const std::string& getLayerName() const {
 		return m_name;
@@ -29,6 +33,9 @@ public:
 	static Layer* createLayer(Args&&... args) {
 		return new T(std::forward<Args>(args)...);
 	}
+
+protected:
+	bool m_attached{ false };
 
 private:
 	std::string m_name;

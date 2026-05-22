@@ -19,6 +19,8 @@ class MIRA_API Engine {
 public:
     void run();
     Engine();
+    ~Engine();
+
     LayerManager& getLayerManager();
     static Engine& get();
     
@@ -26,12 +28,9 @@ public:
 
 
 private:
-    void initialize();
-    void shutDown();
     void mainLoop();
 
-    void update();
-    void render();
+    virtual void update();
     void handleEvent(Event& e);
     void pollEvent();
 
@@ -42,11 +41,6 @@ private:
     bool m_running{ true };
     Scope<Renderer> m_renderer;
     LayerManager m_layerManager;
-
-    //tmp
-    RenderComponent component;
-    OrthographicCamera camera;
-    
 
     static Engine* s_instance;
 
