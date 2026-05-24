@@ -3,8 +3,7 @@
 #include "Mira/Core/Core.hpp"
 #include "Mira/Math/Vec3.hpp"
 
-#include <DirectXMath.h>
-
+#include <glm/mat4x4.hpp>
 
 namespace Mira {
 
@@ -14,28 +13,17 @@ public:
     Camera() = default;
     virtual ~Camera() = default;
 
-    inline void setView(Vec3 eye, Vec3 target, Vec3 up) {
-        auto view = DirectX::XMMatrixLookAtLH(
-            DirectX::XMVectorSet(eye.x, eye.y, eye.z, 1.0f),
-            DirectX::XMVectorSet(target.x, target.y, target.z, 1.0f),
-            DirectX::XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f)
-        );
-
-        //m_view = DirectX::XMMatrixInverse(nullptr, view);
+    inline void setViewMat(glm::mat4 view) {
         m_view = view;
     }
 
-    inline void setViewMat(DirectX::XMMATRIX view) {
-        m_view = view;
-    }
-
-    inline void setProjection(DirectX::XMMATRIX projection) {
+    inline void setProjection(glm::mat4 projection) {
         m_projection = projection;
     }
 
     [[nodiscard]]
-    DirectX::XMMATRIX getViewProjection() const {
-        return m_view * m_projection;
+    glm::mat4 getViewProjection() const {
+        return m_projection * m_view;
     }
 
     virtual void reCalculateView() = 0;
@@ -43,8 +31,8 @@ public:
 
 
 private:
-    DirectX::XMMATRIX m_view{};
-    DirectX::XMMATRIX m_projection{};
+    glm::mat4 m_view{};
+    glm::mat4 m_projection{};
 
 };
 

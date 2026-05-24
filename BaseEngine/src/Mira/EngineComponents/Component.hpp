@@ -2,8 +2,9 @@
 
 #include "Mira/Renderer/Mesh.hpp"
 #include "Mira/Renderer/Material.hpp"
-#include <DirectXMath.h>
 #include "Mira/Core/Core.hpp"
+
+#include <glm/vec4.hpp>
 
 #include "Mira/Math/Vec3.hpp"
 #include "Mira/Math/Rot3.hpp"
@@ -18,7 +19,7 @@ struct MIRA_API RenderComponent : public Component {
     Ref<Mesh> mesh;
     Ref<Material> material;
 
-    DirectX::XMFLOAT4 color{ 0.0f, 0.0f, 0.0f, 0.0f };
+    glm::vec4 color;
 
 };
 

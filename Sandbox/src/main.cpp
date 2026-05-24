@@ -1,13 +1,14 @@
 #include "MiraEngine.hpp"
 
 #include <algorithm>
+#include <glm/gtc/constants.hpp>
 
 class Cube {
 public:
 	
 	Cube() {
 		m_renderComponent.mesh = Mira::RenderResourceManager::createCubeMesh();
-		m_renderComponent.material = Mira::RenderResourceManager::createMaterial("CubeMat", "Def", "test.png");
+		m_renderComponent.material = Mira::RenderResourceManager::createMaterial("CubeMat");
 		m_renderComponent.color = { 1.0f, 1.0f, 1.0f, 1.0f };
 
 		m_transformComponent.position = Mira::Vec3(0.0f);
@@ -79,8 +80,8 @@ public:
 
 			rot.pitch = std::clamp(
 				rot.pitch,
-				-DirectX::XM_PIDIV2 + 0.01f,
-				DirectX::XM_PIDIV2 - 0.01f
+				-glm::pi<float>() / 2.0f + 0.01f,
+				glm::pi<float>() / 2.0f - 0.01f
 			);
 
 			m_camera.setRotation(rot);

@@ -7,6 +7,8 @@
 
 #include "Mira/Core/Core.hpp"
 
+#include <glm/mat4x4.hpp>
+
 namespace Mira {
 
 class MIRA_API Renderer {
@@ -37,8 +39,9 @@ private:
 
     Scope<ConstantBuffer> m_vertexConstantBuffer;
     Scope<ConstantBuffer> m_pixelConstantBuffer;
-    DirectX::XMMATRIX m_viewProjectionMatrix;
+    // DirectX::XMMATRIX m_viewProjectionMatrix;
 
+    glm::mat4 m_viewProjectionMatrix;
     
     static Renderer* s_instance;
 

@@ -11,13 +11,13 @@ struct VSOut {
 };
 
 cbuffer cbuf {
-    float4x4 mvp;
-    float4x4 model;
+    column_major float4x4 mvp;
+    column_major float4x4 model;
 }
 
 VSOut main(VSIn input) {
     VSOut output;
-    output.position = mul(float4(input.pos, 1.0f), mvp);
+    output.position = mul(mvp, float4(input.pos, 1.0f));
     output.normal = input.normal;
     output.uv = input.uv;
 

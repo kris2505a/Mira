@@ -54,6 +54,7 @@ target_precompile_headers(BaseEngine PRIVATE
 
 target_include_directories(BaseEngine PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/src
+    ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/glm/
     ${IMGUI_DIR}
     ${IMGUI_DIR}/backends
 )

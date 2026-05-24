@@ -2,6 +2,9 @@
 #include "PerspectiveCamera.hpp"
 #include "Mira/Stats/EngineStats.hpp"
 
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
 namespace Mira {
 
 PerspectiveCamera::PerspectiveCamera() {
@@ -49,56 +52,55 @@ float PerspectiveCamera::getZoom() const {
 
 void PerspectiveCamera::reCalculateView() {
 
-    auto pos = DirectX::XMVectorSet(m_position.x, m_position.y, m_position.z, 1.0f);
-
     m_forwardVector.x = std::cosf(m_rotation.pitch) * std::sinf(m_rotation.yaw);
     m_forwardVector.y = std::sinf(m_rotation.pitch);
     m_forwardVector.z = std::cosf(m_rotation.pitch) * std::cosf(m_rotation.yaw);
 
-    auto forward = DirectX::XMVectorSet(
-        m_forwardVector.x,
-        m_forwardVector.y,
-        m_forwardVector.z,
-        0.0f
+
+
+    glm::vec3 forward(m_forwardVector.x, m_forwardVector.y, m_forwardVector.z);
+    
+    glm::vec3 worldUp(0.0f, 1.0f, 0.0f);
+
+    forward = glm::normalize(forward);
+
+    auto right = glm::cross(worldUp, forward);
+
+    auto up = glm::cross(forward, right);
+
+    auto rollRotation = glm::rotate(glm::mat4(1.0f), m_rotation.roll, forward);
+
+    up = glm::normalize(
+        glm::vec3(rollRotation * glm::vec4(up, 1.0f))
     );
 
-    forward = DirectX::XMVector3Normalize(forward);
+    glm::vec3 position(m_position.x, m_position.y, m_position.z);
 
+    auto view = glm::lookAtLH(
+        position,
+        position + forward,
+        up
+    );
 
-    auto worldUp = DirectX::XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
-    auto right = DirectX::XMVector3Cross(worldUp, forward);
+    m_rightVector.x = right.x;
+    m_rightVector.y = right.y;
+    m_rightVector.z = right.z;
 
-    right = DirectX::XMVector3Normalize(right);
+    m_upVector.x = up.x;
+    m_upVector.y = up.y;
+    m_upVector.z = up.z;
 
-    m_rightVector.x = DirectX::XMVectorGetX(right);
-    m_rightVector.y = DirectX::XMVectorGetY(right);
-    m_rightVector.z = DirectX::XMVectorGetZ(right);
-
-    auto up = DirectX::XMVector3Cross(forward, right);
-
-
-    auto rollRotation = DirectX::XMMatrixRotationAxis(forward, m_rotation.roll);
-
-    up = DirectX::XMVector3TransformNormal(up, rollRotation);
-    up = DirectX::XMVector3Normalize(up);
-    
-    
-
-    auto target = DirectX::XMVectorAdd(pos, forward);
-
-    auto viewMat = DirectX::XMMatrixLookAtLH(pos, target, up);
-
-
-    setViewMat(viewMat);
+    setViewMat(view);
 
 }
 
 void PerspectiveCamera::reCalculateProjection() {
-    auto projection = DirectX::XMMatrixPerspectiveFovLH(
-        DirectX::XM_PIDIV4,
-        static_cast<float>(EngineStats::WindowProperties::getWidth()) / static_cast<float>(EngineStats::WindowProperties::getHeight()),
-        0.1f,
-        20.0f
+
+    auto projection = glm::perspectiveFovLH(
+        glm::radians(45.0f),
+        static_cast<float>(EngineStats::WindowProperties::getWidth()),
+        static_cast<float>(EngineStats::WindowProperties::getHeight()),
+        0.1f, 20.0f
     );
 
     setProjection(projection);

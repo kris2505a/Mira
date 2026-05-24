@@ -3,15 +3,25 @@
 #include "Renderer.hpp"
 #include "Mira/Stats/EngineStats.hpp"
 
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+#define GLM_ENABLE_EXPERIMENTAL
+#include <glm/gtx/euler_angles.hpp>
+
+
 namespace Mira {
 
 struct VertexShaderData {
-    DirectX::XMMATRIX mvp;
-    DirectX::XMMATRIX model;
+    // DirectX::XMMATRIX mvp;
+    // DirectX::XMMATRIX model;
+    glm::mat4 mvp;
+    glm::mat4 model;
+
 };
 
 struct PixelShaderData {
-    DirectX::XMFLOAT4 color;
+    // DirectX::XMFLOAT4 color;
+    glm::vec4 color;
 };
 
 Renderer* Renderer::s_instance = nullptr;
@@ -32,8 +42,8 @@ Renderer::Renderer() {
 
 
     VertexShaderData nullVertexData;
-    nullVertexData.model = DirectX::XMMatrixIdentity();
-    nullVertexData.mvp = DirectX::XMMatrixIdentity();
+    nullVertexData.model = glm::mat4(0.0f);
+    nullVertexData.mvp = glm::mat4(0.0f);
 
     PixelShaderData nullPixelData;
     nullPixelData.color = { 0.0f, 0.0f, 0.0f, 0.0f };
@@ -41,7 +51,7 @@ Renderer::Renderer() {
     get()->m_vertexConstantBuffer = ConstantBuffer::create(&nullVertexData, sizeof(nullVertexData), ShaderType::VertexShader);
     get()->m_pixelConstantBuffer = ConstantBuffer::create(&nullPixelData, sizeof(nullPixelData), ShaderType::PixelShader);
 
-    get()->m_viewProjectionMatrix = DirectX::XMMatrixIdentity();
+    get()->m_viewProjectionMatrix = glm::mat4(0.0f);
 
 
     
@@ -95,15 +105,27 @@ void Renderer::useCamera(Camera& camera) {
 void Renderer::submit(RenderComponent& renderComponent, TransformComponent& transformComponent) {
     VertexShaderData vertexData;
 
-    auto model = DirectX::XMMatrixScaling(transformComponent.scale.x, transformComponent.scale.y, transformComponent.scale.z) *
-        DirectX::XMMatrixRotationRollPitchYaw(transformComponent.rotation.roll, transformComponent.rotation.pitch, transformComponent.rotation.yaw) *
-        DirectX::XMMatrixTranslation(transformComponent.position.x, transformComponent.position.y, transformComponent.position.z);
+    // auto model = DirectX::XMMatrixScaling(transformComponent.scale.x, transformComponent.scale.y, transformComponent.scale.z) *
+    //     DirectX::XMMatrixRotationRollPitchYaw(transformComponent.rotation.roll, transformComponent.rotation.pitch, transformComponent.rotation.yaw) *
+    //     DirectX::XMMatrixTranslation(transformComponent.position.x, transformComponent.position.y, transformComponent.position.z);
 
-    vertexData.model = DirectX::XMMatrixTranspose(model);
-    vertexData.mvp = DirectX::XMMatrixTranspose(
-        model *
-        get()->m_viewProjectionMatrix
-    );
+    auto translation = glm::translate(glm::mat4(1.0f), glm::vec3(transformComponent.position.x, transformComponent.position.y, transformComponent.position.z));
+    auto rotation = glm::yawPitchRoll(transformComponent.rotation.yaw, transformComponent.rotation.pitch, transformComponent.rotation.roll);
+    auto scale = glm::scale(glm::mat4(1.0f), glm::vec3(transformComponent.scale.x, transformComponent.scale.y, transformComponent.scale.z));
+
+    auto model = translation * rotation * scale;
+
+    vertexData.model = model;
+    vertexData.mvp = get()->m_viewProjectionMatrix * model;
+
+    // vertexData.model = DirectX::XMMatrixTranspose(model);
+    // vertexData.mvp = DirectX::XMMatrixTranspose(
+    //     model *
+    //     get()->m_viewProjectionMatrix
+    // );
+
+    
+
     get()->m_vertexConstantBuffer->update(&vertexData, sizeof(vertexData));
 
     PixelShaderData pixelData;
