@@ -6,7 +6,7 @@
 namespace Mira {
 
 class Mesh {
-    friend class InstanceManager;
+    friend class RenderResourceManager;
 public:
     Mesh() = default;
     ~Mesh() = default;

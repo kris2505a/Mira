@@ -13,7 +13,7 @@
 
 #include "Mira/EngineComponents/Component.hpp"
 
-#include "Mira/Renderer/InstanceManager.hpp"
+#include "Mira/Renderer/RenderResourceManager.hpp"
 #include "Mira/Camera/PerspectiveCamera.hpp"
 
 #include "Mira/Stats/EngineStats.hpp"

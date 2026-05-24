@@ -10,7 +10,7 @@ public:
     virtual ~Shader() = default;
     virtual void bind() const = 0;
 
-    static Scope<Shader> create(const std::wstring& path, InputLayout layout);
+    static Ref<Shader> create(const std::wstring& path, const InputLayout& layout);
 };
 
 }

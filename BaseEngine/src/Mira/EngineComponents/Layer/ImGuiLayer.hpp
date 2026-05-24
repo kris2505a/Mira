@@ -17,8 +17,8 @@ public:
 	void handleEvent(Event& e) override;
 
 private:
-	int toImGuiKey(Key key);
-	int toImGuiMouseButton(Button button);
+	static int toImGuiKey(Key key);
+	static int toImGuiMouseButton(Button button);
     void printLogs();
 	bool wireFrame;
 

@@ -31,13 +31,3 @@ set_target_properties(Sandbox PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY_RELEASE
         ${CMAKE_SOURCE_DIR}/Binaries/Release/Sandbox
 )
-
-set_target_properties(Sandbox PROPERTIES
-    WIN32_EXECUTABLE TRUE
-
-    RUNTIME_OUTPUT_DIRECTORY_DEBUG
-        ${CMAKE_SOURCE_DIR}/Binaries/Debug/Sandbox
-
-    RUNTIME_OUTPUT_DIRECTORY_RELEASE
-        ${CMAKE_SOURCE_DIR}/Binaries/Release/Sandbox
-)

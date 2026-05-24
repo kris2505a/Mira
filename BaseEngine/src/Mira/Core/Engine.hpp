@@ -6,7 +6,7 @@
 
 #include "Mira/EngineComponents/Layer/LayerManager.hpp"
 
-#include "Mira/Renderer/InstanceManager.hpp"
+#include "Mira/Renderer/RenderResourceManager.hpp"
 #include "Mira/EngineComponents/Component.hpp"
 
 

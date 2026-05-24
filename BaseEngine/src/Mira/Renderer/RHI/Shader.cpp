@@ -4,11 +4,11 @@
 #include "D3D11/D3D11Shader.hpp"
 
 namespace Mira {
-Scope<Shader> Shader::create(const std::wstring& path, InputLayout layout) {
+Ref<Shader> Shader::create(const std::wstring& path, const InputLayout& layout) {
 
     switch (RHI::getCurrentAPI()) {
     case API::D3D11:
-        return createScope<D3D11Shader>(path, layout);
+        return createRef<D3D11Shader>(path, layout);
     case API::None:
         break;
     }

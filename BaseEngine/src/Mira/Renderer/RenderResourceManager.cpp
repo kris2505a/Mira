@@ -1,15 +1,17 @@
 #include "MiraPch.hpp"
-#include "InstanceManager.hpp"
+#include "RenderResourceManager.hpp"
 #include "Vertex.hpp"
 
 namespace Mira {
-InstanceManager InstanceManager::s_instance;
+RenderResourceManager RenderResourceManager::s_instance;
 
-InstanceManager& InstanceManager::get() {
+RenderResourceManager& RenderResourceManager::get() {
     return s_instance;
 }
 
-Ref<Mesh> InstanceManager::createCubeMesh() {
+
+
+Ref<Mesh> RenderResourceManager::createCubeMesh() {
     
     if (get().m_meshMap.count("Cube")) {
         return get().m_meshMap["Cube"];
@@ -73,7 +75,7 @@ Ref<Mesh> InstanceManager::createCubeMesh() {
     return cubeMesh;
 }
 
-Ref<Mesh> InstanceManager::createQuadMesh() {
+Ref<Mesh> RenderResourceManager::createQuadMesh() {
     if (get().m_meshMap.contains("Quad")) {
         return get().m_meshMap["Quad"];
     }
@@ -100,9 +102,26 @@ Ref<Mesh> InstanceManager::createQuadMesh() {
     return quadMesh;
 }
 
-Ref<Material> InstanceManager::createMaterial(const std::string& name, const std::string& texturePath) {
-    if (get().m_materialMap.count(name)) {
-        return get().m_materialMap[name];
+Ref<Material> RenderResourceManager::createMaterial(const std::string& materialName, const std::string& shaderName, const std::string& textureName) {
+    if (get().m_materialMap.contains(materialName)) {
+        return get().m_materialMap[materialName];
+    }
+
+    auto shader = createShader(shaderName);
+    auto texture = createTexture(textureName);
+
+    auto mat = createRef<Material>();
+    mat->m_shader = shader;
+    mat->m_texture = texture;
+
+    get().m_materialMap[materialName] = mat;
+
+    return mat;
+}
+
+Ref<Shader> RenderResourceManager::createShader(const std::string &name) {
+    if (get().m_shaderMap.contains(name)) {
+        return get().m_shaderMap[name];
     }
 
     InputLayout layout;
@@ -124,20 +143,27 @@ Ref<Material> InstanceManager::createMaterial(const std::string& name, const std
         2
     });
 
-    auto mat = createRef<Material>();
-
-    auto wName = std::wstring(name.begin(), name.end());
-    mat->m_shader = Shader::create(wName, layout);
-
-    if (texturePath == "Nil")
-        mat->m_texture = Texture::create();
-
-    else
-        mat->m_texture = Texture::create(texturePath);
-
-    get().m_materialMap[name] = mat;
-    return mat;
+    auto shader = Shader::create(std::wstring(name.begin(), name.end()), layout);
+    get().m_shaderMap[name] = shader;
+    return shader;
 }
 
+std::shared_ptr<Texture> RenderResourceManager::createTexture(const std::string &name) {
+    if (get().m_textureMap.contains(name)) {
+        return get().m_textureMap[name];
+    }
 
+    Ref<Texture> texture;
+
+    if (name == "Def") {
+        texture = Texture::create();
+    }
+    else {
+        std::string path = "texture/" + name;
+        texture = Texture::create(path);
+    }
+
+    get().m_textureMap[name] = texture;
+    return texture;
+}
 }

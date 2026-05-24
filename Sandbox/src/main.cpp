@@ -6,8 +6,8 @@ class Cube {
 public:
 	
 	Cube() {
-		m_renderComponent.mesh = Mira::InstanceManager::createCubeMesh();
-		m_renderComponent.material = Mira::InstanceManager::createMaterial("Def");
+		m_renderComponent.mesh = Mira::RenderResourceManager::createCubeMesh();
+		m_renderComponent.material = Mira::RenderResourceManager::createMaterial("CubeMat", "Def", "test.png");
 		m_renderComponent.color = { 1.0f, 1.0f, 1.0f, 1.0f };
 
 		m_transformComponent.position = Mira::Vec3(0.0f);

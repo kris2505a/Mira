@@ -22,6 +22,7 @@ ImGuiLayer::ImGuiLayer()
 		: Layer("ImGuiLayer") {
     
     m_attached = true;
+    wireFrame = false;
 }
 
 void ImGuiLayer::printLogs() {
@@ -107,7 +108,6 @@ void ImGuiLayer::detach() {
 void ImGuiLayer::update() {
 	ImGuiIO& io = ImGui::GetIO();
 
-	io.DisplaySize = ImVec2(Engine::get().getWindow().getWidth(), Engine::get().getWindow().getHeight());
 
 	io.DeltaTime = EngineStats::DeltaTime::inSeconds();
 
@@ -196,7 +196,7 @@ void ImGuiLayer::handleEvent(Event& e) {
     dispatcher.dispatch<WindowResizeEvent>([](WindowResizeEvent& event) {
         ImGuiIO& io = ImGui::GetIO();
         
-        io.DisplaySize = ImVec2(event.getWidth(), event.getHeight());
+        io.DisplaySize = ImVec2(static_cast<float>(event.getWidth()), static_cast<float>(event.getHeight()));
 
         return false;
     });

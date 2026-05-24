@@ -5,17 +5,14 @@
 
 extern Mira::Engine* Mira::createApp();
 
+int main(int argc, char** argv) {
+    auto app = Mira::createApp();
 
-int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE	hPrevInstance, LPSTR cmdLine, int nCmdShow) {
-	auto app = Mira::createApp();
-
-	try {
-		app->run();
-	}
-	catch (std::exception& e) {
-		Mira::Logger::log(Mira::LogType::Error, "{}", std::string(e.what()));
-	}
-
-	delete app;
+    try {
+        app->run();
+    }
+    catch (std::exception& e) {
+        Mira::Logger::log(Mira::LogType::Error, "{}", std::string(e.what()));
+    }
 }
 
