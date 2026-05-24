@@ -19,6 +19,8 @@ public:
 private:
 	int toImGuiKey(Key key);
 	int toImGuiMouseButton(Button button);
+    void printLogs();
+	bool wireFrame;
 
 };
 

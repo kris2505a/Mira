@@ -275,7 +275,7 @@ void D3D11RHI::createRasterizerState() {
 	rd.DepthClipEnable			= true;
 	rd.FrontCounterClockwise	= true;
 	rd.FillMode					= D3D11_FILL_SOLID;
-	rd.CullMode					= D3D11_CULL_BACK;
+	rd.CullMode					= D3D11_CULL_FRONT;
 
 	HRUN(m_device->CreateRasterizerState(&rd, m_rasterizerSolid.GetAddressOf()));
 
@@ -283,7 +283,7 @@ void D3D11RHI::createRasterizerState() {
 	rdw.DepthClipEnable			= true;
 	rdw.FrontCounterClockwise	= true;
 	rdw.FillMode				= D3D11_FILL_WIREFRAME;
-	rdw.CullMode				= D3D11_CULL_BACK;
+	rdw.CullMode				= D3D11_CULL_FRONT;
 
 	HRUN(m_device->CreateRasterizerState(&rdw, m_rasterizerWireFrame.GetAddressOf()));
 }

@@ -10,9 +10,8 @@ struct VertexShaderData {
     DirectX::XMMATRIX model;
 };
 
-struct alignas(16) PixelShaderData {
+struct PixelShaderData {
     DirectX::XMFLOAT4 color;
-    int useTexture = 0;
 };
 
 Renderer* Renderer::s_instance = nullptr;
@@ -38,7 +37,6 @@ Renderer::Renderer() {
 
     PixelShaderData nullPixelData;
     nullPixelData.color = { 0.0f, 0.0f, 0.0f, 0.0f };
-    nullPixelData.useTexture = 0;
 
     get()->m_vertexConstantBuffer = ConstantBuffer::create(&nullVertexData, sizeof(nullVertexData), ShaderType::VertexShader);
     get()->m_pixelConstantBuffer = ConstantBuffer::create(&nullPixelData, sizeof(nullPixelData), ShaderType::PixelShader);
@@ -110,7 +108,6 @@ void Renderer::submit(RenderComponent& renderComponent, TransformComponent& tran
 
     PixelShaderData pixelData;
     pixelData.color = renderComponent.color;
-    pixelData.useTexture = renderComponent.material->hasTexture() ? 1 : 0;
     get()->m_pixelConstantBuffer->update(&pixelData, sizeof(pixelData));
 
     renderComponent.mesh->bind();
@@ -120,6 +117,10 @@ void Renderer::submit(RenderComponent& renderComponent, TransformComponent& tran
 
     getRHI()->drawIndexed(renderComponent.mesh->getIndexCount());
 
+}
+
+void Renderer::setWireFrameMode(bool cond) {
+    get()->m_rhi->setWireFrameMode(cond);
 }
 
 

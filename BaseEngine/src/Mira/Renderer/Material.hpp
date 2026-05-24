@@ -16,7 +16,6 @@ public:
 private:
     Scope<Shader> m_shader;
     Scope<Texture> m_texture;
-    bool m_hasTexture;
 };
 
 }

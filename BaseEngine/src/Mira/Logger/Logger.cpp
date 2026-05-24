@@ -4,12 +4,21 @@
 
 namespace Mira {
 
+std::vector<LogData> Logger::s_frameLogs;
+std::string Logger::s_gameName = "Game";
+
+void Logger::addLogCache(const LogData& data) {
+    s_frameLogs.emplace_back(data);
+}
+
 void Logger::logMessage(
     const std::string& str,
     const std::string& logProject,
     LogType type
 )
 {
+
+    addLogCache({getTimeNow(), logProject, str, type});
     std::cout
         << "["
         << getTimeNow()
@@ -71,6 +80,10 @@ const char* Logger::getColor(LogType type) {
     }
 
     return "\033[0m";
+}
+
+std::vector<LogData> &Logger::getLogData() {
+    return s_frameLogs;
 }
 
 }

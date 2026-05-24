@@ -1,16 +1,24 @@
 #pragma once
 #include <format>
 #include <string>
+#include <vector>
 
 #include "Mira/Core/Core.hpp"
 
 namespace Mira {
 
-enum class MIRA_API LogType : int {
+enum class LogType : int {
     Info,
     Debug,
     Warning,
     Error
+};
+
+struct LogData {
+    std::string time;
+    std::string project;
+    std::string message;
+    LogType type;
 };
 
 class MIRA_API Logger {
@@ -33,9 +41,9 @@ public:
         std::string project = "Unknown";
 
 #ifdef MIRA_ENGINE
-        project = "Engine";
+        project = "Mira";
 #elif MIRA_GAME
-        project = "Game";
+        project = s_gameName;
 #endif
 
         auto msg = std::format(
@@ -46,6 +54,9 @@ public:
         logMessage(msg, project, type);
     }
 
+
+    static std::vector<LogData>& getLogData();
+
 private:
     static void logMessage(
         const std::string& str,
@@ -53,11 +64,14 @@ private:
         LogType type
     );
 
+    static void addLogCache(const LogData& data);
+
     static std::string getTimeNow();
-
     static const char* typeToString(LogType type);
-
     static const char* getColor(LogType type);
+    static std::vector<LogData> s_frameLogs;
+    static std::string s_gameName;
+
 };
 
 }

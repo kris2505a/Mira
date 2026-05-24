@@ -23,6 +23,8 @@ public:
 
     static void useCamera(Camera& camera);
 
+    static void setWireFrameMode(bool cond);
+
     static RHI* getRHI();
     static Renderer* get();
 

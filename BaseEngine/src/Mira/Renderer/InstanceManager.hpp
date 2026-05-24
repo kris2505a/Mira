@@ -16,7 +16,7 @@ public:
     //static Ref<Mesh> creteSphereMesh();
     //static Ref<Mesh> createCustomMesh(const std::string& name);
 
-    static Ref<Material> createMaterial(const std::string& name);
+    static Ref<Material> createMaterial(const std::string& name, const std::string& texturePath = "Nil");
     // static Ref<Material> createTextureMaterial(const std::string& name);
 
 

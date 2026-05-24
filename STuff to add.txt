@@ -1,0 +1,7 @@
+material-> make single material, which can use both texture and color. and remove separate materials if existing
+texture-> make texture dynamic
+texture-> add option to create a white texture of 1x1 pixel. (reducing 4bytes of int(bool) and 12 bytes of padding)
+
+mesh-> add basic shapes meshes
+
+lighting -> try to add basic lighting. 

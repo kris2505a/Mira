@@ -13,8 +13,8 @@
 #include "Mira/Event/KeyboardEvent.hpp"
 #include "Mira/Event/MouseEvent.hpp"
 #include "Mira/Event/WindowEvent.hpp"
-#include <imgui_impl_win32.h>
 
+#include "Mira/Logger/Logger.hpp"
 
 namespace Mira {
 
@@ -24,6 +24,59 @@ ImGuiLayer::ImGuiLayer()
     m_attached = true;
 }
 
+void ImGuiLayer::printLogs() {
+    auto& logs = Logger::getLogData();
+
+    ImGui::Begin("Console");
+
+    ImGui::BeginChild(
+        "LogRegion",
+        ImVec2(0, 0),
+        true
+    );
+
+
+    for (auto& log : logs) {
+        ImGui::Text("[%s]", log.time.c_str());
+        ImGui::SameLine();
+        ImGui::Text("[%s]", log.project.c_str());
+        ImGui::SameLine();
+
+        switch (log.type) {
+
+        case LogType::Info:
+            ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.0f, 1.0f), "[Info ]");
+            break;
+
+        case LogType::Debug:
+            ImGui::TextColored(ImVec4(0.0f, 1.0f, 1.0f, 1.0f), "[Debug]");
+            break;
+
+        case LogType::Warning:
+            ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "[Warn ]");
+            break;
+
+        case LogType::Error:
+            ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "[Error]");
+            break;
+
+        default:
+            ImGui::Text("[Unknown]");
+            break;
+        }
+
+        ImGui::SameLine();
+        ImGui::Text("%s", log.message.c_str());
+    }
+    
+    if (ImGui::GetScrollY() >= ImGui::GetScrollMaxY()) {
+        ImGui::SetScrollHereY(1.0f);
+    }
+    ImGui::EndChild();
+
+    ImGui::End();
+    //Logger::getLogData().clear();
+}
 
 void ImGuiLayer::attach() {
 
@@ -31,6 +84,16 @@ void ImGuiLayer::attach() {
 
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
+
+    ImGuiIO& io = ImGui::GetIO();
+
+    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+    io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
+
+    ImGuiStyle& style = ImGui::GetStyle();
+
+    style.WindowRounding = 1.0f;
+
 	Renderer::getRHI()->setupImGui();
 }
 
@@ -56,10 +119,21 @@ void ImGuiLayer::render() {
 
 	ImGui::Begin("Greetings");
 	ImGui::Text("Vanakkam da mapla, Engine lerunthu...");
+    ImGui::Checkbox("Wireframe", &wireFrame);
+
+    Renderer::setWireFrameMode(wireFrame);
+
 	ImGui::End();
+
+    //logging
+    printLogs();
 
 	ImGui::Render();
 	Renderer::getRHI()->endImGuiFrame();
+    if (ImGui::GetIO().ConfigFlags & ImGuiConfigFlags_ViewportsEnable) {
+        ImGui::UpdatePlatformWindows();
+        ImGui::RenderPlatformWindowsDefault();
+    }
 }
 
 void ImGuiLayer::handleEvent(Event& e) {

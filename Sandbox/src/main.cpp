@@ -8,7 +8,7 @@ public:
 	Cube() {
 		m_renderComponent.mesh = Mira::InstanceManager::createCubeMesh();
 		m_renderComponent.material = Mira::InstanceManager::createMaterial("Def");
-		m_renderComponent.color = { 0.0f, 1.0f, 1.0f, 1.0f };
+		m_renderComponent.color = { 1.0f, 1.0f, 1.0f, 1.0f };
 
 		m_transformComponent.position = Mira::Vec3(0.0f);
 		m_transformComponent.rotation = 0;
@@ -36,6 +36,12 @@ public:
 		m_cube = new Cube();
 		getLayerManager().addLayer(Mira::Layer::createLayer<Mira::ImGuiLayer>());
 		m_camera.setPosition({ 0.0f, 0.0f, -5.0f });
+
+		Mira::Logger::log(Mira::LogType::Info, "Test Info Log: {}", 1);
+		Mira::Logger::log(Mira::LogType::Debug, "Test Debug Log: {}", 2);
+		Mira::Logger::log(Mira::LogType::Warning, "Test Warning Log: {}", 3);
+		Mira::Logger::log(Mira::LogType::Error, "Test Error Log: {}", 4);
+
 	}
 
 	~Sandbox() {
@@ -43,39 +49,43 @@ public:
 			delete m_cube;
 	}
 
-	void update() {
+	void update() override {
 
 		auto pos = m_camera.getPosition();
 
-		if (Mira::Input::isKeyHeld(Mira::Key::S)) {
-			pos -= m_camera.getForwardVector() * 0.9f * Mira::EngineStats::DeltaTime::inSeconds();
+		if (Mira::Input::isButtonHeld(Mira::Button::Right)) {
+
+			if (Mira::Input::isKeyHeld(Mira::Key::S)) {
+				pos -= m_camera.getForwardVector() * speed * Mira::EngineStats::DeltaTime::inSeconds();
+			}
+
+			if (Mira::Input::isKeyHeld(Mira::Key::W)) {
+				pos += m_camera.getForwardVector() * speed * Mira::EngineStats::DeltaTime::inSeconds();
+			}
+
+			if (Mira::Input::isKeyHeld(Mira::Key::A)) {
+				pos -= m_camera.getRightVector() * speed * Mira::EngineStats::DeltaTime::inSeconds();
+			}
+
+			if (Mira::Input::isKeyHeld(Mira::Key::D)) {
+				pos += m_camera.getRightVector() * speed * Mira::EngineStats::DeltaTime::inSeconds();
+			}
+
+			auto rot = m_camera.getRotation();
+
+		
+			rot.pitch -= Mira::Input::getMouseDelta().y * sensitivity * Mira::EngineStats::DeltaTime::inMilliseconds();
+			rot.yaw += Mira::Input::getMouseDelta().x * sensitivity * Mira::EngineStats::DeltaTime::inMilliseconds();
+
+			rot.pitch = std::clamp(
+				rot.pitch,
+				-DirectX::XM_PIDIV2 + 0.01f,
+				DirectX::XM_PIDIV2 - 0.01f
+			);
+
+			m_camera.setRotation(rot);
+			m_camera.setPosition(pos);
 		}
-
-		if (Mira::Input::isKeyHeld(Mira::Key::W)) {
-			pos += m_camera.getForwardVector() * 0.9f * Mira::EngineStats::DeltaTime::inSeconds();
-		}
-
-		if (Mira::Input::isKeyHeld(Mira::Key::A)) {
-			pos -= m_camera.getRightVector() * 0.9f * Mira::EngineStats::DeltaTime::inSeconds();
-		}
-
-		if (Mira::Input::isKeyHeld(Mira::Key::D)) {
-			pos += m_camera.getRightVector() * 0.9f * Mira::EngineStats::DeltaTime::inSeconds();
-		}
-
-		auto rot = m_camera.getRotation();
-
-		rot.pitch -= Mira::Input::getMouseDelta().y * sensitivity * Mira::EngineStats::DeltaTime::inMilliseconds();
-		rot.yaw += Mira::Input::getMouseDelta().x * sensitivity * Mira::EngineStats::DeltaTime::inMilliseconds();
-
-		rot.pitch = std::clamp(
-			rot.pitch,
-			-DirectX::XM_PIDIV2 + 0.01f,
-			DirectX::XM_PIDIV2 - 0.01f
-		);
-
-		m_camera.setRotation(rot);
-		m_camera.setPosition(pos);
 
 		Mira::Renderer::useCamera(m_camera);
 		Mira::Renderer::submit(m_cube->getRenderComponent(), m_cube->getTransformComponent());
@@ -84,7 +94,8 @@ public:
 private:
 	Mira::PerspectiveCamera m_camera;
 	Cube* m_cube;
-	float sensitivity{ 0.002f };
+	float sensitivity{ 0.0005f };
+	float speed{ 7.5f };
 
 };
 

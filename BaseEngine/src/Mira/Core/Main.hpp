@@ -5,9 +5,10 @@
 
 extern Mira::Engine* Mira::createApp();
 
-int main(int argc, char* argv) {
+
+int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE	hPrevInstance, LPSTR cmdLine, int nCmdShow) {
 	auto app = Mira::createApp();
-	
+
 	try {
 		app->run();
 	}
@@ -17,3 +18,4 @@ int main(int argc, char* argv) {
 
 	delete app;
 }
+

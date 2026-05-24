@@ -4,7 +4,7 @@
 #include "D3D11/D3D11Texture.hpp"
 
 namespace Mira {
-Scope<Texture> Texture::create(const std::string &path) {
+Scope<Texture> Texture::create(const std::string& path) {
 
     switch (RHI::getCurrentAPI()) {
     case API::D3D11:
@@ -15,4 +15,17 @@ Scope<Texture> Texture::create(const std::string &path) {
 
     return nullptr;
 }
+
+Scope<Texture> Texture::create() {
+
+    switch (RHI::getCurrentAPI()) {
+    case API::D3D11:
+        return createScope<D3D11Texture>(0xffffffff);
+    case API::None:
+        break;
+    }
+
+    return nullptr;
+}
+
 }

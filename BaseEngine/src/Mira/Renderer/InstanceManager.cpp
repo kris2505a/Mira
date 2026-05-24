@@ -100,7 +100,7 @@ Ref<Mesh> InstanceManager::createQuadMesh() {
     return quadMesh;
 }
 
-Ref<Material> InstanceManager::createMaterial(const std::string& name) {
+Ref<Material> InstanceManager::createMaterial(const std::string& name, const std::string& texturePath) {
     if (get().m_materialMap.count(name)) {
         return get().m_materialMap[name];
     }
@@ -128,7 +128,12 @@ Ref<Material> InstanceManager::createMaterial(const std::string& name) {
 
     auto wName = std::wstring(name.begin(), name.end());
     mat->m_shader = Shader::create(wName, layout);
-    mat->m_hasTexture = false;
+
+    if (texturePath == "Nil")
+        mat->m_texture = Texture::create();
+
+    else
+        mat->m_texture = Texture::create(texturePath);
 
     get().m_materialMap[name] = mat;
     return mat;
