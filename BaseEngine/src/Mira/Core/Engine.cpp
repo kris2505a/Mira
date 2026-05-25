@@ -11,8 +11,6 @@
 #include "Mira/Stats/EngineStats.hpp"
 
 
-#include <DirectXMath.h>
-#define TO_RAD(x) DirectX::XMConvertToRadians(x)
 
 namespace Mira {
 

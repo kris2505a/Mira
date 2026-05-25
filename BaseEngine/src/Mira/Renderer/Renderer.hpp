@@ -39,7 +39,6 @@ private:
 
     Scope<ConstantBuffer> m_vertexConstantBuffer;
     Scope<ConstantBuffer> m_pixelConstantBuffer;
-    // DirectX::XMMATRIX m_viewProjectionMatrix;
 
     glm::mat4 m_viewProjectionMatrix;
     

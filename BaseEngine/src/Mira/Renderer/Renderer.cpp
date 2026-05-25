@@ -12,15 +12,12 @@
 namespace Mira {
 
 struct VertexShaderData {
-    // DirectX::XMMATRIX mvp;
-    // DirectX::XMMATRIX model;
     glm::mat4 mvp;
     glm::mat4 model;
 
 };
 
 struct PixelShaderData {
-    // DirectX::XMFLOAT4 color;
     glm::vec4 color;
 };
 
@@ -105,9 +102,6 @@ void Renderer::useCamera(Camera& camera) {
 void Renderer::submit(RenderComponent& renderComponent, TransformComponent& transformComponent) {
     VertexShaderData vertexData;
 
-    // auto model = DirectX::XMMatrixScaling(transformComponent.scale.x, transformComponent.scale.y, transformComponent.scale.z) *
-    //     DirectX::XMMatrixRotationRollPitchYaw(transformComponent.rotation.roll, transformComponent.rotation.pitch, transformComponent.rotation.yaw) *
-    //     DirectX::XMMatrixTranslation(transformComponent.position.x, transformComponent.position.y, transformComponent.position.z);
 
     auto translation = glm::translate(glm::mat4(1.0f), glm::vec3(transformComponent.position.x, transformComponent.position.y, transformComponent.position.z));
     auto rotation = glm::yawPitchRoll(transformComponent.rotation.yaw, transformComponent.rotation.pitch, transformComponent.rotation.roll);
@@ -117,12 +111,6 @@ void Renderer::submit(RenderComponent& renderComponent, TransformComponent& tran
 
     vertexData.model = model;
     vertexData.mvp = get()->m_viewProjectionMatrix * model;
-
-    // vertexData.model = DirectX::XMMatrixTranspose(model);
-    // vertexData.mvp = DirectX::XMMatrixTranspose(
-    //     model *
-    //     get()->m_viewProjectionMatrix
-    // );
 
     
 

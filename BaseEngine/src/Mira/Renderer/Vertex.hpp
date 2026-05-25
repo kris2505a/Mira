@@ -1,12 +1,13 @@
 #pragma once
-#include <DirectXMath.h>
+#include <glm/vec3.hpp>
+#include <glm/vec2.hpp>
 
 namespace Mira {
 
 struct Vertex {
-    DirectX::XMFLOAT3 position;
-    DirectX::XMFLOAT3 normal;
-    DirectX::XMFLOAT2 uv;
+    glm::vec3 position;
+    glm::vec3 normal;
+    glm::vec2 uv;
 };
 
 }
