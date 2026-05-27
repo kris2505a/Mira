@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-#include "WindowTools.h"
+#include "WindowTools.hpp"
 #include "Mira/Core/MemoryType.hpp"
 
 namespace Mira {
@@ -9,7 +9,6 @@ namespace Mira {
 class Window {
 public:
 	Window(WindowAttributes attribs);
-	Window() = default;
 	virtual ~Window() = default;
 
 
@@ -19,7 +18,9 @@ public:
 	unsigned int getWidth() const;
 	unsigned int getHeight() const;
 	void setSize(unsigned int width, unsigned int height);
-	virtual WindowHandle getHandle() const = 0;
+	virtual WindowHandle getHandle() const;
+
+	static Scope<Window> create(WindowAttributes attribs);
 
 
 public:
@@ -27,6 +28,7 @@ public:
 
 protected:
 	WindowAttributes m_attributes;
+	WindowHandle m_handle;
 };
 
 }

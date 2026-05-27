@@ -1,7 +1,7 @@
 #include "MiraPch.hpp"
 #include "ImGuiLayer.hpp"
 
-#include "Mira/Renderer/Renderer.hpp"
+// #include "Mira/Renderer/Renderer.hpp"
 #include <imgui.h>
 
 #include "Mira/Logger/Logger.hpp"
@@ -95,11 +95,11 @@ void ImGuiLayer::attach() {
 
     style.WindowRounding = 1.0f;
 
-	Renderer::getRHI()->setupImGui();
+	// Renderer::getRHI()->setupImGui();
 }
 
 void ImGuiLayer::detach() {
-	Renderer::getRHI()->shutDownImGui();
+	// Renderer::getRHI()->shutDownImGui();
 	ImGui::DestroyContext();
 	Logger::log(LogType::Info, "Layer Detached: {}", getLayerName());
 
@@ -114,14 +114,14 @@ void ImGuiLayer::update() {
 }
 
 void ImGuiLayer::render() {
-	Renderer::getRHI()->beginImGuiFrame();
+	// Renderer::getRHI()->beginImGuiFrame();
 	ImGui::NewFrame();
 
 	ImGui::Begin("Greetings");
 	ImGui::Text("Vanakkam da mapla, Engine lerunthu...");
     ImGui::Checkbox("Wireframe", &wireFrame);
 
-    Renderer::setWireFrameMode(wireFrame);
+    // Renderer::setWireFrameMode(wireFrame);
 
 	ImGui::End();
 
@@ -129,8 +129,8 @@ void ImGuiLayer::render() {
     printLogs();
 
 	ImGui::Render();
-	Renderer::getRHI()->endImGuiFrame();
-    if (ImGui::GetIO().ConfigFlags & ImGuiConfigFlags_ViewportsEnable) {
+	// Renderer::getRHI()->endImGuiFrame();
+    if (ImGui::GetIO().ConfigFlags& ImGuiConfigFlags_ViewportsEnable) {
         ImGui::UpdatePlatformWindows();
         ImGui::RenderPlatformWindowsDefault();
     }

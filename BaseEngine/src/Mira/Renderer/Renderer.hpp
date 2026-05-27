@@ -1,6 +1,6 @@
 #pragma once
 #include "RHI/RHI.hpp"
-#include "Mira/Window/WindowTools.h"
+#include "Mira/Window/WindowTools.hpp"
 #include "Mira/EngineComponents/Component.hpp"
 #include "Mira/Renderer/RHI/ConstantBuffer.hpp"
 #include "Mira/Camera/Camera.hpp"

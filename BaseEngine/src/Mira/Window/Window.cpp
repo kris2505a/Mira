@@ -1,5 +1,6 @@
-#include "Window.h"
+#include "Window.hpp"
 #include "Mira/Logger/Logger.hpp"
+#include "GlfwWindow.hpp"
 
 namespace Mira {
 
@@ -19,6 +20,14 @@ unsigned int Window::getHeight() const {
 void Window::setSize(unsigned int width, unsigned int height) {
 	m_attributes.width = width;
 	m_attributes.height = height;
+}
+
+WindowHandle Window::getHandle() const {
+	return m_handle;
+}
+
+Scope<Window> Window::create(WindowAttributes attribs) {
+	return createScope<GlfwWindow>(attribs);
 }
 
 

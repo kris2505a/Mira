@@ -1,9 +1,8 @@
 #pragma once
 #include <cstdint>
-#include <Windows.h>
 
 #include "Mira/Core/MemoryType.hpp"
-#include "Mira/Window/WindowTools.h"
+#include "Mira/Window/WindowTools.hpp"
 #include "Mira/Math/Vec2.hpp"
 
 namespace Mira {

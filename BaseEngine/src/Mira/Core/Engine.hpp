@@ -1,12 +1,12 @@
 #pragma once
 #include "Core.hpp"
-#include "Mira/Window/WIN32Window.h"
 #include "Mira/Renderer/Renderer.hpp"
 #include "Mira/Event/Event.hpp"
+#include "Mira/Window/Window.hpp"
 
 #include "Mira/EngineComponents/Layer/LayerManager.hpp"
 
-#include "Mira/Renderer/RenderResourceManager.hpp"
+// #include "Mira/Renderer/RenderResourceManager.hpp"
 #include "Mira/EngineComponents/Component.hpp"
 
 
@@ -38,7 +38,7 @@ private:
 private:
     Scope<Window> m_window;
     bool m_running{ true };
-    Scope<Renderer> m_renderer;
+    // Scope<Renderer> m_renderer;
     LayerManager m_layerManager;
 
     static Engine* s_instance;

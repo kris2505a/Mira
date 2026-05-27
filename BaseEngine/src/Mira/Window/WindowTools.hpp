@@ -1,5 +1,6 @@
 #pragma once
-#include <Windows.h>
+
+
 #include <string>
 #include <functional>
 #include <utility>
@@ -8,8 +9,7 @@
 namespace Mira {
 
 struct WindowHandle {
-	HWND handle;
-	HINSTANCE instance;
+	void* window;
 };
 
 struct WindowAttributes {

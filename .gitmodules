@@ -1,3 +1,6 @@
 [submodule "BaseEngine/thirdparty/ImGui"]
 	path = BaseEngine/thirdparty/ImGui
 	url = https://github.com/ocornut/imgui.git
+[submodule "BaseEngine/thirdparty/GLFW"]
+	path = BaseEngine/thirdparty/GLFW
+	url = https://github.com/glfw/glfw.git

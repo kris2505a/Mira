@@ -1,5 +1,18 @@
 cmake_minimum_required(VERSION 3.20)
 
+
+set(GLFW_BUILD_WAYLAND OFF CACHE BOOL "" FORCE)
+set(GLFW_BUILD_X11 ON CACHE BOOL "" FORCE)
+
+set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
+set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
+set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
+
+set(GLFW_LIBRARY_TYPE STATIC CACHE STRING "" FORCE)
+
+add_subdirectory(thirdparty/GLFW)
+
+
 project(BaseEngine LANGUAGES C CXX)
 
 # =========================
@@ -10,7 +23,14 @@ file(GLOB_RECURSE BASE_ENGINE_SOURCES
     CONFIGURE_DEPENDS
     ${CMAKE_CURRENT_SOURCE_DIR}/src/*.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/shader/*.hlsl
+)
+
+# =========================
+# Exclude Renderer Temporarily
+# =========================
+
+list(FILTER BASE_ENGINE_SOURCES EXCLUDE REGEX
+    ".*/src/Mira/Renderer/.*"
 )
 
 # =========================
@@ -26,9 +46,9 @@ set(IMGUI_SOURCES
     ${IMGUI_DIR}/imgui_widgets.cpp
     ${IMGUI_DIR}/imgui_demo.cpp
 
-    # Backends
-    ${IMGUI_DIR}/backends/imgui_impl_win32.cpp
-    ${IMGUI_DIR}/backends/imgui_impl_dx11.cpp
+    # GLFW + Vulkan Backends
+    ${IMGUI_DIR}/backends/imgui_impl_glfw.cpp
+    ${IMGUI_DIR}/backends/imgui_impl_vulkan.cpp
 )
 
 # =========================
@@ -56,7 +76,8 @@ target_include_directories(BaseEngine PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/src
     ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/glm/
     ${IMGUI_DIR}
-    ${IMGUI_DIR}/backends
+    ${IMGUI_DIR}/backends,
+    ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/GLFW/include
 )
 
 # =========================
@@ -66,6 +87,7 @@ target_include_directories(BaseEngine PUBLIC
 target_compile_definitions(BaseEngine PRIVATE
     BUILD_DLL
     MIRA_ENGINE
+    GLFW_INCLUDE_NONE
 )
 
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
@@ -86,70 +108,38 @@ endif()
 # =========================
 
 target_link_libraries(BaseEngine PRIVATE
-    d3d11
-    dxgi
-    d3dcompiler
+    Vulkan::Vulkan
+    glfw
 )
 
 # =========================
-# Shader Compilation
+# Platform
 # =========================
 
-set(SHADER_DIR ${CMAKE_CURRENT_SOURCE_DIR}/shader)
+find_package(Vulkan REQUIRED)
 
-set(OUTPUT_SHADER_DIR
-    ${CMAKE_SOURCE_DIR}/Binaries/Debug/Sandbox/shader
-)
+if(WIN32)
 
-file(GLOB SHADER_FILES
-    ${SHADER_DIR}/*.hlsl
-)
-
-foreach(SHADER ${SHADER_FILES})
-
-    get_filename_component(FILE_NAME ${SHADER} NAME_WE)
-
-    if(FILE_NAME MATCHES "VS$")
-        set(PROFILE vs_5_0)
-
-    elseif(FILE_NAME MATCHES "PS$")
-        set(PROFILE ps_5_0)
-
-    else()
-        message(WARNING "Unknown shader type: ${FILE_NAME}")
-        continue()
-    endif()
-
-    add_custom_command(
-        OUTPUT ${OUTPUT_SHADER_DIR}/${FILE_NAME}.cso
-
-        COMMAND ${CMAKE_COMMAND} -E make_directory
-            ${OUTPUT_SHADER_DIR}
-
-        COMMAND fxc
-            /T ${PROFILE}
-            /E main
-            /Fo ${OUTPUT_SHADER_DIR}/${FILE_NAME}.cso
-            /Zi
-            /Od
-            ${SHADER}
-
-        DEPENDS ${SHADER}
-
-        COMMENT "Compiling shader: ${FILE_NAME}.hlsl"
+    target_compile_definitions(BaseEngine PRIVATE
+        PLATFORM_WINDOWS
+        VK_USE_PLATFORM_WIN32_KHR
     )
 
-    list(APPEND COMPILED_SHADERS
-        ${OUTPUT_SHADER_DIR}/${FILE_NAME}.cso
+elseif(UNIX AND NOT APPLE)
+
+    find_package(X11 REQUIRED)
+
+    target_compile_definitions(BaseEngine PRIVATE
+        PLATFORM_LINUX_X11
+        VK_USE_PLATFORM_XLIB_KHR
     )
 
-endforeach()
+    target_link_libraries(BaseEngine PRIVATE
+        X11
+    )
 
-add_custom_target(Shaders ALL
-    DEPENDS ${COMPILED_SHADERS}
-)
+endif()
 
-add_dependencies(BaseEngine Shaders)
 
 # =========================
 # Output Directories
@@ -171,7 +161,7 @@ set_target_properties(BaseEngine PROPERTIES
 )
 
 # =========================
-# Copy DLL to Sandbox
+# Copy Build files to Sandbox
 # =========================
 
 add_custom_command(TARGET BaseEngine POST_BUILD
@@ -179,4 +169,5 @@ add_custom_command(TARGET BaseEngine POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
         $<TARGET_FILE:BaseEngine>
         $<TARGET_FILE_DIR:Sandbox>
+
 )

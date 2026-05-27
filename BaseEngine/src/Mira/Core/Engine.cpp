@@ -28,20 +28,18 @@ Engine::Engine() {
 
 
     WindowAttributes attribs(1280, 720, "Mira", [this](Event& e){ handleEvent(e); });
-    attribs.width = 1280;
-    attribs.height = 720;
-    attribs.title = "Mira";
-    m_window = createScope<WIN32Window>(attribs);
+
+    m_window = Window::create(attribs);
 
     EngineStats::WindowProperties::setWindowHandle(m_window->getHandle());
     EngineStats::WindowProperties::setSize(m_window->getWidth(), m_window->getHeight());
 
 
-    m_renderer = createScope<Renderer>();
+    // m_renderer = createScope<Renderer>();
     
     EngineStats::DeltaTime::initialize();
     
-    Renderer::clearColor(0.02f, 0.04f, 0.10f, 1.0f);
+    // Renderer::clearColor(0.02f, 0.04f, 0.10f, 1.0f);
 
 
 }
@@ -69,7 +67,7 @@ void Engine::mainLoop() {
         pollEvent();
         EngineStats::DeltaTime::updateDeltaTime();
 
-        Renderer::preSetup();
+        // Renderer::preSetup();
 
         const auto& layers = m_layerManager.getLayers();
 
@@ -85,7 +83,7 @@ void Engine::mainLoop() {
             (*it)->render();
         }
 
-        Renderer::postSetup();
+        // Renderer::postSetup();
 
 
         Input::endState();
@@ -106,7 +104,7 @@ void Engine::handleEvent(Event& e) {
     });
 
     dispatcher.dispatch<WindowResizeEvent>([](WindowResizeEvent& event) {
-        Renderer::resize(event.getWidth(), event.getHeight());
+        // Renderer::resize(event.getWidth(), event.getHeight());
         EngineStats::WindowProperties::setSize(event.getWidth(), event.getHeight());
         return false;
     });
