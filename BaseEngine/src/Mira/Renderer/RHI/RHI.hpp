@@ -8,7 +8,7 @@
 namespace Mira {
 
 enum class API {
-    None,
+    NoAPI,
     D3D11
 };
 
@@ -17,7 +17,7 @@ public:
     RHI() = default;
     virtual ~RHI() = default;
 
-    virtual void initialize(WindowHandle handle, int width, int height) = 0;
+    virtual void initialize(WindowHandle& handle) = 0;
     virtual void shutdown()                                             = 0;
 
     virtual void bindRenderTarget()                                     = 0;
@@ -31,10 +31,10 @@ public:
     virtual void resize(unsigned int width, unsigned int height)        = 0;
     virtual void logGPUInfo()                                           = 0;
     
-    virtual void setupImGui()                                           = 0;
-    virtual void beginImGuiFrame()                                      = 0;
-    virtual void endImGuiFrame()                                        = 0;
-    virtual void shutDownImGui()                                        = 0;
+    // virtual void setupImGui()                                           = 0;
+    // virtual void beginImGuiFrame()                                      = 0;
+    // virtual void endImGuiFrame()                                        = 0;
+    // virtual void shutDownImGui()                                        = 0;
 
     virtual void clearColor(float r, float g, float b, float a)         = 0;
     virtual void setWireFrameMode(bool cond)                            = 0;

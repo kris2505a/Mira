@@ -25,13 +25,7 @@ file(GLOB_RECURSE BASE_ENGINE_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp
 )
 
-# =========================
-# Exclude Renderer Temporarily
-# =========================
 
-list(FILTER BASE_ENGINE_SOURCES EXCLUDE REGEX
-    ".*/src/Mira/Renderer/.*"
-)
 
 # =========================
 # ImGui
