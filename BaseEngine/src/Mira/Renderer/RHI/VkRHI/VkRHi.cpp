@@ -120,7 +120,40 @@ void VkRHI::setupDebugMessenger() {
 
     Logger::log(LogType::Debug, "Validation layer: Type-> {} => Msg-> {}", vk::to_string(type), pCallbackData->pMessage);
     return vk::False;
-
 }
+
+void VkRHI::pickPhysicalDevice() {
+    auto devices = m_instance.enumeratePhysicalDevices();
+    MIRA_ASSERT(!devices.empty(), "Failed to find gpu with vulkan support");
+    
+    std::multimap<int, vk::raii::PhysicalDevice> candidates;
+    for (auto& pd : devices) {
+        auto deviceProp = pd.getProperties();
+        auto deviceFeat = pd.getFeatures();
+
+        uint32_t score = 0;
+
+        if (deviceProp.deviceType == vk::PhysicalDeviceType::eDiscreteGpu) {
+            score += 1000;
+        }
+
+        score += deviceProp.limits.maxImageDimension2D;
+
+        if (!deviceFeat.geometryShader) {
+            continue;
+        }
+
+        candidates.insert(std::make_pair(score, pd));
+    }
+
+    if (!candidates.empty() && candidates.rbegin()->first > 0) {
+        m_physicalDevice = candidates.rbegin()->second;
+    }
+    else {
+        Logger::log(LogType::Error, "Failed to pick physical device");
+        std::abort();
+    }
+}
+
 
 } //namespace Mira
