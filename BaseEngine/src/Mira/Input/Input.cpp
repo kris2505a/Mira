@@ -27,7 +27,7 @@ bool Input::isKeyUp(Key key) {
 
 bool Input::isKeyHeld(Key key) {
     auto keyInd = static_cast<size_t>(key);
-    return get().keyState[keyInd] && get().previousKeyState[keyInd];
+    return isKeyDown(key) || (get().keyState[keyInd] && get().previousKeyState[keyInd]);
 }
 
 

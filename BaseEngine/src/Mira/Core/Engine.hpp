@@ -9,6 +9,8 @@
 #include "Mira/Renderer/RenderResourceManager.hpp"
 #include "Mira/EngineComponents/Component.hpp"
 
+#include "Game.hpp"
+
 
 #include <chrono>
 
@@ -24,15 +26,15 @@ public:
     static Engine& get();
     
     Window& getWindow() const;
+    auto attachGame(Scope<Game> game) -> void;
 
 
 private:
-    void mainLoop();
+    auto mainLoop() -> void;
 
-    virtual void update();
-    void handleEvent(Event& e);
-    void pollEvent();
-
+    auto update() -> void;
+    auto handleEvent(Event& e) -> void;
+    auto pollEvent() -> void;
 
 
 private:
@@ -40,6 +42,8 @@ private:
     bool m_running{ true };
     Scope<Renderer> m_renderer;
     LayerManager m_layerManager;
+    
+    Scope<Game> m_activeGame;
 
     static Engine* s_instance;
 

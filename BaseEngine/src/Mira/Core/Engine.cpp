@@ -43,7 +43,10 @@ Engine::Engine() {
     
     Renderer::clearColor(0.02f, 0.04f, 0.10f, 1.0f);
 
+}
 
+auto Engine::attachGame(Scope<Game> game) -> void {
+    m_activeGame = std::move(game);
 }
 
 Engine::~Engine() {
@@ -53,13 +56,12 @@ Engine::~Engine() {
 }
 
 void Engine::run() {
-
     mainLoop();
-
 }
 
 void Engine::update() {
-
+    if (m_activeGame)
+        m_activeGame->update();
 }
 
 

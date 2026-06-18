@@ -5,7 +5,7 @@
 
 class Cube {
 public:
-	
+
 	Cube() {
 		m_renderComponent.mesh = Mira::RenderResourceManager::createCubeMesh();
 		m_renderComponent.material = Mira::RenderResourceManager::createMaterial("CubeMat");
@@ -15,7 +15,7 @@ public:
 		m_transformComponent.rotation = 0;
 		m_transformComponent.scale = Mira::Vec3(1.0f, 1.0f, 1.0f);
 	}
-	
+
 	Mira::RenderComponent& getRenderComponent() {
 		return m_renderComponent;
 	}
@@ -29,29 +29,25 @@ private:
 	Mira::TransformComponent m_transformComponent;
 };
 
-class Sandbox : public Mira::Engine {
+class TestGame : public Mira::Game 
+{
 public:
-	Sandbox() : Mira::Engine() {
-
-
+	TestGame() 
+	{
 		m_cube = new Cube();
-		getLayerManager().addLayer(Mira::Layer::createLayer<Mira::ImGuiLayer>());
 		m_camera.setPosition({ 0.0f, 0.0f, -5.0f });
 
-		Mira::Logger::log(Mira::LogType::Info, "Test Info Log: {}", 1);
-		Mira::Logger::log(Mira::LogType::Debug, "Test Debug Log: {}", 2);
-		Mira::Logger::log(Mira::LogType::Warning, "Test Warning Log: {}", 3);
-		Mira::Logger::log(Mira::LogType::Error, "Test Error Log: {}", 4);
-
+		m_cube->getRenderComponent().color = { 1.0f, 0.0f, 0.0f, 1.0f };
 	}
 
-	~Sandbox() {
+	~TestGame() override 
+	{
 		if (m_cube)
 			delete m_cube;
 	}
 
-	void update() override {
-
+	auto update() -> void 
+	{
 		auto pos = m_camera.getPosition();
 
 		if (Mira::Input::isButtonHeld(Mira::Button::Right)) {
@@ -74,7 +70,6 @@ public:
 
 			auto rot = m_camera.getRotation();
 
-		
 			rot.pitch -= Mira::Input::getMouseDelta().y * sensitivity * Mira::EngineStats::DeltaTime::inMilliseconds();
 			rot.yaw += Mira::Input::getMouseDelta().x * sensitivity * Mira::EngineStats::DeltaTime::inMilliseconds();
 
@@ -97,6 +92,24 @@ private:
 	Cube* m_cube;
 	float sensitivity{ 0.0005f };
 	float speed{ 7.5f };
+};
+
+
+
+class Sandbox : public Mira::Engine {
+public:
+	Sandbox() : Mira::Engine() {
+		getLayerManager().addLayer(Mira::Layer::createLayer<Mira::ImGuiLayer>());
+		attachGame(createScope<TestGame>());
+
+	}
+
+	~Sandbox() {
+
+	}
+
+private:
+
 
 };
 
