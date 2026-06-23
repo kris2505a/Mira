@@ -21,7 +21,7 @@ public:
 
 	private:
 		static void updateDeltaTime() {
-			float now = Clock::getTime();
+			auto now = Clock::getTime();
 			deltaTime = now - lastFrameTime;
 			lastFrameTime = now;
 		}

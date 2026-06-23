@@ -49,6 +49,6 @@ private:
 
 };
 
-Engine* createApp();
+auto attachGame() -> void;
 
 }

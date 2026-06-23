@@ -34,23 +34,22 @@ class TestGame : public Mira::Game
 public:
 	TestGame() 
 	{
-		m_cube = new Cube();
 		m_camera.setPosition({ 0.0f, 0.0f, -5.0f });
 
-		m_cube->getRenderComponent().color = { 1.0f, 0.0f, 0.0f, 1.0f };
+		m_cube.getRenderComponent().color = { 1.0f, 0.0f, 0.0f, 1.0f };
 	}
 
 	~TestGame() override 
 	{
-		if (m_cube)
-			delete m_cube;
 	}
 
 	auto update() -> void 
 	{
+
+
 		auto pos = m_camera.getPosition();
 
-		if (Mira::Input::isButtonHeld(Mira::Button::Right)) {
+		//if (Mira::Input::isButtonHeld(Mira::Button::Right)) {
 
 			if (Mira::Input::isKeyHeld(Mira::Key::S)) {
 				pos -= m_camera.getForwardVector() * speed * Mira::EngineStats::DeltaTime::inSeconds();
@@ -81,38 +80,20 @@ public:
 
 			m_camera.setRotation(rot);
 			m_camera.setPosition(pos);
-		}
+		//}
 
 		Mira::Renderer::useCamera(m_camera);
-		Mira::Renderer::submit(m_cube->getRenderComponent(), m_cube->getTransformComponent());
+		Mira::Renderer::submit(m_cube.getRenderComponent(), m_cube.getTransformComponent());
 	}
 
 private:
 	Mira::PerspectiveCamera m_camera;
-	Cube* m_cube;
+	Cube m_cube;
 	float sensitivity{ 0.0005f };
 	float speed{ 7.5f };
 };
 
 
-
-class Sandbox : public Mira::Engine {
-public:
-	Sandbox() : Mira::Engine() {
-		getLayerManager().addLayer(Mira::Layer::createLayer<Mira::ImGuiLayer>());
-		attachGame(createScope<TestGame>());
-
-	}
-
-	~Sandbox() {
-
-	}
-
-private:
-
-
-};
-
-Mira::Engine* Mira::createApp() {
-	return new Sandbox;
+auto Mira::attachGame() -> void {
+	Mira::Engine::get().attachGame(Mira::Game::createGame<TestGame>());
 }

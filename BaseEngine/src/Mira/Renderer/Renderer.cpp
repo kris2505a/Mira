@@ -45,12 +45,13 @@ Renderer::Renderer() {
     PixelShaderData nullPixelData;
     nullPixelData.color = { 0.0f, 0.0f, 0.0f, 0.0f };
 
-    get()->m_vertexConstantBuffer = ConstantBuffer::create(&nullVertexData, sizeof(nullVertexData), ShaderType::VertexShader);
-    get()->m_pixelConstantBuffer = ConstantBuffer::create(&nullPixelData, sizeof(nullPixelData), ShaderType::PixelShader);
+    m_vertexConstantBuffer = ConstantBuffer::create(&nullVertexData, sizeof(nullVertexData), ShaderType::VertexShader);
+    m_pixelConstantBuffer = ConstantBuffer::create(&nullPixelData, sizeof(nullPixelData), ShaderType::PixelShader);
 
-    get()->m_viewProjectionMatrix = glm::mat4(0.0f);
+    m_viewProjectionMatrix = glm::mat4(0.0f);
 
-
+    getRHI()->logGPUInfo();
+    
     
 }
 

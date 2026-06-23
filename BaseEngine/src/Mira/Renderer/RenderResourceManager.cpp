@@ -111,8 +111,8 @@ Ref<Material> RenderResourceManager::createMaterial(const std::string& materialN
     auto texture = createTexture(textureName);
 
     auto mat = createRef<Material>();
-    mat->m_shader = shader;
-    mat->m_texture = texture;
+    mat->shader = shader;
+    mat->texture = texture;
 
     get().m_materialMap[materialName] = mat;
 

@@ -6,6 +6,7 @@ namespace Mira {
 
 class Material {
     friend class RenderResourceManager;
+    friend class AssetManager;
 public:
     Material() = default;
     ~Material() = default;
@@ -13,8 +14,8 @@ public:
     void bind(int textureSlot = 0) const;
 
 private:
-    Ref<Shader> m_shader;
-    Ref<Texture> m_texture;
+    Ref<Shader> shader;
+    Ref<Texture> texture;
 };
 
 }

@@ -3,16 +3,13 @@
 #include <exception>
 #include "Mira/Logger/Logger.hpp"
 
-extern Mira::Engine* Mira::createApp();
+extern auto Mira::attachGame() -> void;
 
 int main(int argc, char** argv) {
-    auto app = Mira::createApp();
-
-    try {
-        app->run();
-    }
-    catch (std::exception& e) {
-        Mira::Logger::log(Mira::LogType::Error, "{}", std::string(e.what()));
-    }
+    auto engine = new Mira::Engine();
+    Mira::attachGame();
+    engine->run();
+    delete engine;
+    return 0;
 }
 
