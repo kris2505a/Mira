@@ -9,11 +9,9 @@ namespace Mira {
 
 class D3D11RHI : public RHI {
 public:
-    D3D11RHI() = default;
-    ~D3D11RHI() override = default;
+    D3D11RHI();
+    ~D3D11RHI() override;
 
-    void initialize(WindowHandle handle, int width, int height) override;
-    void shutdown()                     override;
     void bindRenderTarget()             override;
     void bindRasterizer()               override;
     void bindDepthStencil()             override;
@@ -22,7 +20,7 @@ public:
     void clear()                        override;
     void swap()                         override;
     void drawIndexed(uint32_t indices)  override;
-    void resize(unsigned int width, unsigned int height)  override;
+    void resize()  override;
     void logGPUInfo()                   override;
 
     void clearColor(float r, float g, float b, float a) override;

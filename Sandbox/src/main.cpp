@@ -49,7 +49,7 @@ public:
 
 		auto pos = m_camera.getPosition();
 
-		//if (Mira::Input::isButtonHeld(Mira::Button::Right)) {
+		if (Mira::Input::isButtonHeld(Mira::Button::Right)) {
 
 			if (Mira::Input::isKeyHeld(Mira::Key::S)) {
 				pos -= m_camera.getForwardVector() * speed * Mira::EngineStats::DeltaTime::inSeconds();
@@ -80,7 +80,7 @@ public:
 
 			m_camera.setRotation(rot);
 			m_camera.setPosition(pos);
-		//}
+		}
 
 		Mira::Renderer::useCamera(m_camera);
 		Mira::Renderer::submit(m_cube.getRenderComponent(), m_cube.getTransformComponent());

@@ -29,14 +29,10 @@ Renderer::Renderer() {
     }
 
     s_instance = this;
+
+    Logger::log(LogType::Info, "Renderer - Initializing");
+
     m_rhi = RHI::createRHI(API::D3D11);
-
-    getRHI()->initialize(
-        EngineStats::WindowProperties::getHandle(), 
-        EngineStats::WindowProperties::getWidth(), 
-        EngineStats::WindowProperties::getHeight()
-    );
-
 
     VertexShaderData nullVertexData;
     nullVertexData.model = glm::mat4(0.0f);
@@ -50,13 +46,13 @@ Renderer::Renderer() {
 
     m_viewProjectionMatrix = glm::mat4(0.0f);
 
+    Logger::log(LogType::Info, "Renderer - Initialization Successful");
+    
     getRHI()->logGPUInfo();
-    
-    
 }
 
 Renderer::~Renderer() {
-    getRHI()->shutdown();
+    Logger::log(LogType::Info, "Renderer - Shutting Down");
 }
 
 void Renderer::preSetup() {
@@ -79,8 +75,8 @@ void Renderer::clearColor(float r, float g, float b, float a) {
     getRHI()->clearColor(r, g, b, a);
 }
 
-void Renderer::resize(unsigned int width, unsigned int height) {
-    getRHI()->resize(width, height);
+void Renderer::resize() {
+    getRHI()->resize();
 }
 
 RHI* Renderer::getRHI() {

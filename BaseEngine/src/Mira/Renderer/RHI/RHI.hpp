@@ -18,9 +18,6 @@ public:
     RHI() = default;
     virtual ~RHI() = default;
 
-    virtual void initialize(WindowHandle handle, int width, int height) = 0;
-    virtual void shutdown()                                             = 0;
-
     virtual void bindRenderTarget()                                     = 0;
     virtual void bindRasterizer()                                       = 0;
     virtual void bindDepthStencil()                                     = 0;
@@ -29,7 +26,7 @@ public:
     virtual void clear()                                                = 0;
     virtual void swap()                                                 = 0;
     virtual void drawIndexed(uint32_t indices)                          = 0;
-    virtual void resize(unsigned int width, unsigned int height)        = 0;
+    virtual void resize()                                               = 0;
     virtual void logGPUInfo()                                           = 0;
     
     virtual void setupImGui()                                           = 0;

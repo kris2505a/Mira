@@ -49,16 +49,16 @@ std::string Logger::getTimeNow() {
 const char* Logger::typeToString(LogType type) {
     switch (type) {
     case LogType::Info:
-        return "Info";
+        return " Info  ";
 
     case LogType::Error:
-        return "Error";
+        return " Error ";
 
     case LogType::Warning:
         return "Warning";
 
     case LogType::Debug:
-        return "Debug";
+        return " Debug ";
     }
 
     return "Unknown";

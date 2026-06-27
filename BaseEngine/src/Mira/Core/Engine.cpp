@@ -24,7 +24,7 @@ Engine::Engine() {
     }
     s_instance = this;
 
-    Logger::log(LogType::Info, "Engine Initializing...");
+    Logger::log(LogType::Info, "Engine - Initializing");
 
 
     WindowAttributes attribs(1280, 720, "Mira", [this](Event& e){ handleEvent(e); });
@@ -43,6 +43,8 @@ Engine::Engine() {
     
     Renderer::clearColor(0.02f, 0.04f, 0.10f, 1.0f);
 
+    Logger::log(LogType::Info, "Engine - Initialization Successful");
+
 }
 
 auto Engine::attachGame(Scope<Game> game) -> void {
@@ -52,7 +54,7 @@ auto Engine::attachGame(Scope<Game> game) -> void {
 Engine::~Engine() {
 
 
-    Logger::log(LogType::Info, "Engine Shutting Down...");
+    Logger::log(LogType::Info, "Engine - Shutting Down");
 }
 
 void Engine::run() {
@@ -66,7 +68,7 @@ void Engine::update() {
 
 
 void Engine::mainLoop() {
-    Logger::log(LogType::Info, "Engine Running...");
+    Logger::log(LogType::Info, "Engine - Running");
     while (m_running) {
         pollEvent();
         EngineStats::DeltaTime::updateDeltaTime();
@@ -103,13 +105,15 @@ void Engine::handleEvent(Event& e) {
     EventDispatcher dispatcher(e);
 
     dispatcher.dispatch<WindowCloseEvent>([this](WindowCloseEvent& event) {
+        Logger::log(LogType::Info, "{}", event.getEventInfoString());
         m_running = false;
         return true;
     });
 
     dispatcher.dispatch<WindowResizeEvent>([](WindowResizeEvent& event) {
-        Renderer::resize(event.getWidth(), event.getHeight());
+        Logger::log(LogType::Info, "{}", event.getEventInfoString());
         EngineStats::WindowProperties::setSize(event.getWidth(), event.getHeight());
+        Renderer::resize();
         return false;
     });
 
@@ -143,7 +147,8 @@ void Engine::handleEvent(Event& e) {
         return false;
     });
 
-    dispatcher.dispatch<WindowLostFocusEvent>([](WindowLostFocusEvent& e) {
+    dispatcher.dispatch<WindowLostFocusEvent>([](WindowLostFocusEvent& event) {
+        Logger::log(LogType::Info, "{}", event.getEventInfoString());
         Input::resetState();
         return true;
     });

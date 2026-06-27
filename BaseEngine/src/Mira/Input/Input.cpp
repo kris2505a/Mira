@@ -5,56 +5,56 @@ namespace Mira {
 
 Input Input::s_inputState;
 
-Input& Input::get() {
+auto Input::get() -> Input& {
     return s_inputState;
 }
 
 //KEY STATE
-void Input::setKeyState(Key key, State state) {
+auto Input::setKeyState(Key key, State state) -> void {
     auto keyInd = static_cast<size_t>(key);
     get().keyState.set(keyInd, state == State::Down);
 }
 
-bool Input::isKeyDown(Key key) {
+auto Input::isKeyDown(Key key) -> bool {
     auto keyInd = static_cast<size_t>(key);
     return get().keyState[keyInd] && !get().previousKeyState[keyInd];
 }
 
-bool Input::isKeyUp(Key key) {
+auto Input::isKeyUp(Key key) -> bool {
     auto keyInd = static_cast<size_t>(key);
     return !get().keyState[keyInd] && get().previousKeyState[keyInd];
 }
 
-bool Input::isKeyHeld(Key key) {
+auto Input::isKeyHeld(Key key) -> bool {
     auto keyInd = static_cast<size_t>(key);
     return isKeyDown(key) || (get().keyState[keyInd] && get().previousKeyState[keyInd]);
 }
 
 
 //BUTTON STATE
-void Input::setButtonState(Button button, State state) {
+auto Input::setButtonState(Button button, State state) -> void {
     auto buttonInd = static_cast<size_t>(button);
     get().buttonState.set(buttonInd, state == State::Down);
 }
 
-bool Input::isButtonDown(Button button) {
+auto Input::isButtonDown(Button button) -> bool {
     auto buttonInd = static_cast<size_t>(button);
     return get().buttonState[buttonInd] && !get().previousButtonState[buttonInd];
 }
 
-bool Input::isButtonUp(Button button) {
+auto Input::isButtonUp(Button button) -> bool {
     auto buttonInd = static_cast<size_t>(button);
     return !get().buttonState[buttonInd] && get().previousButtonState[buttonInd];
 }
 
-bool Input::isButtonHeld(Button button) {
+auto Input::isButtonHeld(Button button) -> bool {
     auto buttonInd = static_cast<size_t>(button);
     return get().buttonState[buttonInd] && get().previousButtonState[buttonInd];
 }
 
 
 //MOUSE ACTIONS
-void Input::mouseMove(Vec2 pos) {
+auto Input::mouseMove(Vec2 pos) -> void {
 
     if (get().firstMove) {
         get().firstMove = false;
@@ -67,23 +67,27 @@ void Input::mouseMove(Vec2 pos) {
     get().mousePosition = pos;
 }
 
-void Input::mouseScroll(float offset) {
+auto Input::mouseScroll(float offset) -> void {
     get().wheelOffset += offset;
 }
 
-Vec2 Input::getMousePosition() {
+auto Input::getMousePosition() -> Vec2 {
     return get().mousePosition;
 }
 
-Vec2 Input::getMouseDelta() {
+auto Input::getMouseDelta() -> Vec2 {
     return get().mouseDelta;
 }
 
-float Input::getMouseWheelOffset() {
+auto Input::getMouseWheelOffset() -> float {
     return get().wheelOffset;
 }
 
-void Input::endState() {
+auto Input::lockMouse(bool cond) -> void {
+    get().mouseLock = cond;
+}
+
+auto Input::endState() -> void {
     get().previousKeyState = get().keyState;
     get().previousButtonState = get().buttonState;
 
@@ -92,7 +96,7 @@ void Input::endState() {
     get().wheelOffset = 0.0f;
 }
 
-void Input::resetState() {
+auto Input::resetState() -> void {
     get().keyState.reset();
     get().previousKeyState.reset();
 

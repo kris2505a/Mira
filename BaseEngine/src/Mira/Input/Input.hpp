@@ -13,17 +13,20 @@ class MIRA_API Input {
 friend class Engine;
 
 public:
-    static bool isKeyDown(Key key);
-    static bool isKeyUp(Key key);
-    static bool isKeyHeld(Key key);
+    static auto isKeyDown(Key key) -> bool;
+    static auto isKeyUp(Key key) -> bool;
+    static auto isKeyHeld(Key key) -> bool;
 
-    static bool isButtonDown(Button button);
-    static bool isButtonUp(Button button);
-    static bool isButtonHeld(Button button);
+    static auto isButtonDown(Button button) -> bool;
+    static auto isButtonUp(Button button) -> bool;
+    static auto isButtonHeld(Button button) -> bool;
 
-    static Vec2 getMousePosition();
-    static Vec2 getMouseDelta();
-    static float getMouseWheelOffset();
+    static auto getMousePosition() -> Vec2;
+    static auto getMouseDelta() -> Vec2;
+    static auto getMouseWheelOffset() -> float;
+
+    static auto lockMouse(bool cond) -> void;
+
 
     enum State {
         Down,
@@ -31,17 +34,17 @@ public:
     };
 
 private:
-    static Input& get();
+    static auto get() -> Input&;
     
-    static void setKeyState(Key key, State state);
+    static auto setKeyState(Key key, State state) -> void;
 
-    static void setButtonState(Button button, State state);
-    static void mouseMove(Vec2 pos);
-    static void mouseScroll(float offset);
+    static auto setButtonState(Button button, State state) -> void;
+    static auto mouseMove(Vec2 pos) -> void;
+    static auto mouseScroll(float offset) -> void;
 
 
-    static void endState();
-    static void resetState();
+    static auto endState() -> void;
+    static auto resetState() -> void;
 
 
 private:
@@ -60,6 +63,7 @@ private:
     Vec2 mouseDelta = { 0.0f, 0.0f };
 
     bool firstMove = true;
+    bool mouseLock = false;
 
     float wheelOffset = 0.0f;
 

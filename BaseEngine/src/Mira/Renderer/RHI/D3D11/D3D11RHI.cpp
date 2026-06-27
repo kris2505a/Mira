@@ -3,30 +3,37 @@
 #include "D3DError.hpp"
 #include "Mira/Logger/Logger.hpp"
 
+#include "Mira/Stats/EngineStats.hpp"
+
 #include "D3D11Resource.hpp"
 
 #include "imgui_impl_win32.h"
 #include "imgui_impl_dx11.h"
 
 namespace Mira {
-void D3D11RHI::initialize(WindowHandle handle, int width, int height) {
 
-    Logger::log(LogType::Info, "Initializing D3D11RHI...");
-    p_handle = handle.handle;
-	m_renderWidth = width;
-	m_renderHeight = height;
+D3D11RHI::D3D11RHI() {
+	
+	Logger::log(LogType::Info, "D3D11RHI - Pre-Initialization Setup");
+	p_handle = EngineStats::WindowProperties::getHandle().handle;
+	m_renderWidth = EngineStats::WindowProperties::getWidth();
+	m_renderHeight = EngineStats::WindowProperties::getHeight();
+
+	Logger::log(LogType::Info, "D3D11RHI - Initializing");
+
 	createDeviceSwapChain();
-    createRenderTargetView();
-    createDepthStencilState();
-    createDepthStencilView();
-    createViewPort();
-    createRasterizerState();
-    createSamplerState();
+	createRenderTargetView();
+	createDepthStencilState();
+	createDepthStencilView();
+	createViewPort();
+	createRasterizerState();
+	createSamplerState();
 
+	Logger::log(LogType::Info, "D3D11RHI - Initialization Successful");
 }
 
-void D3D11RHI::shutdown() {
-    Logger::log(LogType::Info, "Shutting Down D3D11RHI...");
+D3D11RHI::~D3D11RHI() {
+    Logger::log(LogType::Info, "D3D11RHI - Shutting Down");
 }
 
 void D3D11RHI::setupImGui() {
@@ -88,11 +95,10 @@ void D3D11RHI::swap() {
     RUN(m_swapChain->Present(1, 0), m_device);
 }
 
-void D3D11RHI::resize(unsigned int width, unsigned int height) {
+void D3D11RHI::resize() {
 
-	if (width == 0 || height == 0) {
-		return;
-	}
+	auto width = EngineStats::WindowProperties::getWidth();
+	auto height = EngineStats::WindowProperties::getHeight();
 
 	m_context->OMSetRenderTargets(0, nullptr, nullptr);
 
@@ -135,7 +141,7 @@ void D3D11RHI::logGPUInfo() {
 
     auto name = std::wstring(desc.Description);
 
-    Logger::log(LogType::Debug, "GPU: {}", std::string(name.begin(), name.end()));
+    Logger::log(LogType::Info, "GPU: {}", std::string(name.begin(), name.end()));
 
     std::string vendor;
 
@@ -157,8 +163,8 @@ void D3D11RHI::logGPUInfo() {
         break;
     }
 
-    Logger::log(LogType::Debug, "Vendor: {}", vendor);
-    Logger::log(LogType::Debug, "V-RAM: {}", (desc.DedicatedVideoMemory / (1024 * 1024)));
+    Logger::log(LogType::Info, "Vendor: {}", vendor);
+    Logger::log(LogType::Info, "V-RAM: {}", (desc.DedicatedVideoMemory / (1024 * 1024)));
 
 }
 
