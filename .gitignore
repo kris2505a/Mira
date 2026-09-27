@@ -3,5 +3,5 @@
 .cache/
 .idea/
 out/
-Binaries/
+bin/
 compile_commands.json
