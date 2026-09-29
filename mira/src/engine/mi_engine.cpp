@@ -32,20 +32,24 @@ void Engine::setupCallbacks() {
         }
     });
 
-    mWindow->setMouseMoveCallback([](core::f32 x, core::f32 y) {
-        // core::Log::debug("MousePos: {}, {}", x, y);
+    mWindow->setMouseMoveCallback([this](core::f32 x, core::f32 y) {
+        MouseMoveEvent e(x, y);
+        handleEvent(e);
     });
 
-    mWindow->setMouseScrollCallback([](core::f32 delta) {
-        // core::Log::debug("ScrollDelta: {}", delta);
+    mWindow->setMouseScrollCallback([this](core::f32 delta) {
+        MouseScrollEvent e(delta);
+        handleEvent(e);
     });
 
-    mWindow->setResizeCallback([](core::u32 width, core::u32 height) {
-        // core::Log::debug("Resized: {}x{}", width, height);
+    mWindow->setResizeCallback([this](core::u32 width, core::u32 height) {
+        WindowResizeEvent e(width, height);
+        handleEvent(e);
     });
 
-    mWindow->setLostFocusCallback([]() {
-        // core::Log::debug("Window Lost focus");
+    mWindow->setLostFocusCallback([this]() {
+        WindowLostFocus e;
+        handleEvent(e);
     });
 
 }
@@ -64,12 +68,12 @@ void Engine::run() {
 void Engine::handleEvent(Event& e) {
     EventDispatcher dispatcher(e);
     dispatcher.dispatch<KeyPressEvent>([](KeyPressEvent& e) {
-        core::Log::debug("KeyPressed: {}", e.key);
+        // core::Log::debug("KeyPressed: {}", e.key);
         return true;
     });
 
     dispatcher.dispatch<KeyReleaseEvent>([](KeyReleaseEvent&e) {
-        core::Log::debug("Key Released: {}", e.key);
+        // core::Log::debug("Key Released: {}", e.key);
         return true;
     });
 }
