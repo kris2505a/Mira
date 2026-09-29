@@ -7,6 +7,17 @@ namespace mira::engine {
 void Engine::init() {
     mWindow = std::make_unique<core::Window>();
     mDevice = rhw::IDevice::create();
+
+    rhw::SwapchainInfo info {
+        .bufferCount = 2, 
+        .width = 1280u,
+        .height = 720u,
+        .hWnd = mWindow->getWin32Handle(),
+        .device = *mDevice.get()
+    };
+
+    mSwapchain = rhw::ISwapchain::create(info);
+    mBuffers = mSwapchain->getBuffers();
 }
 
 void Engine::setupCallbacks() {

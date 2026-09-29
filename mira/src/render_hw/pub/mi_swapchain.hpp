@@ -3,6 +3,9 @@
 #include <helpers/mi_types.hpp>
 #include <helpers/mi_win_hpr.hpp>
 #include "mi_device.hpp"
+#include <vector>
+
+#include "mi_image.hpp"
 
 namespace mira::rhw {
 
@@ -18,6 +21,9 @@ class MI_RENDER_API ISwapchain {
 public:
     ISwapchain() = default;
     virtual ~ISwapchain() = default;
+    virtual std::vector<core::Scope<Image>> getBuffers() = 0;
+
+    static core::Scope<ISwapchain> create(SwapchainInfo& info);
 
 };
 
