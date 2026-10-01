@@ -27,6 +27,18 @@ D12DescriptorHeap::D12DescriptorHeap(core::u32 count, DescriptorType type, IDevi
     mDescriptorSize = rawDevice->GetDescriptorHandleIncrementSize(descType);
 }
 
+D3D12_GPU_DESCRIPTOR_HANDLE D12DescriptorHeap::getGPUHandle() const {
+    return mDescriptorHeap->GetGPUDescriptorHandleForHeapStart();
+}
+
+D3D12_CPU_DESCRIPTOR_HANDLE D12DescriptorHeap::getCPUHandle() const {
+    return mDescriptorHeap->GetCPUDescriptorHandleForHeapStart();
+}
+
+core::u32 D12DescriptorHeap::getSize() const {
+    return mDescriptorSize;
+}
+
 D3D12_DESCRIPTOR_HEAP_TYPE D12DescriptorHeap::getType(DescriptorType type) {
     switch (type) {
     case DescriptorType::RTV:

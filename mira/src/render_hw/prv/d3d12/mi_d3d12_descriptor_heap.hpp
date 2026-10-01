@@ -13,6 +13,10 @@ public:
     D12DescriptorHeap(core::u32 count, DescriptorType type, IDevice& device, bool shaderVisible = false);
     ~D12DescriptorHeap() override = default;
 
+    D3D12_GPU_DESCRIPTOR_HANDLE getGPUHandle() const;
+    D3D12_CPU_DESCRIPTOR_HANDLE getCPUHandle() const;
+    core::u32 getSize() const;
+
 private:
     static D3D12_DESCRIPTOR_HEAP_TYPE getType(DescriptorType type);
 
