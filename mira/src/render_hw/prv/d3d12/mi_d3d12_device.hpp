@@ -16,6 +16,8 @@ public:
     ID3D12CommandQueue* getCommandQueue() const;
     IDXGIFactory6* getFactory() const;
 
+    void executeCommands(class ICommandList* cmdList) override;
+
 private:
     void setupDebug();
     void createFactory();

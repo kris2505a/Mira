@@ -1,10 +1,15 @@
 #include "mi_d3d12_descriptor_heap.hpp"
-#include "mi_d3d12_device.hpp"
 #include "mi_d3d12_helper.hpp"
 
 namespace mira::rhw {
 
-D3D12DescriptorHeap::D3D12DescriptorHeap(core::u32 count, DescriptorType type, IDevice& device, bool shaderVisible)
+core::Scope<IDescriptorHeap> IDescriptorHeap::create(core::u32 count, DescriptorType type, IDevice* device, bool shaderVisible) {
+    auto nativeDevice = device->as<D3D12Device>();
+    return core::createScope<D3D12DescriptorHeap>(count, type, nativeDevice, shaderVisible);
+}
+
+
+D3D12DescriptorHeap::D3D12DescriptorHeap(core::u32 count, DescriptorType type, D3D12Device* device, bool shaderVisible)
     : mDescriptorCount(count) {
     
     auto descType = getType(type);
@@ -13,13 +18,13 @@ D3D12DescriptorHeap::D3D12DescriptorHeap(core::u32 count, DescriptorType type, I
     dhd.NumDescriptors = count;
     dhd.Type = descType;
 
-    if (shaderVisible) {
+    if (!shaderVisible) {
         dhd.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
     }
     else {
         dhd.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
     }
-    auto rawDevice = device.as<D3D12Device>()->getDevice();
+    auto rawDevice = device->getDevice();
 
     HRESULT hres = rawDevice->CreateDescriptorHeap(&dhd, IID_PPV_ARGS(&mDescriptorHeap));
     throwOnFailure(hres, "Failed to create ID3D12DescriptorHeap");

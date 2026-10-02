@@ -18,12 +18,19 @@ void Engine::init() {
 
     mSwapchain = rhw::ISwapchain::create(info);
     mBuffers = mSwapchain->getBuffers();
-    
+
+    mDescHeap = rhw::IDescriptorHeap::create(mBuffers.size(), rhw::DescriptorType::RTV, mDevice.get(), false);
+
+    mRTV = rhw::ITargetView::create(mBuffers, mDescHeap.get(), mDevice.get());
+
     for (core::u32 i{ 0 }; i < mSwapchain->getFrameCount(); i++) {
         mFrameContexts.emplace_back(rhw::IFrameContext::create(mDevice.get()));
     }
 
     mCmdList = rhw::ICommandList::create(mFrameContexts.at(0).get(), mDevice.get());
+
+    mClearColor = { 0.0f, 1.0f, 1.0f, 1.0f };
+    mFence = rhw::IFence::create(mDevice.get());
 }
 
 void Engine::setupCallbacks() {
@@ -79,6 +86,25 @@ void Engine::run() {
 
     while (running) {
         running = mWindow->pollEvents();
+        
+        auto idx = mSwapchain->getCurrentFrameIndex();
+        
+        mCmdList->reset(mFrameContexts.at(idx).get());
+        mCmdList->changeState(mBuffers.at(idx).get(), rhw::ResourceState::Present, rhw::ResourceState::RenderTarget);
+        mCmdList->setRenderTarget(mRTV.at(idx).get());
+        mCmdList->clearRenderTarget(mRTV.at(idx).get(), mClearColor);
+        mCmdList->changeState(mBuffers.at(idx).get(), rhw::ResourceState::RenderTarget, rhw::ResourceState::Present);
+        mCmdList->close();
+
+        mDevice->executeCommands(mCmdList.get());
+        mSwapchain->present(true);
+
+        auto curFenceVal = mFrameContexts.at(idx)->getFencevalue();
+        curFenceVal++;
+        mFrameContexts.at(idx)->setFenceValue(curFenceVal);
+        mFence->signal(curFenceVal);
+
+        mFence->wait(curFenceVal);
     }
 }
 

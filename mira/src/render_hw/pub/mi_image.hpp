@@ -8,6 +8,11 @@ public:
     Image() = default;
     virtual ~Image() = default;
 
+    template <typename T>
+    T* as() {
+        return static_cast<T*>(this);
+    }
+
 };
 
 }

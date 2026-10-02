@@ -13,12 +13,12 @@ public:
     ~D3D12FrameContext() override = default;
 
     ID3D12CommandAllocator* getCommandAllocator() const;
-    core::u32 getFenceValue() const;
-    void setFenceValue();
+    core::u64 getFencevalue() const override;
+    void setFenceValue(core::u64 value) override;
 
 private:
     core::ComScope<ID3D12CommandAllocator> mCmdAllocator;
-    core::u32 mFenceValue;
+    core::u64 mFenceValue;
 };
 
 }

@@ -24,6 +24,9 @@ public:
 
     virtual std::vector<core::Scope<Image>> getBuffers() = 0;
     virtual core::u32 getFrameCount() const = 0;
+    virtual core::u32 getCurrentFrameIndex() const = 0;
+    virtual void present(bool vsync) = 0;
+
 
     static core::Scope<ISwapchain> create(SwapchainInfo& info);
 

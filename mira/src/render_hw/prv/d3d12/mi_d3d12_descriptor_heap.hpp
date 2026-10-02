@@ -3,14 +3,13 @@
 #include <helpers/mi_win_hpr.hpp>
 #include <helpers/mi_types.hpp>
 #include <d3d12.h>
-#include "pub/mi_device.hpp"
-
+#include "mi_d3d12_device.hpp"
 
 namespace mira::rhw {
 
 class D3D12DescriptorHeap : public IDescriptorHeap {
 public:
-    D3D12DescriptorHeap(core::u32 count, DescriptorType type, IDevice& device, bool shaderVisible = false);
+    D3D12DescriptorHeap(core::u32 count, DescriptorType type, D3D12Device* device, bool shaderVisible = false);
     ~D3D12DescriptorHeap() override = default;
 
     D3D12_GPU_DESCRIPTOR_HANDLE getGPUHandle() const;

@@ -2,6 +2,8 @@
 #include "mi_d3d12_helper.hpp"
 #include <helpers/mi_types.hpp>
 
+#include "mi_d3d12_command_list.hpp"
+
 namespace mira::rhw {
 
 D3D12Device::D3D12Device() {
@@ -83,6 +85,17 @@ ID3D12CommandQueue* D3D12Device::getCommandQueue() const {
 IDXGIFactory6* D3D12Device::getFactory() const {
     return mFactory.Get();
 }
+
+void D3D12Device::executeCommands(ICommandList* cmdList) {
+    auto rawCmdList = cmdList->as<D3D12CommandList>()->getList();
+
+    ID3D12CommandList* lists[] = {
+        rawCmdList
+    };
+
+    mCmdQueue->ExecuteCommandLists(1, lists);
+}
+
 
 
 }

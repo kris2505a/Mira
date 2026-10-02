@@ -62,6 +62,14 @@ core::u32 D3D12SwapChain::getFrameCount() const {
     return mCreateInfo.bufferCount;
 }
 
+core::u32 D3D12SwapChain::getCurrentFrameIndex() const {
+    return mSwapchain->GetCurrentBackBufferIndex();
+}
+
+void D3D12SwapChain::present(bool vsync) {
+    mSwapchain->Present(vsync ? 1 : 0, 0);
+}
+
 
 
 }

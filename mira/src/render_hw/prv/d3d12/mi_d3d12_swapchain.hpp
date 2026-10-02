@@ -11,6 +11,8 @@ public:
 
     std::vector<core::Scope<Image>> getBuffers() override;
     core::u32 getFrameCount() const override;
+    core::u32 getCurrentFrameIndex() const override;
+    void present(bool vsync) override;
 
 
 private:

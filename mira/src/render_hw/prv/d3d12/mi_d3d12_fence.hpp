@@ -11,9 +11,14 @@ class D3D12Fence : public IFence {
 public:
 	D3D12Fence(D3D12Device* device);
 	~D3D12Fence() override = default;
+	
+	void signal(core::u64 value) override;
+	
+	void wait(core::u64 fenceValue) override;
 
 private:
 	core::ComScope<ID3D12Fence> mFence;
+	ID3D12CommandQueue* pCmdQueue;
 };
 
 }

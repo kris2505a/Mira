@@ -23,9 +23,14 @@ ID3D12CommandAllocator* D3D12FrameContext::getCommandAllocator() const {
     return mCmdAllocator.Get();
 }
 
-core::u32 D3D12FrameContext::getFenceValue() const {
+core::u64 D3D12FrameContext::getFencevalue() const {
     return mFenceValue;
 }
+
+void D3D12FrameContext::setFenceValue(core::u64 value) {
+    mFenceValue = value;
+}
+
 
 
 }

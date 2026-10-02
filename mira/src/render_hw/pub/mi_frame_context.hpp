@@ -10,6 +10,8 @@ class MI_RENDER_API IFrameContext {
 public:
     IFrameContext() = default;
     virtual ~IFrameContext() = default;
+    virtual core::u64 getFencevalue() const = 0;
+    virtual void setFenceValue(core::u64 value) = 0;
 
     static core::Scope<IFrameContext> create(IDevice* device);   
 

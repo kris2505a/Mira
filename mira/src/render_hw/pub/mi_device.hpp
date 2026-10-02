@@ -15,6 +15,8 @@ public:
         return static_cast<T*>(this);
     }
     static core::Scope<IDevice> create();
+
+    virtual void executeCommands(class ICommandList* cmdList) = 0;;
 };
 
 
