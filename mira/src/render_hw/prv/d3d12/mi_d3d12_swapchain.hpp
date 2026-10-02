@@ -10,6 +10,7 @@ public:
     ~D12SwapChain() override = default;
 
     std::vector<core::Scope<Image>> getBuffers() override;
+    core::u32 getFrameCount() const override;
 
 
 private:

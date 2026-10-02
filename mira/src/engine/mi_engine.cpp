@@ -18,6 +18,8 @@ void Engine::init() {
 
     mSwapchain = rhw::ISwapchain::create(info);
     mBuffers = mSwapchain->getBuffers();
+    mFrameContext = rhw::IFrameContext::create(mSwapchain->getFrameCount(), *mDevice.get());
+    mCmdList = rhw::ICommandList::create(mFrameContext.get(), mDevice.get());
 }
 
 void Engine::setupCallbacks() {

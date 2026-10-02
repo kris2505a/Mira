@@ -6,7 +6,7 @@ namespace mira::rhw {
 D12RenderTargetView::D12RenderTargetView(core::Scope<D12Image>& img, D3D12_CPU_DESCRIPTOR_HANDLE cpuHandle, IDevice& dev)
     : pImage(img.get()), mRTVHandle(cpuHandle) {
 
-    auto* device = dev.as<D12Device>().getDevice();
+    auto* device = dev.as<D12Device>()->getDevice();
 
     device->CreateRenderTargetView(pImage->getImage(), nullptr, cpuHandle);
 }

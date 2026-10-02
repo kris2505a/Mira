@@ -25,13 +25,13 @@ D12SwapChain::D12SwapChain(SwapchainInfo& info) : mCreateInfo(info) {
     sd.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_TEARING;
 
     
-    auto& device = info.device.as<D12Device>();
+    auto device = info.device.as<D12Device>();
     
     core::Log::info("creating d3d12 swapchain");
 
     core::ComScope<IDXGISwapChain1> swapchain1;
-    HRESULT hres = device.getFactory()->CreateSwapChainForHwnd(
-        device.getCommandQueue(),
+    HRESULT hres = device->getFactory()->CreateSwapChainForHwnd(
+        device->getCommandQueue(),
         info.hWnd,
         &sd,
         nullptr,
@@ -56,6 +56,10 @@ std::vector<core::Scope<Image>> D12SwapChain::getBuffers() {
         images.push_back(core::createScope<D12Image>(std::move(tmpRes)));
     }
     return images;
+}
+
+core::u32 D12SwapChain::getFrameCount() const {
+    return mCreateInfo.bufferCount;
 }
 
 

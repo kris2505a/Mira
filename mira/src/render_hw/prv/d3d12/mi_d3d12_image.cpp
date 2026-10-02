@@ -3,6 +3,12 @@
 namespace mira::rhw {
 
 D12Image::D12Image(core::ComScope<ID3D12Resource> imgResource)
-    : mImage(std::move(imgResource)) {}
+    : mImage(std::move(imgResource)) {
+}
+
+
+ID3D12Resource* D12Image::getImage() const {
+    return mImage.Get();
+}
 
 }

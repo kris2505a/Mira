@@ -19,7 +19,7 @@ D12DescriptorHeap::D12DescriptorHeap(core::u32 count, DescriptorType type, IDevi
     else {
         dhd.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
     }
-    auto* rawDevice = device.as<D12Device>().getDevice();
+    auto rawDevice = device.as<D12Device>()->getDevice();
 
     HRESULT hres = rawDevice->CreateDescriptorHeap(&dhd, IID_PPV_ARGS(&mDescriptorHeap));
     throwOnFailure(hres, "Failed to create ID3D12DescriptorHeap");

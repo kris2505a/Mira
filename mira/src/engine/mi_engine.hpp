@@ -3,6 +3,8 @@
 #include <window/mi_window.hpp>
 #include <mi_device.hpp>
 #include <mi_swapchain.hpp>
+#include <mi_frame_context.hpp>
+#include <mi_command_list.hpp>
 #include "events/event.hpp"
 
 namespace mira::engine {
@@ -22,6 +24,8 @@ private:
     core::Scope<rhw::IDevice> mDevice;
     core::Scope<rhw::ISwapchain> mSwapchain;
     std::vector<core::Scope<rhw::Image>> mBuffers;
+    core::Scope<rhw::IFrameContext> mFrameContext;
+    core::Scope<rhw::ICommandList> mCmdList;
 };
 
 

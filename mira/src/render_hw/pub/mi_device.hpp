@@ -11,14 +11,9 @@ public:
 
     template <typename T>
     requires std::is_base_of_v<IDevice, T>
-    T& as() {
-        return dynamic_cast<T&>(*this);
+    T* as() {
+        return static_cast<T*>(this);
     }
-
-    const IDevice& getRef() const {
-        return *this;
-    }
-
     static core::Scope<IDevice> create();
 };
 

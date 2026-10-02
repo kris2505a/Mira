@@ -21,7 +21,9 @@ class MI_RENDER_API ISwapchain {
 public:
     ISwapchain() = default;
     virtual ~ISwapchain() = default;
+
     virtual std::vector<core::Scope<Image>> getBuffers() = 0;
+    virtual core::u32 getFrameCount() const = 0;
 
     static core::Scope<ISwapchain> create(SwapchainInfo& info);
 
