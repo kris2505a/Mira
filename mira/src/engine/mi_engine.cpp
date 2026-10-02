@@ -18,8 +18,12 @@ void Engine::init() {
 
     mSwapchain = rhw::ISwapchain::create(info);
     mBuffers = mSwapchain->getBuffers();
-    mFrameContext = rhw::IFrameContext::create(mSwapchain->getFrameCount(), *mDevice.get());
-    mCmdList = rhw::ICommandList::create(mFrameContext.get(), mDevice.get());
+    
+    for (core::u32 i{ 0 }; i < mSwapchain->getFrameCount(); i++) {
+        mFrameContexts.emplace_back(rhw::IFrameContext::create(mDevice.get()));
+    }
+
+    mCmdList = rhw::ICommandList::create(mFrameContexts.at(0).get(), mDevice.get());
 }
 
 void Engine::setupCallbacks() {

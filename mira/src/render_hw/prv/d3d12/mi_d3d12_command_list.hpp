@@ -10,10 +10,11 @@
 
 namespace mira::rhw {
     
-class D12CommandList : public ICommandList {
+class D3D12CommandList : public ICommandList {
 public:
-    D12CommandList(D12Device* pDevice, D12FrameContext* pFrameContext);
-    ~D12CommandList() override = default;
+    D3D12CommandList(D3D12Device* pDevice, D3D12FrameContext* pFrameContext);
+    ~D3D12CommandList() override = default;
+    void reset(IFrameContext *frameContext) override;
 
 private:
     core::ComScope<ID3D12GraphicsCommandList> mCmdList;

@@ -4,10 +4,10 @@
 
 namespace mira::rhw {
 
-class D12SwapChain : public ISwapchain {
+class D3D12SwapChain : public ISwapchain {
 public:
-    D12SwapChain(SwapchainInfo& info);
-    ~D12SwapChain() override = default;
+    D3D12SwapChain(SwapchainInfo& info);
+    ~D3D12SwapChain() override = default;
 
     std::vector<core::Scope<Image>> getBuffers() override;
     core::u32 getFrameCount() const override;

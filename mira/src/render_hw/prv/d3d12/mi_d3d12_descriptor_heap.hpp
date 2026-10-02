@@ -8,10 +8,10 @@
 
 namespace mira::rhw {
 
-class D12DescriptorHeap : public IDescriptorHeap {
+class D3D12DescriptorHeap : public IDescriptorHeap {
 public:
-    D12DescriptorHeap(core::u32 count, DescriptorType type, IDevice& device, bool shaderVisible = false);
-    ~D12DescriptorHeap() override = default;
+    D3D12DescriptorHeap(core::u32 count, DescriptorType type, IDevice& device, bool shaderVisible = false);
+    ~D3D12DescriptorHeap() override = default;
 
     D3D12_GPU_DESCRIPTOR_HANDLE getGPUHandle() const;
     D3D12_CPU_DESCRIPTOR_HANDLE getCPUHandle() const;

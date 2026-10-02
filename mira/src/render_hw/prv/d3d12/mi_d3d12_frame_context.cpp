@@ -5,38 +5,26 @@
 
 namespace mira::rhw {
 
-core::Scope<IFrameContext> IFrameContext::create(core::u32 frameCount, IDevice& device) {
-    return core::createScope<D12FrameContext>(frameCount, device);
+core::Scope<IFrameContext> IFrameContext::create(IDevice* device) {
+    D3D12Device* nativeDevice = device->as<D3D12Device>();
+    return core::createScope<D3D12FrameContext>(nativeDevice);
 }
 
-D12FrameContext::D12FrameContext(core::u32 frameCount, IDevice& device)
-    : mFrameCount(frameCount) {
+D3D12FrameContext::D3D12FrameContext(D3D12Device* device) {
     
-    auto rawDevice = device.as<D12Device>()->getDevice();
-    mCmdAllocators.reserve(mFrameCount);
+    auto rawDevice = device->getDevice();
 
-    for (core::u32 i{ 0 }; i < mFrameCount; i++) {
-        core::ComScope<ID3D12CommandAllocator> tmpAlloc;
-        HRESULT hres = rawDevice->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&tmpAlloc));
-        throwOnFailure(hres, "Failed to create command allocator for frame: " + std::to_string(i));
-        mCmdAllocators.push_back(std::move(tmpAlloc));
-    }
+
+    HRESULT hres = rawDevice->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&mCmdAllocator));
+    throwOnFailure(hres, "Failed to create command allocator");
 }
 
-ID3D12CommandAllocator* D12FrameContext::getCommandAllocator(core::u32 idx) const {
-    if (idx > mCmdAllocators.size()) {
-        throw std::runtime_error("Cmd Allocators not found!");
-    }
-
-    return mCmdAllocators.at(idx).Get();
+ID3D12CommandAllocator* D3D12FrameContext::getCommandAllocator() const {
+    return mCmdAllocator.Get();
 }
 
-core::u32 D12FrameContext::getFenceValue(core::u32 idx) const {
-    if (idx > mFrameCount) {
-        throw std::runtime_error("Invalid frame index");
-    }
-
-    return mFenceValues.at(idx);
+core::u32 D3D12FrameContext::getFenceValue() const {
+    return mFenceValue;
 }
 
 

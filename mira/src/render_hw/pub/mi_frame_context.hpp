@@ -11,7 +11,7 @@ public:
     IFrameContext() = default;
     virtual ~IFrameContext() = default;
 
-    static core::Scope<IFrameContext> create(core::u32 frameCount, IDevice& device);   
+    static core::Scope<IFrameContext> create(IDevice* device);   
 
     template<typename T>
     requires std::is_base_of_v<IFrameContext, T>

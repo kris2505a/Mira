@@ -4,7 +4,7 @@
 
 namespace mira::rhw {
 
-D12DescriptorHeap::D12DescriptorHeap(core::u32 count, DescriptorType type, IDevice& device, bool shaderVisible)
+D3D12DescriptorHeap::D3D12DescriptorHeap(core::u32 count, DescriptorType type, IDevice& device, bool shaderVisible)
     : mDescriptorCount(count) {
     
     auto descType = getType(type);
@@ -19,7 +19,7 @@ D12DescriptorHeap::D12DescriptorHeap(core::u32 count, DescriptorType type, IDevi
     else {
         dhd.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
     }
-    auto rawDevice = device.as<D12Device>()->getDevice();
+    auto rawDevice = device.as<D3D12Device>()->getDevice();
 
     HRESULT hres = rawDevice->CreateDescriptorHeap(&dhd, IID_PPV_ARGS(&mDescriptorHeap));
     throwOnFailure(hres, "Failed to create ID3D12DescriptorHeap");
@@ -27,19 +27,19 @@ D12DescriptorHeap::D12DescriptorHeap(core::u32 count, DescriptorType type, IDevi
     mDescriptorSize = rawDevice->GetDescriptorHandleIncrementSize(descType);
 }
 
-D3D12_GPU_DESCRIPTOR_HANDLE D12DescriptorHeap::getGPUHandle() const {
+D3D12_GPU_DESCRIPTOR_HANDLE D3D12DescriptorHeap::getGPUHandle() const {
     return mDescriptorHeap->GetGPUDescriptorHandleForHeapStart();
 }
 
-D3D12_CPU_DESCRIPTOR_HANDLE D12DescriptorHeap::getCPUHandle() const {
+D3D12_CPU_DESCRIPTOR_HANDLE D3D12DescriptorHeap::getCPUHandle() const {
     return mDescriptorHeap->GetCPUDescriptorHandleForHeapStart();
 }
 
-core::u32 D12DescriptorHeap::getSize() const {
+core::u32 D3D12DescriptorHeap::getSize() const {
     return mDescriptorSize;
 }
 
-D3D12_DESCRIPTOR_HEAP_TYPE D12DescriptorHeap::getType(DescriptorType type) {
+D3D12_DESCRIPTOR_HEAP_TYPE D3D12DescriptorHeap::getType(DescriptorType type) {
     switch (type) {
     case DescriptorType::RTV:
         return D3D12_DESCRIPTOR_HEAP_TYPE_RTV;

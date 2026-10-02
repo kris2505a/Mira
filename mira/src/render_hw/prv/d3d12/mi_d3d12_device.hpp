@@ -8,10 +8,10 @@
 
 namespace mira::rhw {
 
-class D12Device : public IDevice {
+class D3D12Device : public IDevice {
 public:
-    D12Device();
-    ~D12Device() override = default;
+    D3D12Device();
+    ~D3D12Device() override = default;
     ID3D12Device* getDevice() const;
     ID3D12CommandQueue* getCommandQueue() const;
     IDXGIFactory6* getFactory() const;

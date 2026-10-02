@@ -6,10 +6,10 @@
 namespace mira::rhw {
 
 core::Scope<ISwapchain> ISwapchain::create(SwapchainInfo& info) {
-    return core::createScope<D12SwapChain>(info);
+    return core::createScope<D3D12SwapChain>(info);
 }
 
-D12SwapChain::D12SwapChain(SwapchainInfo& info) : mCreateInfo(info) {
+D3D12SwapChain::D3D12SwapChain(SwapchainInfo& info) : mCreateInfo(info) {
     DXGI_SWAP_CHAIN_DESC1 sd = {};
 
     sd.Width = info.width;
@@ -25,7 +25,7 @@ D12SwapChain::D12SwapChain(SwapchainInfo& info) : mCreateInfo(info) {
     sd.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_TEARING;
 
     
-    auto device = info.device.as<D12Device>();
+    auto device = info.device.as<D3D12Device>();
     
     core::Log::info("creating d3d12 swapchain");
 
@@ -45,7 +45,7 @@ D12SwapChain::D12SwapChain(SwapchainInfo& info) : mCreateInfo(info) {
     throwOnFailure(hres, "Failed to cast IDXGISwapchain1 to IDXGISwapchain4");
 }
 
-std::vector<core::Scope<Image>> D12SwapChain::getBuffers() {
+std::vector<core::Scope<Image>> D3D12SwapChain::getBuffers() {
     core::Log::info("Retrieving images from swapchain");
     std::vector<core::Scope<Image>> images;
     images.reserve(mCreateInfo.bufferCount);
@@ -53,12 +53,12 @@ std::vector<core::Scope<Image>> D12SwapChain::getBuffers() {
         core::ComScope<ID3D12Resource> tmpRes;
         HRESULT hres = mSwapchain->GetBuffer(i, IID_PPV_ARGS(&tmpRes));
         throwOnFailure(hres, "Failed to retrieve swapchain images");
-        images.push_back(core::createScope<D12Image>(std::move(tmpRes)));
+        images.push_back(core::createScope<D3D12Image>(std::move(tmpRes)));
     }
     return images;
 }
 
-core::u32 D12SwapChain::getFrameCount() const {
+core::u32 D3D12SwapChain::getFrameCount() const {
     return mCreateInfo.bufferCount;
 }
 

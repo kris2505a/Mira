@@ -24,7 +24,7 @@ private:
     core::Scope<rhw::IDevice> mDevice;
     core::Scope<rhw::ISwapchain> mSwapchain;
     std::vector<core::Scope<rhw::Image>> mBuffers;
-    core::Scope<rhw::IFrameContext> mFrameContext;
+    std::vector<core::Scope<rhw::IFrameContext>> mFrameContexts;
     core::Scope<rhw::ICommandList> mCmdList;
 };
 

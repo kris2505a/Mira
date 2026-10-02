@@ -7,10 +7,10 @@
 
 namespace mira::rhw {
 
-class D12Image : public Image {
+class D3D12Image : public Image {
 public:
-    D12Image(core::ComScope<ID3D12Resource> imgResource);
-    ~D12Image() override = default;
+    D3D12Image(core::ComScope<ID3D12Resource> imgResource);
+    ~D3D12Image() override = default;
 
     ID3D12Resource* getImage() const;
 

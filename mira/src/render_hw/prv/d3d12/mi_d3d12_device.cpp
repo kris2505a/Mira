@@ -4,14 +4,14 @@
 
 namespace mira::rhw {
 
-D12Device::D12Device() {
+D3D12Device::D3D12Device() {
     setupDebug();
     createFactory();
     createDevice();
     createCommandQueue();
 }
 
-void D12Device::setupDebug() {
+void D3D12Device::setupDebug() {
 #ifndef _DEBUG 
     return;
 #endif
@@ -21,7 +21,7 @@ void D12Device::setupDebug() {
     mDebug->EnableDebugLayer();
 }
 
-void D12Device::createFactory() {
+void D3D12Device::createFactory() {
     core::Log::info("creating d3d12 factory");
     UINT factoryFlags = 0;
 
@@ -33,7 +33,7 @@ void D12Device::createFactory() {
     throwOnFailure(hres, "Failed to create factory");
 }
 
-void D12Device::createDevice() {
+void D3D12Device::createDevice() {
     core::Log::info("creating d3d12 device");
     HRESULT hres;
     core::ComScope<IDXGIAdapter1> adapter;
@@ -55,7 +55,7 @@ void D12Device::createDevice() {
     throwOnFailure(hres, "Failed to create device");
 }
 
-void D12Device::createCommandQueue() {
+void D3D12Device::createCommandQueue() {
     core::Log::info("creating d3d12 command queue");
     D3D12_COMMAND_QUEUE_DESC qd = {};
     qd.Type = D3D12_COMMAND_LIST_TYPE_DIRECT;
@@ -69,18 +69,18 @@ void D12Device::createCommandQueue() {
 
 core::Scope<IDevice> IDevice::create() {
     core::Log::info("creating mira::rhw::IDevice");
-    return core::createScope<D12Device>();
+    return core::createScope<D3D12Device>();
 }
 
-ID3D12Device* D12Device::getDevice() const {
+ID3D12Device* D3D12Device::getDevice() const {
     return mDevice.Get();
 }
 
-ID3D12CommandQueue* D12Device::getCommandQueue() const {
+ID3D12CommandQueue* D3D12Device::getCommandQueue() const {
     return mCmdQueue.Get();
 }
 
-IDXGIFactory6* D12Device::getFactory() const {
+IDXGIFactory6* D3D12Device::getFactory() const {
     return mFactory.Get();
 }
 
