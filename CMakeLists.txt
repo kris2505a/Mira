@@ -48,4 +48,4 @@ add_custom_target(copy_compile_commands ALL
 # =========================
 
 add_subdirectory(mira)
-add_subdirectory(game)
+add_subdirectory(sandbox)

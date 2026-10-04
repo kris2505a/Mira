@@ -1,8 +1,8 @@
 add_library(mira INTERFACE)
 
-add_subdirectory(src/core)
-add_subdirectory(src/render_hw)
-add_subdirectory(src/engine)
+add_subdirectory(core)
+add_subdirectory(render_hw)
+add_subdirectory(engine)
 
 
 target_include_directories(mira
