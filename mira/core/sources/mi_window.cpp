@@ -28,8 +28,95 @@ auto Window::pollEvents() -> bool {
         if (SDL_EVENT_QUIT == m_event.type) {
             return false;
         }
+
+        switch (m_event.type) {
+        case SDL_EVENT_KEY_DOWN: {
+            if (m_callbacks.key) {
+                m_callbacks.key(m_event.key.scancode, m_event.key.repeat, true);
+            }
+            break;
+        }
+
+        case SDL_EVENT_KEY_UP: {
+            if (m_callbacks.key) {
+                m_callbacks.key(m_event.key.scancode,  m_event.key.repeat, false);
+            }
+            break;
+        }
+
+        case SDL_EVENT_MOUSE_BUTTON_DOWN: {
+            if (m_callbacks.mouseButton) {
+                m_callbacks.mouseButton(m_event.button.button, true);
+            }
+            break;
+        }
+
+        case SDL_EVENT_MOUSE_BUTTON_UP: {
+            if (m_callbacks.mouseButton) {
+                m_callbacks.mouseButton(m_event.button.button, false);
+            }
+
+            break;
+        }
+
+        case SDL_EVENT_MOUSE_MOTION: {
+            if (m_callbacks.mouseMove) {
+                m_callbacks.mouseMove(m_event.motion.x, m_event.motion.y);
+            }
+            break;
+        }
+
+        case SDL_EVENT_MOUSE_WHEEL: {
+            if (m_callbacks.mouseScroll) {
+                m_callbacks.mouseScroll(m_event.wheel.y);
+            }
+            break;
+        }
+
+        case SDL_EVENT_WINDOW_RESIZED: {
+            if (m_callbacks.resize) {
+                u32 width = static_cast<u32>(m_event.window.data1);
+                u32 height = static_cast<u32>(m_event.window.data2);
+                m_callbacks.resize(width, height);
+            }
+            break;
+        }
+
+        case SDL_EVENT_WINDOW_FOCUS_LOST: {
+            if (m_callbacks.lostFocus) {
+                m_callbacks.lostFocus();
+            }
+            break;
+        }
+        }
+
     }
     return true;
+}
+
+
+auto Window::setKeyCallback(Window::KeyCallback key) -> void {
+    m_callbacks.key = key;
+}
+
+auto Window::setMouseButtonCallback(Window::MouseButtonCallback button) -> void {
+    m_callbacks.mouseButton = button;
+}
+
+auto Window::setMouseMoveCallback(Window::MouseMoveCallback move) -> void {
+    m_callbacks.mouseMove = move;
+}
+
+auto Window::setMouseScrollCallback(Window::MouseScrollCallback scroll) -> void {
+    m_callbacks.mouseScroll = scroll;
+}
+
+auto Window::setResizeCallback(Window::ResizeCallback resize) -> void {
+    m_callbacks.resize = resize;
+}
+
+auto Window::setLostFocusCallback(Window::LostFocusCallback lostFocus) -> void {
+    m_callbacks.lostFocus = lostFocus;
 }
 
 Window::~Window() {

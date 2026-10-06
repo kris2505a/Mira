@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.20)
 set(PROJECT_NAME render_hw)
 
 project(${PROJECT_NAME} LANGUAGES C CXX)
+find_package(Vulkan REQUIRED)
 
 # =========================
 # Source Files
@@ -28,7 +29,7 @@ add_library(${PROJECT_NAME} SHARED
 
 target_include_directories(${PROJECT_NAME} 
     PUBLIC
-        ${CMAKE_CURRENT_SOURCE_DIR}/pub
+        ${CMAKE_CURRENT_SOURCE_DIR}/includes
 
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}
@@ -68,4 +69,5 @@ target_link_libraries(${PROJECT_NAME}
         core
 
     PRIVATE
+        Vulkan::Vulkan
 )

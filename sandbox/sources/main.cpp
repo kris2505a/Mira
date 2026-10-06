@@ -11,7 +11,7 @@ public:
     }
     
     auto update(mira::core::f32 dt) -> void override {
-        mira::core::Log::debug("updating {} with DeltaTime {}", getName(), dt);
+        // mira::core::Log::debug("updating {} with DeltaTime {}", getName(), dt);
     }
 
     ~BlehGame() override = default;

@@ -2,6 +2,7 @@
 #include "mi_engine_api.hpp"
 #include <core/mi_window.hpp>
 #include "mi_game.hpp"
+#include "mi_event.hpp"
 
 MI_ENGINE
 
@@ -13,6 +14,10 @@ public:
     auto init() -> bool;
     auto attachGame(core::Scope<Game> game) -> void;
     auto run() -> void;
+    auto handleEvent(Event& event) -> void;
+    
+private:
+    auto setupCallback() -> void;
 
 private:
     core::Scope<core::Window> m_window;
