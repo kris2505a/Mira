@@ -2,7 +2,6 @@ cmake_minimum_required(VERSION 3.20)
 
 set(PROJECT_NAME core)
 
-add_subdirectory(thirdparty/sdl)
 
 project(${PROJECT_NAME} LANGUAGES C CXX)
 
@@ -30,7 +29,7 @@ add_library(${PROJECT_NAME} SHARED
 
 target_include_directories(${PROJECT_NAME} PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/includes
-    ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/sdl/include
+    ${CMAKE_SOURCE_DIR}/mira/thirdparty/sdl/include
 )
 
 target_compile_features(${PROJECT_NAME}

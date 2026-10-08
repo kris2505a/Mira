@@ -119,6 +119,10 @@ auto Window::setLostFocusCallback(Window::LostFocusCallback lostFocus) -> void {
     m_callbacks.lostFocus = lostFocus;
 }
 
+SDL_Window* Window::getNativeWindow() {
+    return m_nativeWindow;
+}
+
 Window::~Window() {
     if (m_nativeWindow) {
         SDL_DestroyWindow(m_nativeWindow);

@@ -1,6 +1,7 @@
 #pragma once
 #include <cstdint>
 #include <memory>
+#include <expected>
 
 namespace mira::core {
 
@@ -28,7 +29,7 @@ using WeakRef = std::weak_ptr<T>;
 
 template <typename T, typename... Args>
 Scope<T> createScope(Args&&... args) {
-    return std::make_unique<T>(args...);
+    return std::make_unique<T>(std::forward<Args>(args)...);
 }
 
 template <typename T, typename... Args>
@@ -36,5 +37,9 @@ Ref<T> createRef(Args&&... args) {
     return std::make_shared<T>(args...);
 }
 
+template <typename T, typename E>
+using Res = std::expected<T, E>;
 
+template <typename E>
+using Err = std::unexpected<E>;
 }

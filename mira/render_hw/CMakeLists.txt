@@ -46,6 +46,8 @@ target_compile_features(${PROJECT_NAME}
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     BUILD_DLL
+    VULKAN_HPP_NO_EXCEPTIONS
+    VULKAN_HPP_NO_STRUCT_CONSTRUCTORS
 )
 
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")

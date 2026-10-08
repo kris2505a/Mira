@@ -4,6 +4,9 @@ add_subdirectory(core)
 add_subdirectory(render_hw)
 add_subdirectory(engine)
 
+# dependencies
+add_subdirectory(thirdparty/sdl)
+
 
 target_include_directories(mira
     INTERFACE

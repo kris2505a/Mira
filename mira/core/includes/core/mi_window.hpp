@@ -36,6 +36,8 @@ public:
     auto setMouseScrollCallback(MouseScrollCallback scroll) -> void;
     auto setResizeCallback(ResizeCallback resize) -> void;
     auto setLostFocusCallback(LostFocusCallback lostFocus) -> void;
+
+    SDL_Window* getNativeWindow();
     
 public:
     static auto create() -> std::expected<Scope<Window>, std::string>;
