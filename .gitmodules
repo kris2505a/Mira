@@ -1,3 +1,1 @@
-[submodule "mira/core/thirdparty/sdl"]
-	path = mira/core/thirdparty/sdl
-	url = https://github.com/libsdl-org/SDL.git
+
